@@ -1,0 +1,131 @@
+:root {
+    /*Paleta de Cores*/
+    --1-: #ff751f;
+    --2-: #212121;
+    --3-: #6d4c39;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    border: none;
+    text-decoration: none;
+    font-family: 'roboto', sans-serif;
+}
+
+html {
+    width: 100vw;
+    height: 100vh;
+    font-size: 62.5%;
+    overflow-x: hidden;
+}
+
+/* Menu */
+
+.content {
+    width: 100vw;
+    height: 70px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #212121;
+    position: fixed;
+    padding-left: 1rem;
+}
+
+.logo {
+    width: 350px;
+    height: auto;
+    display: flex;
+    align-items: left;
+}
+
+.logo img {
+    width: 100%;
+    height: 100%;
+}
+
+.content .list-menu {
+    width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.content .list-menu li a {
+    padding-top: 3rem;
+    padding-bottom: 2.2rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    color: #ff751f;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: all 300ms ease-in;
+}
+
+.content .list-menu li a:hover {
+    background-color: #6d4c39;
+    border-bottom: 4px solid #ff751f;
+}
+
+/* Primeira Seção */
+
+.first-section {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.first-section h1 {
+    color: #212121;
+    font-size: 5rem;
+    margin-top: -10rem;
+    margin-bottom: 0.3rem;
+}
+
+.first-section h2 {
+    color: #ff751f;
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 10rem;
+}
+
+.content .first-section .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn button{
+    width: 250px;
+    height: 250px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 1.6rem;
+    background-color: #212121;
+    color: #ff751f;
+    border-radius: 15px;
+    font-weight: 700;
+    margin-top: 5rem;
+    transition: all 300ms ease-in;
+}
+
+.btn button:hover {
+    border: 5px solid #ff751f;
+    background-color: #6d4c39;
+    color: #ff751f;
+}
+
+.btn {
+    width: 800px;
+    display: flex;
+    justify-content: space-between;
+}
