@@ -95,6 +95,14 @@ html {
     background: #ffba74;
 }
 
+.botao-header i {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    color: #054c05;
+    font-size: 40px;
+}
+
 .botao-logo {
     background: none;
     border: none;
@@ -130,7 +138,7 @@ html {
     padding: 0;
 }
 
-.sidebar button > span {
+.sidebar button>span {
     display: inline-flex;
     align-items: center;
     gap: 30px;
@@ -143,7 +151,7 @@ html {
     transition: all 0.4s;
 }
 
-.sidebar button:hover > span {
+.sidebar button:hover>span {
     color: #0b830b;
 }
 
