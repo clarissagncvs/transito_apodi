@@ -1,8 +1,22 @@
 :root {
-    /*Paleta de Cores*/
-    --1-: #ff751f;
-    --2-: #212121;
-    --3-: #6d4c39;
+    --1-: #ff8000;
+    /* Todos os elementos laranjas */
+    --2-: #ffffff;
+    /* Fundo, já é padrão */
+    --3-: #0b830b;
+    /* Texto das telas login-cadastro */
+    --4-: #062603;
+    /* Fundo para as telas login-cadastro */
+    --5-: #e8e8e8;
+    /* Todos os elementos de entrada */
+    --6-: #054c05;
+    /* Fundo do menu navbar */
+    --7-: #ffd2a5;
+    /* Notificações */
+    --8-: #cdcdcd;
+    /* Elementos visuais da navbar */
+    --9-: #ffba74;
+    /* Transição do botão Ocorrências Ativas */
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
@@ -17,31 +31,37 @@
     font-family: 'roboto', sans-serif;
 }
 
+.border {
+    border: 1px solid red;
+}
+
 html {
     width: 100vw;
     height: 100vh;
     font-size: 62.5%;
     overflow-x: hidden;
+    background-color: #ffffff;
 }
 
-/* Menu */
+/*cabeçalho*/
 
-.content {
-    width: 100vw;
-    height: 70px;
+.header {
+    width: 100%;
+    height: 90px;
+    margin-left: 260px;
+    margin-top: 0px;
+    flex-direction: row;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    background-color: #212121;
-    position: fixed;
-    padding-left: 1rem;
 }
 
-.logo {
-    width: 350px;
+.logo-img {
+    width: 80px;
     height: auto;
-    display: flex;
-    align-items: left;
+    object-fit: cover;
+    transition: transform 0.4s;
+    padding-left: 10px;
 }
 
 .logo img {
@@ -49,54 +69,142 @@ html {
     height: 100%;
 }
 
-.content .list-menu {
-    width: 300px;
+.logo-img:hover {
+    transform: scale(1.2);
+}
+
+.botao-header {
+    padding-top: -20px;
+    width: 270px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 18px;
+    background-color: #ffd2a5;
+    color: #ff8000;
+    border-radius: 6px;
+    font-weight: 600;
+    margin-top: 16px;
+    transition: all 0.2s ease-in;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    margin-left: 42px;
 }
 
-.content .list-menu li a {
-    padding-top: 3rem;
-    padding-bottom: 2.2rem;
-    padding-right: 1rem;
-    padding-left: 1rem;
-    color: #ff751f;
-    font-size: 1.8rem;
-    text-transform: uppercase;
-    font-weight: 600;
-    transition: all 300ms ease-in;
+.botao-header:hover {
+    background: #ffba74;
 }
 
-.content .list-menu li a:hover {
-    background-color: #6d4c39;
-    border-bottom: 4px solid #ff751f;
+.botao-logo {
+    background: none;
+    border: none;
+    padding-top: 10px;
 }
 
-/* Primeira Seção */
+/*sidebar*/
+
+.sidebar {
+    background-color: #054c05;
+    position: fixed;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 240px;
+    height: 100%;
+    padding-top: 80px;
+    padding-right: 15px;
+    padding-left: 10px;
+    border-radius: 12px;
+    margin: 11px;
+}
+
+.sidebar button {
+    background: transparent;
+    color: #cdcdcd;
+    height: 60px;
+    border: 0;
+    font-family: inherit;
+    cursor: pointer;
+    text-align: center;
+    padding: 0;
+}
+
+.sidebar button > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 30px;
+    height: 10px;
+    padding-top: 0;
+    padding-right: 50px;
+    padding-bottom: 0;
+    padding-left: 16px;
+    line-height: 1;
+    transition: all 0.4s;
+}
+
+.sidebar button:hover > span {
+    color: #0b830b;
+}
+
+.sidebar button span {
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.sidebar button i {
+    color: #cdcdcd;
+    position: relative;
+    font-size: 28px;
+    transition: 0.2s;
+    cursor: default;
+}
+
+.linha-divisoria {
+    border: 0;
+    border-top: 1px solid #cdcdcd;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 12px;
+    margin-left: 12px;
+}
+
+.sidebar nav {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+    display: flex;
+    flex-direction: column;
+    width: 20.5rem;
+}
+
+/*primeira seção*/
 
 .first-section {
-    width: 100vw;
-    height: 100vh;
+    margin-left: 300px;
+    margin-right: 6px;
+    height: 80vh;
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    justify-content: left;
+    overflow: hidden;
 }
 
 .first-section h1 {
-    color: #212121;
-    font-size: 5rem;
-    margin-top: -10rem;
-    margin-bottom: 0.3rem;
+    color: #054c05;
+    font-size: 40px;
+    margin-top: 2px;
+    margin-bottom: 2px;
 }
 
 .first-section h2 {
-    color: #ff751f;
-    font-size: 2.5rem;
-    font-weight: 600;
-    margin-bottom: 10rem;
+    color: #054c05;
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 80px;
 }
+
+/*botões*/
 
 .content .first-section .btn {
     display: flex;
@@ -104,24 +212,23 @@ html {
     justify-content: center;
 }
 
-.btn button{
+.btn button {
     width: 250px;
     height: 250px;
     cursor: pointer;
     text-transform: uppercase;
-    font-size: 1.6rem;
-    background-color: #212121;
-    color: #ff751f;
-    border-radius: 15px;
+    font-size: 20px;
+    background-color: #e8e8e8;
+    color: #ff8000;
+    border-radius: 9px;
     font-weight: 700;
-    margin-top: 5rem;
-    transition: all 300ms ease-in;
+    margin-top: -40px;
+    transition: all 0.2s ease-in;
+    text-align: top;
 }
 
 .btn button:hover {
-    border: 5px solid #ff751f;
-    background-color: #6d4c39;
-    color: #ff751f;
+    background-color: #cdcdcd;
 }
 
 .btn {
