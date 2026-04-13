@@ -46,22 +46,22 @@ html {
 /*cabeçalho*/
 
 .header {
-    width: 100%;
-    height: 90px;
-    margin-left: 260px;
-    margin-top: 0px;
-    flex-direction: row;
+    width: calc(100% - 270px);
+    height: 80px;
+    margin-left: 270px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    align-items: center;
+    padding: 0 20px;
 }
 
 .logo-img {
-    width: 80px;
+    width: 60px;
     height: auto;
     object-fit: cover;
     transition: transform 0.4s;
-    padding-left: 10px;
+    display: block;
 }
 
 .logo img {
@@ -73,40 +73,46 @@ html {
     transform: scale(1.2);
 }
 
-.botao-header {
-    padding-top: -20px;
-    width: 270px;
-    height: 40px;
+.botao-logo {
+    background: transparent;
+    border: none;
     cursor: pointer;
-    font-size: 18px;
+    padding-top: 2px;
+    display: block;
+}
+
+.botao-header {
+    width: 250px;
+    height: 50px;
+    cursor: pointer;
+    font-size: 1.8rem;
     background-color: #ffd2a5;
     color: #ff8000;
     border-radius: 6px;
     font-weight: 600;
-    margin-top: 16px;
     transition: all 0.2s ease-in;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 42px;
+    gap: 15px;
+    transition: transform 0.4s;
 }
 
 .botao-header:hover {
+    transform: scale(1.03);
     background: #ffba74;
 }
 
 .botao-header i {
+    color: #ff8000;
+    font-size: 4rem;
+    background-color: #054c05;
     display: flex;
-    align-items: left;
-    justify-content: left;
-    color: #054c05;
-    font-size: 40px;
-}
-
-.botao-logo {
-    background: none;
+    align-items: center;
+    justify-content: flex-start;
     border: none;
-    padding-top: 10px;
+    border-radius: 15px;
+    padding: auto;
 }
 
 /*sidebar*/
@@ -125,6 +131,7 @@ html {
     padding-left: 10px;
     border-radius: 12px;
     margin: 11px;
+    transition: all 0.3s;
 }
 
 .sidebar button {
@@ -136,6 +143,7 @@ html {
     cursor: pointer;
     text-align: center;
     padding: 0;
+    transform: ;
 }
 
 .sidebar button>span {
@@ -143,10 +151,8 @@ html {
     align-items: center;
     gap: 30px;
     height: 10px;
-    padding-top: 0;
     padding-right: 50px;
-    padding-bottom: 0;
-    padding-left: 16px;
+    padding-left: 10px;
     line-height: 1;
     transition: all 0.4s;
 }
@@ -156,14 +162,14 @@ html {
 }
 
 .sidebar button span {
-    font-size: 22px;
+    font-size: 2.2rem;
     font-weight: 500;
 }
 
 .sidebar button i {
     color: #cdcdcd;
     position: relative;
-    font-size: 28px;
+    font-size: 2.8rem;
     transition: 0.2s;
     cursor: default;
 }
@@ -183,31 +189,30 @@ html {
     flex-basis: auto;
     display: flex;
     flex-direction: column;
-    width: 20.5rem;
+    width: 205px;
 }
 
 /*primeira seção*/
 
 .first-section {
-    margin-left: 300px;
-    margin-right: 6px;
-    height: 80vh;
+    margin-left: 270px;
+    margin-right: 20px;
+    min-height: 80vh;
+    height: auto;
     display: flex;
-    flex-direction: row;
-    justify-content: left;
-    overflow: hidden;
+    flex-direction: column;
+    padding: 10px 20px;
+    overflow: visible;
 }
 
 .first-section h1 {
     color: #054c05;
-    font-size: 40px;
-    margin-top: 2px;
-    margin-bottom: 2px;
+    font-size: 4rem;
 }
 
 .first-section h2 {
     color: #054c05;
-    font-size: 28px;
+    font-size: 2.8rem;
     font-weight: 500;
     margin-bottom: 80px;
 }
@@ -220,27 +225,118 @@ html {
     justify-content: center;
 }
 
+.btn {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
 .btn button {
     width: 250px;
     height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
     cursor: pointer;
-    text-transform: uppercase;
-    font-size: 20px;
+    font-size: 2rem;
     background-color: #e8e8e8;
     color: #ff8000;
     border-radius: 9px;
     font-weight: 700;
-    margin-top: -40px;
-    transition: all 0.2s ease-in;
-    text-align: top;
+    transition: transform 0.2s, background 0.2s, all 0.3s;
 }
 
 .btn button:hover {
+    transform: translateY(-3px);
     background-color: #cdcdcd;
 }
 
-.btn {
-    width: 800px;
-    display: flex;
-    justify-content: space-between;
+.btn dt {
+    margin: 0 0 20px;
+    top: 0;
+}
+
+.btn dd {
+    margin: 0 20px 10px 20px;
+    font-size: 2rem;
+    text-transform: lowercase;
+    font-weight: 500;
+}
+
+/*responsividade*/
+
+@media  (max-width: 920px) {
+    .header {
+        width: calc(100% - 80px);
+        margin-left: 80px;
+    }
+    
+    .first-section {
+        margin-left: 80px;
+    }
+
+    .first-section h1 {
+        font-size: 3rem;
+    }
+
+    .btn button {
+        width: 200px;
+        height: 200px;
+    }
+
+    .sidebar {
+        width: 70px;
+        padding-right: 5px;
+        padding-left: 5px;
+        align-items: center;
+    }
+
+    .sidebar button > span > span, .sidebar .linha-divisoria {
+        display: none;
+    }
+
+    .sidebar button > span {
+        width: auto;
+        padding: 0;
+        gap: 0;
+        justify-content: center;
+    }
+
+    .sidebar nav {
+        width: 100%;
+    }
+
+    .sidebar button i {
+        margin: 0 auto;
+        cursor: pointer;
+    }
+}
+
+@media (max-width: 600px) {
+    .header {
+        width: calc(100% - 80px);
+        margin-left: 80px;
+    }
+    
+    .first-section h2 {
+        margin-bottom: 20px;
+        font-size: 2rem;
+    }
+
+    .btn {
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .btn button {
+        width: 90%;
+        height: 150px;
+    }
 }

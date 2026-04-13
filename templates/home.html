@@ -11,11 +11,12 @@
 
 <body>
     <header class="header">
-        <button class="botao-header"><i class="bi bi-exclamation-square-fill"></i>Ocorrências Ativas</button>
+        <button class="botao-header"><i class="bi bi-exclamation-square-fill"></i><span>Ocorrências Ativas</span></button>
         <button class="botao-logo">
             <img class="logo-img" src="../static/img/logo.png">
         </button>
     </header>
+
     <aside class="sidebar">
         <nav>
             <button>
@@ -35,13 +36,35 @@
     </aside>
 
     <section class="first-section">
+        
         <div class="conteudo-principal">
             <h1>Serviços de Trânsito</h1>
             <h2>consulte o tráfego, acidentes e obras da cidade de Apodi-RN</h2>
             <div class="btn">
-                <button class="registrar">registrar ocorrência</button>
-                <button class="status">status do tráfego</button>
-                <button class="configuracao">configurações</button>
+                <dl>
+                    <button class="registrar">
+                        <dt>Registrar Ocorrência</dt>
+                        <dd>registre aqui acidentes, obras, congestionamentos de tráfego e etc.</dd>
+                    </button>
+                </dl>
+                <dl>
+                    <button class="status">
+                        <dt>Status do Tráfego</dt>
+                        <dd>status de ocorrências ativas e finalizadas</dd>
+                    </button>
+                </dl>
+                <dl>
+                    <button class="perfil">
+                        <dt>Perfil</dt>
+                        <dd>acessibilidade e exclusão de conta</dd>
+                    </button>
+                </dl>
+                <dl>
+                    <button class="configuracao">
+                        <dt>Configurações</dt>
+                        <dd>acessibilidade e exclusão de conta</dd>
+                    </button>
+                </dl>
             </div>
         </div>
 
