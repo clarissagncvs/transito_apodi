@@ -1,8 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 :root{
-    --1-: #ff751f;
-    --2-: #000000;
-    --3-: #f9f9f9;
+    --1-: #ff8000; /* Todos os elementos laranjas */
+    --2-: #ffffff; /* Fundo, já é padrão */
+    --3-: #0b830b; /* Texto das telas login-cadastro */
+    --4-: #062603; /* Fundo para as telas login-cadastro */
+    --5-: #e8e8e8; /* Todos os elementos de entrada */
+    --6-: #054c05; /* Fundo do menu navbar */
+    --7-: #ffd2a5; /* Notificações */
+    --8-: #cdcdcd; /* Elementos visuais da navbar */
 }
 
 * {
@@ -12,16 +17,13 @@
     font-family: 'roboto', sans-serif;
 }
 
-body {
-    background-color: #f9f9f9;
-}
 
 h1{
     text-align: center;
 }
 
 .login-container{
-    color: #ff751f;
+    color: #ff8000;
 }
 
 .form-group{
@@ -30,49 +32,53 @@ h1{
 }
 
 .retangulo{
-    width: 370px;
-    height: 320px;
-    background-color: #000000;
-    border-radius: 15px;
+    width: 320px;
+    height: 420px;
+    background-color: #062603;
+    border-radius: 10px;
     margin-left: auto;
 }
 
 a{
-    color: #f9f9f9;
+    color: #ff8000;
     text-decoration: none;
 }
 
 .site-description{
-    color: #ff751f;
+    color: #0b830b;
     font-size: 20px;
 }
 
 .input-field{
-    border: 4px solid #ff751f;
-    border-radius: 20px;
+    border: 4px solid #e8e8e8;
+    border-radius: 10px;
     outline: none;
-    background-color: #000000;
-    width: 250px;
-    height: 27px;
-    color: #f9f9f9;
+    background-color: #e8e8e8;
+    width: 270px;
+    height: 40px;
+    color: #054c05;
     font-size: 17px;
     padding: 7px;
 }
 
 ::placeholder{
-    color: white;
+    color: #054c05;
     font-size: 17px;
+    font-weight: bold;
     padding: 2px;
 }
 
 label{
     font-size: 20px;
     display: block;
+    font-weight: bold;
 }
 
 .form-links{
     padding: 10px 30px;
     line-height: 25px;
+    font-size: 19px;
+    font-weight: bold;
 }
 
 .input-box{
@@ -81,21 +87,21 @@ label{
 }
 
 .btn-primary{
-    background-color: #ff751f;
+    background-color: #ff8000;
     font-weight: bold;
-    color: #000000;
-    font-size: 17px;
-    width: 120px;
-    height: 25px;
+    color: #062603;
+    font-weight: bold;
+    font-size: 20px;
+    width: 125px;
+    height: 35px;
     border-radius: 10px;
     border: none;
     cursor: pointer;
     display: flex;
     justify-content: center;
-  
 }
 
 .btn-primary:hover{
-    background-color: #f9f9f9;
+    background-color: #e8e8e8;
 }
 
