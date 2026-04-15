@@ -99,3 +99,87 @@ Criar uma branch para cada tarefa
 Escrever mensagens de commit claras
 Manter as branches atualizadas
 Excluir branches após o merge
+
+## .env.example
+## Configuração de Variáveis de Ambiente
+
+Para rodar o projeto corretamente, é necessário configurar as variáveis de ambiente.
+
+### Arquivo `.env`
+
+Este projeto utiliza um arquivo `.env` para armazenar informações sensíveis, como:
+
+* Chaves secretas
+* Configurações de banco de dados
+* Credenciais
+
+Por segurança, o arquivo `.env` **não é versionado** (não vai para o GitHub).
+
+---
+
+### Como configurar
+
+1. Copie o arquivo de exemplo:
+
+```bash
+cp .env.example .env
+```
+
+> No Windows (PowerShell):
+
+```bash
+copy .env.example .env
+```
+
+2. Abra o arquivo `.env` e preencha com seus dados:
+
+```env
+SECRET_KEY=sua_chave_secreta
+DEBUG=True
+DATABASE_URL=sqlite:///db.sqlite3
+```
+
+---
+
+### Arquivo `.env.example`
+
+O arquivo `.env.example` contém apenas um modelo das variáveis necessárias, sem dados sensíveis.
+
+Exemplo:
+
+```env
+SECRET_KEY=
+DEBUG=
+DATABASE_URL=
+```
+
+---
+
+### Importante
+
+* Nunca envie seu `.env` para o repositório
+* Cada membro do time deve ter seu próprio `.env`
+* Mantenha o `.env.example` sempre atualizado ao adicionar novas variáveis
+
+---
+
+### Boas práticas
+
+* Sempre que adicionar uma nova variável:
+
+  1. Atualize o `.env.example`
+  2. Avise o time
+* Use valores seguros em produção
+* Em desenvolvimento, você pode usar valores simples
+
+---
+
+### Dica
+
+Se estiver usando Django, você pode utilizar bibliotecas como:
+
+* `python-decouple`
+* `django-environ`
+
+Para facilitar o uso do `.env`.
+
