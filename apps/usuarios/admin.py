@@ -9,7 +9,7 @@ class UsuarioAdmin(UserAdmin):
     search_fields = ['username', 'email']
 
     fieldsets = UserAdmin.fieldsets + (
-        ('Trânsito Apodi', {'fields': ('tipo', 'telefone', 'foto')})
+        ('Trânsito Apodi', {'fields': ('tipo', 'telefone', 'foto')}),
     )
 
 #from django.contrib import admin importa o sistema de admin do django
