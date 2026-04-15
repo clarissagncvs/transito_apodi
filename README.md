@@ -1,119 +1,183 @@
 # Sistema de Monitoramento de Trânsito
 
-Aplicação web desenvolvida com Django para registrar e visualizar ocorrências de trânsito em tempo real na cidade de Apodi
+Aplicação web desenvolvida com Django para registrar e visualizar ocorrências de trânsito em tempo real na cidade de Apodi.
+
+---
 
 ## Tecnologias
 
-- Python
-- Django
-- SQLite
-- HTML, CSS, JavaScript
+* Python
+* Django
+* SQLite
+* HTML, CSS, JavaScript
+
+---
 
 ## Funcionalidades
 
-- Cadastro e login de usuários
-- Registro de ocorrências (acidente, obra, trânsito)
-- Visualização em mapa
-- Histórico de ocorrências
+* Cadastro e login de usuários
+* Registro de ocorrências (acidente, obra, trânsito)
+* Visualização em mapa
+* Histórico de ocorrências
+
+---
 
 ## Como executar o projeto
 
 ### 1. Clonar o repositório
+
+```bash
 git clone https://github.com/clarissagncvs/transito_apodi
+```
 
 ### 2. Entrar na pasta
+
+```bash
 cd transito_apodi
+```
 
 ### 3. Criar ambiente virtual
-python -m venv venv
 
-### 3.1 Criar ambiente virtual nos computadores do IF
+```bash
+python -m venv venv
+```
+
+#### Em computadores do IF
+
+```bash
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 python -m venv venv
 venv\Scripts\activate
+```
 
 ### 4. Ativar o ambiente
-# Windows
-venv\Scripts\activate
 
-# Linux/Mac
+**Windows**
+
+```bash
+venv\Scripts\activate
+```
+
+**Linux/Mac**
+
+```bash
 source venv/bin/activate
+```
+
+---
 
 ### 5. Instalar dependências
-pip install -r requirements.txt
 
-### 5.1 instalar dependências nos computadores do IF
+```bash
+pip install -r requirements.txt
+```
+
+#### Em computadores do IF
+
+```bash
 pip install asgiref==3.11.1 Django==5.2.13 python-dotenv==1.2.2 sqlparse==0.5.5 tzdata==2025.3
+```
+
+---
 
 ### 6. Rodar migrações
+
+```bash
 python manage.py migrate
+```
 
 ### 7. Iniciar servidor
-python manage.py runserver
 
-## Branches
-Como trabalhamos com branches
+```bash
+python manage.py runserver
+```
+
+---
+
+## Organização com Branches
+
 ### 1. Criar uma nova branch
 
-Sempre que for iniciar uma nova funcionalidade ou correção:
+Sempre que iniciar uma funcionalidade ou correção:
 
+```bash
 git checkout -b nome-da-branch
+```
 
 Exemplo:
 
-git checkout -b feature-login
+```bash
+git checkout -b feature/login
+```
+
+---
+
 ### 2. Fazer alterações
 
-Realize as mudanças normalmente e salve seus commits:
-
+```bash
 git add .
 git commit -m "Descrição da alteração"
-### 3. Atualizar a branch principal
+```
 
-Antes de finalizar, garanta que sua branch está atualizada com a main:
+---
 
+### 3. Atualizar com a branch principal
+
+```bash
 git checkout main
 git pull
 git checkout nome-da-branch
 git merge main
+```
+
+---
+
 ### 4. Enviar para o repositório remoto
+
+```bash
 git push origin nome-da-branch
+```
+
+---
+
 ### 5. Merge (junção das branches)
 
-Após revisão, a branch pode ser integrada à main:
-
+```bash
 git checkout main
 git merge nome-da-branch
+```
 
-Padrão de nomes de branches
+---
 
-Utilizamos um padrão para facilitar a organização:
+### Padrão de nomes de branches
 
-feature/nome-da-funcionalidade → novas funcionalidades
-fix/nome-do-problema → correções de bugs
-hotfix/nome-urgente → correções urgentes em produção
+* feature/nome-da-funcionalidade
+* fix/nome-do-problema
+* hotfix/nome-urgente
 
-### 6. Boas práticas
-Nunca trabalhar diretamente na main
-Criar uma branch para cada tarefa
-Escrever mensagens de commit claras
-Manter as branches atualizadas
-Excluir branches após o merge
+---
 
-## .env.example
+### Boas práticas
+
+* Não trabalhar diretamente na main
+* Criar uma branch para cada tarefa
+* Escrever mensagens de commit claras
+* Manter as branches atualizadas
+* Excluir branches após o merge
+
+---
+
 ## Configuração de Variáveis de Ambiente
-
-Para rodar o projeto corretamente, é necessário configurar as variáveis de ambiente.
 
 ### Arquivo `.env`
 
-Este projeto utiliza um arquivo `.env` para armazenar informações sensíveis, como:
+O projeto utiliza um arquivo `.env` para armazenar informações sensíveis, como:
 
 * Chaves secretas
 * Configurações de banco de dados
 * Credenciais
 
-Por segurança, o arquivo `.env` **não é versionado** (não vai para o GitHub).
+Esse arquivo não é versionado.
 
 ---
 
@@ -125,13 +189,13 @@ Por segurança, o arquivo `.env` **não é versionado** (não vai para o GitHub)
 cp .env.example .env
 ```
 
-> No Windows (PowerShell):
+No Windows:
 
 ```bash
 copy .env.example .env
 ```
 
-2. Abra o arquivo `.env` e preencha com seus dados:
+2. Edite o arquivo `.env`:
 
 ```env
 SECRET_KEY=sua_chave_secreta
@@ -143,9 +207,7 @@ DATABASE_URL=sqlite:///db.sqlite3
 
 ### Arquivo `.env.example`
 
-O arquivo `.env.example` contém apenas um modelo das variáveis necessárias, sem dados sensíveis.
-
-Exemplo:
+Modelo das variáveis necessárias:
 
 ```env
 SECRET_KEY=
@@ -157,29 +219,23 @@ DATABASE_URL=
 
 ### Importante
 
-* Nunca envie seu `.env` para o repositório
-* Cada membro do time deve ter seu próprio `.env`
-* Mantenha o `.env.example` sempre atualizado ao adicionar novas variáveis
+* Não enviar o `.env` para o repositório
+* Cada desenvolvedor deve ter seu próprio `.env`
+* Manter o `.env.example` atualizado
 
 ---
 
 ### Boas práticas
 
-* Sempre que adicionar uma nova variável:
-
-  1. Atualize o `.env.example`
-  2. Avise o time
-* Use valores seguros em produção
-* Em desenvolvimento, você pode usar valores simples
+* Atualizar o `.env.example` ao adicionar novas variáveis
+* Avisar o time sobre mudanças
+* Utilizar valores seguros em produção
 
 ---
 
-### Dica
+### Bibliotecas recomendadas
 
-Se estiver usando Django, você pode utilizar bibliotecas como:
+* python-decouple
+* django-environ
 
-* `python-decouple`
-* `django-environ`
-
-Para facilitar o uso do `.env`.
-
+Facilitam o uso de variáveis de ambiente no Django.
