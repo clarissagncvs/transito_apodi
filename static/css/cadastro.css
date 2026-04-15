@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+:root{
+    --1-: #ff8000; /* Todos os elementos laranjas */
+    --2-: #ffffff; /* Fundo, já é padrão */
+    --3-: #0b830b; /* Texto das telas login-cadastro */
+    --4-: #062603; /* Fundo para as telas login-cadastro */
+    --5-: #e8e8e8; /* Todos os elementos de entrada */
+    --6-: #054c05; /* Fundo do menu navbar */
+    --7-: #ffd2a5; /* Notificações */
+    --8-: #cdcdcd; /* Elementos visuais da navbar */
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'roboto', sans-serif;
+}
+
+h1{
+    text-align: center;
+}
+
+.sign-container{
+    color: #ff8000;
+}
+
+.form-group{
+    text-align: justify;
+    padding: 5px 30px;
+}
+
+
+.site-description{
+    color: #0b830b;
+    font-size: 20px;
+}
+
+.retangulo{
+    width: 320px;
+    height: 460px;
+    background-color: #062603;
+    border-radius: 10px;
+    margin-left: auto;
+}
+
+.input-field{
+    border: 4px solid #e8e8e8;
+    border-radius: 10px;
+    outline: none;
+    background-color: #e8e8e8;
+    width: 270px;
+    height: 40px;
+    color: #054c05;
+    font-size: 17px;
+    padding: 7px;
+}
+
+label{
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+::placeholder{
+    color: #054c05;
+    font-size: 17px;
+    padding: 2px;
+    font-weight: bold;
+}
+
+.form-links{
+    padding: 10px 30px;
+    line-height: 25px;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+a{
+    color: #ff8000;
+    text-decoration: none;
+}
+
+.btn-primary{
+    background-color: #ff8000;
+    font-weight: bold;
+    color: #062603;
+    font-size: 20px;
+    width: 140px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+  
+}
+
+.btn-primary:hover{
+    background-color: #f9f9f9;
+}
