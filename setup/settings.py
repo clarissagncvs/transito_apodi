@@ -44,10 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
-    'ocorrencias',
-    'semaforos',
-    'usuarios',
-    'vias',
+    'apps.ocorrencias',
+    'apps.semaforos',
+    'apps.usuarios',
+    'apps.vias',
 ]
 
 MIDDLEWARE = [
@@ -95,6 +95,9 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
+
+#essa linha diz ao django para usar o model criado  no lugar do padrão
+AUTH_USER_MODEL = 'usuarios.Usuario'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
