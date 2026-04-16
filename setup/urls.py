@@ -20,6 +20,7 @@ from django.conf import settings  # Permite acessar configurações do settings.
 from django.conf.urls.static import static  # Usado para servir arquivos de mídia em desenvolvimento
 from django.http import HttpResponse
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),  # Rota para acessar o painel admin (/admin/)
 

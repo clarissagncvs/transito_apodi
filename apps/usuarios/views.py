@@ -5,11 +5,8 @@ from django.contrib import messages
 from .forms import RegistroForm, LoginForm
 from .models import Usuario
 
-
-from django.shortcuts import render
-
-def base(request):
-    return render(request, 'base.html')
+def home(request):
+    return render(request, 'home/home.html')
 
 def login_view(request):
     # se já está logado, manda direto pro perfil
