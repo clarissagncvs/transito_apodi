@@ -28,16 +28,16 @@ class Usuario(AbstractUser):
 #telefone = models.CharField(max_length=20, blank=True) define um campo onde o número de telefone tem um limite de caracteres e permite que o campo seja deixado vazio nos formulários
 #o campo foto = models.ImageField(upload_to='usuarios/', blank=True, null=True) armazena as imagens salvas na pasta usuarios/ dentro de um diretório de mídia, permitindo que o upload seja opcional tando no BD como no formulário
 
-@property
-def is_agente(self):
-    return self.tipo == self.Tipo.AGENTE
+    @property
+    def is_agente(self):
+        return self.tipo == self.Tipo.AGENTE
 
-@property
-def is_admin_transito(self):
-    return self.tipo == self.Tipo.ADMIN
+    @property
+    def is_admin_transito(self):
+        return self.tipo == self.Tipo.ADMIN
 
-def __str__(self):
-    return f'{self.username} ({self.get_tipo_display()})'
+    def __str__(self):
+        return f'{self.username} ({self.get_tipo_display()})'
 
 #o uso do @property transforma métodos em atributos de acesso, permitindo que funções como is_agente e is_admin_transito sejam acessadas como se fossem variáveis (ex: obj.is_agente) em vez de serem chamadas com parênteses, encapsulando a lógica de verificação de condições, como comparar self.tipo com self.Tipo.AGENTE
 
