@@ -6,6 +6,11 @@ from .forms import RegistroForm, LoginForm
 from .models import Usuario
 
 
+from django.shortcuts import render
+
+def base(request):
+    return render(request, 'base.html')
+
 def login_view(request):
     # se já está logado, manda direto pro perfil
     if request.user.is_authenticated:
