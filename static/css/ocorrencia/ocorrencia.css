@@ -53,7 +53,7 @@ html {
     justify-content: space-between;
     align-items: center;
     align-items: center;
-    padding: 0 20px;
+    padding: 20px 20px 20px ;
 }
 
 .logo-img {
@@ -82,43 +82,29 @@ html {
     padding: 10px;
 }
 
-.botao-header {
-    width: 100%;
-    height: 40px;
-    position: relative;
-    cursor: pointer;
-    font-size: 1.5rem;
-    background-color: #ffd2a5;
-    color: #ff8000;
-    border-radius: 6px;
-    font-weight: 600;
-    transition: all 0.2s ease-in;
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    gap: 12px;
-    transition: transform 0.3s;
-    border: none;
-}
-
-.botao-header:hover {
-    transform: scale(1.02);
-    background: #ffba74;
-}
-
-.botao-header img {
-    width: auto;
-    height: 32px;
-    margin-left: 16px;
-    object-fit: contain;
-}
-
-.botao-header .header-img {
+.texto-header .header-img {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     border: none;
     padding: auto;
+}
+
+.texto-header {
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+}
+
+.texto-header h1 {
+    color: #054c05;
+    font-size: 3rem;
+}
+
+.texto-header h2 {
+    color: #054c05;
+    font-size: 2rem;
+    font-weight: 500;
 }
 
 /*sidebar*/
@@ -189,40 +175,15 @@ html {
     width: 205px;
 }
 
-/*primeira seção*/
+/*inputs primeira seção*/
 
-.first-section {
-    margin-left: 270px;
-    margin-right: 20px;
-    min-height: 80vh;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    padding: 10px 20px;
-    overflow: visible;
-}
-
-.first-section h1 {
-    color: #054c05;
-    font-size: 4rem;
-}
-
-.first-section h2 {
-    color: #054c05;
-    font-size: 2.8rem;
-    font-weight: 500;
-    margin-bottom: 40px;
-}
-
-/*botões*/
-
-.content .first-section .btn {
+.content .first-section .input {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.btn {
+.input {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -232,7 +193,7 @@ html {
     margin: 0 auto;
 }
 
-.btn button {
+.input button {
     width: 250px;
     height: 300px;
     display: flex;
@@ -249,24 +210,24 @@ html {
     transition: transform 0.2s, background 0.2s, all 0.3s;
 }
 
-.btn button:hover {
+.input button:hover {
     transform: translateY(-3px);
     background-color: #cdcdcd;
 }
 
-.btn button a i {
+.input button a i {
     position: relative;
     font-size: 6rem;
     padding: 0 0 50px 0;
     gap: 10px;
 }
 
-.btn dt {
+.input dt {
     margin: 0 0 10px 0;
     top: 0;
 }
 
-.btn dd {
+.input dd {
     margin: 0 15px 0px 15px;
     font-size: 2rem;
     text-transform: lowercase;
@@ -289,12 +250,12 @@ html {
         font-size: 3rem;
     }
     
-    .btn button {
+    .input button {
         width: 200px;
         height: 240px;
     }
 
-    .btn button a i {
+    .input button a i {
         display: none;
     }
 
@@ -343,7 +304,7 @@ html {
         font-size: 2rem;
     }
 
-    .btn {
+    .input {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -351,7 +312,7 @@ html {
         padding: 0;
     }
 
-    .btn {
+    .input {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -360,7 +321,7 @@ html {
         gap: 0;
     }
 
-    .btn button {
+    .input button {
         width: 350px;
         height: 150px;
         margin: 0 0 16px 0;
@@ -371,7 +332,7 @@ html {
         box-sizing: border-box;
     }
 
-    .btn button > dl > dt > dd {
+    .input button > dl > dt > dd {
         padding: 0;
         margin: 0;
         text-align: center;
