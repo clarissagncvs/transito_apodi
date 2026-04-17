@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../../static/img/icone.ico">
+    <link rel="stylesheet" href="../../static/css/ocorrencia/ocorrencia.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <title>Trânsito Apodi</title>
+</head>
+
+<body>
+    <header class="header">
+        <div class="texto-header">
+            <h1>Registrar Ocorrência</h1>
+            <h2>fazer registro de ocorrência</h2>
+        </div>
+        <button class="botao-logo">
+            <img class="logo-img" src="../../static/img/logo.png">
+        </button>
+    </header>
+
+    <aside class="sidebar">
+        <nav>
+            <button>
+                <span>
+                    <a href="#"><i class="bi bi-house-door-fill"></i></a>
+                    <span>início</span>
+                </span>
+            </button>
+            <button>
+                <span>
+                    <a href="#"><i class="bi bi-person-fill"></i></a>
+                    <span>perfil</span>
+                </span>
+            </button>
+        </nav>
+    </aside>
+
+    <section class="first-section">
+        <div class="conteudo-principal">
+            <form>
+                <label for="ocorrencia">Tipo de ocorrência</label>
+                <input list="ocorrencias" id="ocorrencia" name="ocorrencia" placeholder="Qual problema você deseja registrar?"></input>
+
+                <datalist id="ocorrencias">
+                    <option value="Acidente">
+                    <option value="Obra">
+                    <option value="Congestionamento">
+                </datalist>
+
+                <label for="text">Endereço</label>
+                <input type="text" placeholder="Insira aqui o endereço">
+
+                <label for="fora">Insira aqui o horário</label>
+                <input type="time" id="hora" name="hora">
+                <input>
+            </form>
+        </div>
+
+    </section>
+</body>
+
+</html>
