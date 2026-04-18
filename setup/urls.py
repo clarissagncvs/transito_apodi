@@ -27,7 +27,7 @@ urlpatterns = [
 
 
     path('', include('apps.vias.urls')),  # Rota principal do site (/) usando as URLs do app vias
-#    path('ocorrencias/', include('apps.ocorrencias.urls')),  # Rotas web relacionadas a ocorrências
+    path('ocorrencias/', include('apps.ocorrencias.urls')),  # Rotas web relacionadas a ocorrências
 #    path('semaforos/', include('apps.semaforos.urls')),  # Rotas web relacionadas a semáforos
     path('', lambda request: HttpResponse("Página inicial")),
     path('usuarios/', include('apps.usuarios.urls')),  # Rotas web relacionadas a usuários
