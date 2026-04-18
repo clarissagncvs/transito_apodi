@@ -21,12 +21,15 @@
 
     <aside class="sidebar">
         <nav>
-            <button>
-                <span>
-                    <a href="#"><i class="bi bi-house-door-fill"></i></a>
-                    <span>início</span>
-                </span>
-            </button>
+            <a href="{% url 'apps.usuarios:home' %}">
+                <button>
+                    <span>
+                        <a href="#"><i class="bi bi-house-door-fill"></i>
+                        <span>início</span>
+                    </span>
+                </button>
+            </a>
+            </a>
             
             <button>
                 <span>
@@ -51,11 +54,13 @@
                     </button>
                 </dl>
                 <dl>
-                    <button>
-                        <a><i class="bi bi-stoplights"></i></a>
-                        <dt>Status do Tráfego</dt>
-                        <dd>status de ocorrências ativas e finalizadas</dd>
-                    </button>
+                    <a href="{% url 'ocorrencias:lista' %}">
+                        <button>
+                            <i class="bi bi-stoplights"></i>
+                            <dt>Status do Tráfego</dt>
+                            <dd>status de ocorrências ativas e finalizadas</dd>
+                        </button>
+                    </a>
                 </dl>
                 <dl>
                     <button>

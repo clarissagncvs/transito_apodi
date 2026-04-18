@@ -120,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # idioma da página, estava em en-us mas eu ja mudei pra pt-br
 LANGUAGE_CODE = 'pt-br'
 #fusorario, ja atualizei para o de brasilia
-TIME_ZONE = 'America/Brasilia'
+TIME_ZONE = 'America/Fortaleza'
 
 USE_I18N = True
 
