@@ -6,8 +6,8 @@ app_name = 'ocorrencias'
 
 urlpatterns = [
     path('',                      views.lista,            name='lista'),
-    path('nova/',                 views.nova,             name='nova'),
-    path('<int:pk>/',             views.detalhe,          name='detalhe'),
-    path('<int:pk>/status/',      views.atualizar_status, name='atualizar_status'),
+#    path('registra/',                 views.registra,             name='registra'),
+#    path('<int:pk>/',             views.detalhe,          name='detalhe'),
+#    path('<int:pk>/status/',      views.atualizar_status, name='atualizar_status'),
 ]
 #O <int:pk> captura o número da URL e passa para a view como parâmetro. Então /ocorrencias/5/ chama views.detalhe(request, pk=5).

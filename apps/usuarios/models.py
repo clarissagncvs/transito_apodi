@@ -1,43 +1,63 @@
+# Importa o modelo base de usuário do Django (já vem com autenticação pronta)
 from django.contrib.auth.models import AbstractUser
+
+# Importa o módulo de modelos do Django
 from django.db import models
+
+
+# Cria um modelo de usuário personalizado herdando do AbstractUser
 class Usuario(AbstractUser):
 
+    # Classe interna para definir os tipos de usuário (como enum)
     class Tipo(models.TextChoices):
+        # Tipo cidadão
         CIDADAO = 'CIDADAO', 'Cidadão'
+
+        # Tipo agente de trânsito
         AGENTE = 'AGENTE', 'Agente de Trânsito'
+
+        # Tipo administrador
         ADMIN = 'ADMIN', 'Administrador'
 
-#AbstractUser já traz username, password, email, first_name, last_name, is_active_, date_joined e os métodos de autenticação, só faltando adicionar os tipos
-#CharField é um modelo de campo de string projetado para armazenar textos curtos a médios
-#a classe Usuario herda AbstractUser, fornecendo a implementação completa do modelo de usuário padrão, servindo como base para criar modelos de usuários personalizados sem redefinir toda a lógica de autenticação
-#a classe Tipo herda models.TextChoices, permitindo definir escolhar para campos de modelo de forma classe-based
+
+    # Campo que armazena o tipo de usuário
     tipo = models.CharField(
-    max_length=10,
-    choices=Tipo.choices,
-    default=Tipo.CIDADAO
+        max_length=10,                # Limite de 10 caracteres
+        choices=Tipo.choices,         # Só permite valores definidos na classe Tipo
+        default=Tipo.CIDADAO          # Valor padrão é cidadão
     )
-    telefone = models.CharField(max_length=20, blank=True)
+
+
+    # Campo para telefone (opcional)
+    telefone = models.CharField(
+        max_length=20,  # Limite de caracteres
+        blank=True      # Permite deixar vazio no formulário
+    )
+
+
+    # Campo para foto do usuário
     foto = models.ImageField(
-        upload_to='usuarios/', blank=True, null=True
+        upload_to='usuarios/',  # Pasta onde as imagens serão salvas
+        blank=True,             # Não obrigatório no formulário
+        null=True               # Pode ser nulo no banco de dados
     )
-    
 
-#max_length define o tanto de caracteres que serão aceitos no nome do usuário
-#choices=Tipo.choices diz que o valor armazenado na variável choice deve ser algum dos tipos registrados na classe
-#default=Tipo.CIDADAO diz que se nenhuma informação for colocada o tipo de usuário padrão será CIDADAO
-#telefone = models.CharField(max_length=20, blank=True) define um campo onde o número de telefone tem um limite de caracteres e permite que o campo seja deixado vazio nos formulários
-#o campo foto = models.ImageField(upload_to='usuarios/', blank=True, null=True) armazena as imagens salvas na pasta usuarios/ dentro de um diretório de mídia, permitindo que o upload seja opcional tando no BD como no formulário
 
+    # Propriedade que verifica se o usuário é agente
     @property
     def is_agente(self):
+        # Retorna True se o tipo for AGENTE
         return self.tipo == self.Tipo.AGENTE
 
+
+    # Propriedade que verifica se o usuário é administrador de trânsito
     @property
     def is_admin_transito(self):
+        # Retorna True se o tipo for ADMIN
         return self.tipo == self.Tipo.ADMIN
 
+
+    # Define como o objeto será exibido (ex: no admin do Django)
     def __str__(self):
+        # Exibe username + tipo formatado (ex: "joao (Cidadão)")
         return f'{self.username} ({self.get_tipo_display()})'
-
-#o uso do @property transforma métodos em atributos de acesso, permitindo que funções como is_agente e is_admin_transito sejam acessadas como se fossem variáveis (ex: obj.is_agente) em vez de serem chamadas com parênteses, encapsulando a lógica de verificação de condições, como comparar self.tipo com self.Tipo.AGENTE
-
