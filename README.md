@@ -154,6 +154,8 @@ git merge nome-da-branch
 * feature/nome-da-funcionalidade
 * fix/nome-do-problema
 * hotfix/nome-urgente
+* fix/nome-erro
+* docs/documentação
 
 ---
 
@@ -231,11 +233,3 @@ DATABASE_URL=
 * Avisar o time sobre mudanças
 * Utilizar valores seguros em produção
 
----
-
-### Bibliotecas recomendadas
-
-* python-decouple
-* django-environ
-
-Facilitam o uso de variáveis de ambiente no Django.
