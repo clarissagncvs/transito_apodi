@@ -107,10 +107,7 @@ html {
 }
 
 .botao-header img {
-    width: auto;
-    height: 32px;
-    margin-left: 16px;
-    object-fit: contain;
+    
 }
 
 .botao-header .header-img {
