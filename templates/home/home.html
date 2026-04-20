@@ -11,32 +11,30 @@
 
 <body>
     <header class="header">
-        <button class="botao-header"><a href="#">
-            <img class="header-img" src="../../static/img/icone-botao.png">
-        </a><span>Ocorrências Ativas</span></button>
-        <button class="botao-logo">
-            <img class="logo-img" src="../../static/img/logo.png">
-        </button>
+        <a href="#">
+            <button class="botao-header">
+                <img class="header-img" src="../../static/img/icone-botao.png">
+        </a>
+        <span>Ocorrências Ativas</span></button>
+            <button class="botao-logo">
+                <img class="logo-img" src="../../static/img/logo.png">
+            </button>
     </header>
 
     <aside class="sidebar">
         <nav>
-            <a href="{% url 'apps.usuarios:home' %}">
-                <button>
-                    <span>
-                        <a href="#"><i class="bi bi-house-door-fill"></i>
-                        <span>início</span>
-                    </span>
-                </button>
-            </a>
-            </a>
-            
-            <button>
+            <a href="{% url 'apps.usuarios:home' %}" class="sidebar-button">
                 <span>
-                    <a href="#"><i class="bi bi-person-fill"></i></a>
+                    <i class="bi bi-house-door-fill"></i>
+                    <span>início</span>
+                </span>
+            </a>
+            <a href="#" class="sidebar-button">
+                <span>
+                    <i class="bi bi-person-fill"></i>
                     <span>perfil</span>
                 </span>
-            </button>
+            </a>
         </nav>
     </aside>
 
@@ -47,34 +45,32 @@
             <h2>consulte o tráfego, acidentes e obras da cidade de Apodi-RN</h2>
             <div class="btn">
                 <dl>
-                    <button>
-                        <a><i class="bi bi-megaphone"></i></a>
+                    <a href="#" class="button">
+                        <i class="bi bi-megaphone"></i>
                         <dt>Registrar Ocorrência</dt>
                         <dd>registre aqui acidentes, obras, congestionamentos de tráfego e etc.</dd>
-                    </button>
-                </dl>
-                <dl>
-                    <a href="{% url 'ocorrencias:lista' %}">
-                        <button>
-                            <i class="bi bi-stoplights"></i>
-                            <dt>Status do Tráfego</dt>
-                            <dd>status de ocorrências ativas e finalizadas</dd>
-                        </button>
                     </a>
                 </dl>
                 <dl>
-                    <button>
-                        <a><i class="bi bi-person"></i></a>
-                        <dt>Perfil</dt>
-                        <dd>acesse seus dados</dd>
-                    </button>
+                    <a href="{% url 'ocorrencias:lista' %}" class="button">   
+                        <i class="bi bi-stoplights"></i>
+                        <dt>Status do Tráfego</dt>
+                        <dd>status de ocorrências ativas e finalizadas</dd>
+                    </a>
                 </dl>
                 <dl>
-                    <button>
-                        <a><i class="bi bi-gear"></i></a>
+                    <a href="#" class="button">
+                        <i class="bi bi-person"></i>
+                        <dt>Perfil</dt>
+                        <dd>acesse seus dados</dd>
+                    </a>
+                </dl>
+                <dl>
+                    <a href="#" class="button">
+                        <i class="bi bi-gear"></i>
                         <dt>Configurações</dt>
                         <dd>acessibilidade e exclusão de conta</dd>
-                    </button>
+                    </a>
                 </dl>
             </div>
         </div>

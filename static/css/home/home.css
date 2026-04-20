@@ -129,53 +129,47 @@ html {
     top: 0;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     width: 230px;
     height: 100%;
-    padding-top: 80px;
-    padding-right: 15px;
-    padding-left: 10px;
+    padding-top: 75px;
+    padding-right: 5px;
+    padding-left: 20px;
     border-radius: 12px;
-    margin: 11px;
-    transition: all 0.3s;
+    margin: 10px;
+    transition: all 0.2s;
 }
 
-.sidebar button {
-    background: transparent;
-    color: #cdcdcd;
+.sidebar-button {
+    display: flex;
+    align-items: center;
+    width: 100%;
     height: 60px;
-    border: 0;
-    font-family: inherit;
-    cursor: pointer;
-    text-align: center;
-    padding: 0;
+    text-decoration: none;
+    color: #cdcdcd;
+    background: transparent;
+    margin-bottom: 5px;
 }
 
-.sidebar button>span {
-    height: 45px;
+.sidebar-button > span {
     display: inline-flex;
     align-items: center;
     gap: 25px;
-    padding-right: 40px;
-    padding-left: 30px;
-    line-height: 1;
+    height: 45px;
+    padding: 0 50px 0 40px;
     border-radius: 5px;
-    transition: all 0.4s;
-}
-
-.sidebar button:hover>span {
-    background-color: #0b830b;
-}
-
-.sidebar button span {
     font-size: 2.2rem;
     font-weight: 500;
+    transition: background 0.4s;
+}
+
+.sidebar-button:hover>span {
+    background-color: #0b830b;
 }
 
 .sidebar button i {
     color: #cdcdcd;
     position: relative;
-    font-size: 2.8rem;
+    font-size: 5rem;
     transition: 0.2s;
     cursor: default;
 }
@@ -216,12 +210,6 @@ html {
 
 /*botões*/
 
-.content .first-section .btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .btn {
     display: flex;
     flex-direction: row;
@@ -232,7 +220,7 @@ html {
     margin: 0 auto;
 }
 
-.btn button {
+.btn .button {
     width: 250px;
     height: 300px;
     display: flex;
@@ -240,13 +228,12 @@ html {
     align-items: center;
     justify-content: center;
     padding: 20px;
-    cursor: pointer;
-    font-size: 2rem;
     background-color: #e8e8e8;
-    color: #ff8000;
+    color: #ff8000 !important;
     border-radius: 9px;
-    font-weight: 700;
-    transition: transform 0.2s, background 0.2s, all 0.3s;
+    text-decoration: none;
+    transition: transform 0.2s, background 0.2s;
+    text-align: center;
 }
 
 .btn button:hover {
@@ -254,23 +241,22 @@ html {
     background-color: #cdcdcd;
 }
 
-.btn button a i {
-    position: relative;
+.button i {
     font-size: 6rem;
-    padding: 0 0 50px 0;
-    gap: 10px;
+    margin-bottom: 20px;
 }
 
-.btn dt {
-    margin: 0 0 10px 0;
-    top: 0;
-}
-
-.btn dd {
-    margin: 0 15px 0px 15px;
+.button dt {
     font-size: 2rem;
-    text-transform: lowercase;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.button dd {
+    margin: 0 15px;
+    font-size: 1.6rem;
     font-weight: 500;
+    color: #ff8000;
 }
 
 /*responsividade*/
@@ -289,12 +275,12 @@ html {
         font-size: 3rem;
     }
     
-    .btn button {
+    .btn .button {
         width: 200px;
         height: 240px;
     }
 
-    .btn button a i {
+    .btn .button i {
         display: none;
     }
 
@@ -305,29 +291,40 @@ html {
         align-items: center;
     }
 
-    .sidebar button > span > span {
+    .sidebar-button {
+        justify-content: center;
+    }
+
+    .sidebar-button > span > span {
         display: none;
     }
 
-    .sidebar button > span {
+    .sidebar-button > span {
         width: auto;
         padding: 0;
         gap: 0;
         justify-content: center;
-        transition: none;
     }
 
     .sidebar nav {
         width: 100%;
     }
 
-    .sidebar button i {
+    .sidebar-button i {
         margin: 0 auto;
-        cursor: pointer;
+        font-size: 2.8rem;
     }
     
-    .sidebar button:hover > span {
+    .sidebar-button:hover > span {
         background-color: transparent;
+    }
+
+    .btn .button > dt {
+        font-size: 2.2rem;   
+    }
+
+    .btn .button > dd {
+        font-size: 1.8rem;
     }
 
 }
@@ -338,31 +335,24 @@ html {
         margin-left: 80px;
     }
     
+    .first-section h1 {
+        font-size: 2.8rem;
+    }
+
     .first-section h2 {
+        font-size: 1.8rem;
         margin-bottom: 20px;
-        font-size: 2rem;
     }
 
     .btn {
-        display: flex;
         flex-direction: column;
         align-items: center;
-        width: 100%;
-        padding: 0;
+        gap: 10px;
     }
 
-    .btn {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        max-width: 100%;
-        gap: 0;
-    }
-
-    .btn button {
-        width: 350px;
-        height: 150px;
+    .btn .button {
+        width: 300px;
+        height: 200px;
         margin: 0 0 16px 0;
         display: flex;
         flex-direction: column;
@@ -371,11 +361,16 @@ html {
         box-sizing: border-box;
     }
 
-    .btn button > dl > dt > dd {
-        padding: 0;
-        margin: 0;
-        text-align: center;
-        width: 100%;
+    .btn .button i {
+        font-size: 4rem;
+        margin-bottom: 10px;
     }
 
+    .btn .button > dt {
+        font-size: 2rem;   
+    }
+
+    .btn .button > dd{
+        font-size: 1.8rem;
+    }
 }
