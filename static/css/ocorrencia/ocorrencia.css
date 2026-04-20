@@ -31,10 +31,6 @@
     font-family: 'roboto', sans-serif;
 }
 
-.border {
-    border: 1px solid red;
-}
-
 html {
     width: 100%;
     height: 100%;
@@ -52,8 +48,7 @@ html {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    align-items: center;
-    padding: 20px 20px 20px ;
+    padding: 0 20px;
 }
 
 .logo-img {
@@ -83,11 +78,10 @@ html {
 }
 
 .texto-header .header-img {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    border: none;
-    padding: auto;
+    width: auto;
+    height: 32px;
+    margin-left: 16px;
+    object-fit: contain;
 }
 
 .texto-header {
@@ -115,53 +109,47 @@ html {
     top: 0;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     width: 230px;
     height: 100%;
-    padding-top: 80px;
-    padding-right: 15px;
-    padding-left: 10px;
+    padding-top: 75px;
+    padding-right: 5px;
+    padding-left: 20px;
     border-radius: 12px;
-    margin: 11px;
-    transition: all 0.3s;
+    margin: 10px;
+    transition: all 0.2s;
 }
 
-.sidebar button {
-    background: transparent;
-    color: #cdcdcd;
+.sidebar-button {
+    display: flex;
+    align-items: center;
+    width: 100%;
     height: 60px;
-    border: 0;
-    font-family: inherit;
-    cursor: pointer;
-    text-align: center;
-    padding: 0;
+    text-decoration: none;
+    color: #cdcdcd;
+    background: transparent;
+    margin-bottom: 5px;
 }
 
-.sidebar button>span {
-    height: 45px;
+.sidebar-button > span {
     display: inline-flex;
     align-items: center;
     gap: 25px;
-    padding-right: 40px;
-    padding-left: 30px;
-    line-height: 1;
+    height: 45px;
+    padding: 0 50px 0 40px;
     border-radius: 5px;
-    transition: all 0.4s;
-}
-
-.sidebar button:hover>span {
-    background-color: #0b830b;
-}
-
-.sidebar button span {
     font-size: 2.2rem;
     font-weight: 500;
+    transition: background 0.4s;
+}
+
+.sidebar-button:hover>span {
+    background-color: #0b830b;
 }
 
 .sidebar button i {
     color: #cdcdcd;
     position: relative;
-    font-size: 2.8rem;
+    font-size: 1rem;
     transition: 0.2s;
     cursor: default;
 }
@@ -175,63 +163,106 @@ html {
     width: 205px;
 }
 
-/*inputs primeira seção*/
+/*primeira seção*/
 
-.content .first-section .input {
+.first-section {
+    margin-left: 170px;
+    margin-right: 20px;
+    min-height: 80vh;
+    height: auto;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    padding: 20px 20px;
+    overflow: visible;
 }
 
-.input {
+/*inputs*/
+
+.ipt {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 9px;
     width: 100%;
     max-width: 1100px;
     margin: 0 auto;
+
 }
 
-.input button {
-    width: 250px;
-    height: 300px;
+.ipt .input {
+    width: 100%;
+    height: 60px;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
     padding: 20px;
-    cursor: pointer;
-    font-size: 2rem;
     background-color: #e8e8e8;
-    color: #ff8000;
-    border-radius: 9px;
-    font-weight: 700;
-    transition: transform 0.2s, background 0.2s, all 0.3s;
+    border-radius: 11px;
+    text-decoration: none;
+    transition: transform 0.2s, background 0.2s;
+    text-align: center;
 }
 
-.input button:hover {
-    transform: translateY(-3px);
+.ipt .input:hover {
+    transform: translateY(-2px);
     background-color: #cdcdcd;
 }
 
-.input button a i {
-    position: relative;
-    font-size: 6rem;
-    padding: 0 0 50px 0;
-    gap: 10px;
-}
-
-.input dt {
-    margin: 0 0 10px 0;
-    top: 0;
-}
-
-.input dd {
-    margin: 0 15px 0px 15px;
+.ipt .input > input {
     font-size: 2rem;
-    text-transform: lowercase;
-    font-weight: 500;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    
+}
+
+.ipt .input > input > placeholder{
+    color: #ff8000;   
+}
+
+.ipt > span {
+    position: relative;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #054c05;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border: none;
+    padding: auto;
+}
+
+.input > span {
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border: none;
+    padding: auto;
+}
+
+.botao-submeter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-weight: 600;
+    font-size: 16px;
+    gap: 20px;
+    height: 40px;
+    width: 170px;
+    margin: 0 auto;
+    flex-direction: column;
+    background-color: #ff8000;
+    color: #054c05;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: transform 0.2s, background 0.2s;
+    text-align: center;
+}
+
+.botao-submeter:hover {
+    transform: translateY(-2px);
 }
 
 /*responsividade*/
@@ -243,7 +274,7 @@ html {
     }
     
     .first-section {
-        margin-left: 80px;
+        margin-left: 100px;
     }
 
     .first-section h1 {
@@ -266,28 +297,31 @@ html {
         align-items: center;
     }
 
-    .sidebar button > span > span {
+    .sidebar-button {
+        justify-content: center;
+    }
+
+    .sidebar-button > span > span {
         display: none;
     }
 
-    .sidebar button > span {
+    .sidebar-button > span {
         width: auto;
         padding: 0;
         gap: 0;
         justify-content: center;
-        transition: none;
     }
 
     .sidebar nav {
         width: 100%;
     }
 
-    .sidebar button i {
+    .sidebar-button i {
         margin: 0 auto;
-        cursor: pointer;
+        font-size: 2.8rem;
     }
     
-    .sidebar button:hover > span {
+    .sidebar-button:hover > span {
         background-color: transparent;
     }
 
@@ -321,7 +355,7 @@ html {
         gap: 0;
     }
 
-    .input button {
+    .input {
         width: 350px;
         height: 150px;
         margin: 0 0 16px 0;
