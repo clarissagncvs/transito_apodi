@@ -31,10 +31,6 @@
     font-family: 'roboto', sans-serif;
 }
 
-.border {
-    border: 1px solid red;
-}
-
 html {
     width: 100%;
     height: 100%;
@@ -51,7 +47,6 @@ html {
     margin-left: 270px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
     align-items: center;
     padding: 0 20px;
 }
@@ -107,7 +102,10 @@ html {
 }
 
 .botao-header img {
-    
+    width: auto;
+    height: 32px;
+    margin-left: 16px;
+    object-fit: contain;     
 }
 
 .botao-header .header-img {
@@ -166,7 +164,7 @@ html {
 .sidebar button i {
     color: #cdcdcd;
     position: relative;
-    font-size: 5rem;
+    font-size: 1rem;
     transition: 0.2s;
     cursor: default;
 }
@@ -226,15 +224,15 @@ html {
     justify-content: center;
     padding: 20px;
     background-color: #e8e8e8;
-    color: #ff8000 !important;
+    color: #ff8000;
     border-radius: 9px;
     text-decoration: none;
     transition: transform 0.2s, background 0.2s;
     text-align: center;
 }
 
-.btn button:hover {
-    transform: translateY(-3px);
+.btn .button:hover {
+    transform: translateY(-5px);
     background-color: #cdcdcd;
 }
 
