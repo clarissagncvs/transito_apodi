@@ -3,13 +3,14 @@ from django.urls import path, include  # path cria rotas e include permite impor
 from django.conf import settings  # Permite acessar configurações do settings.py
 from django.conf.urls.static import static  # Usado para servir arquivos de mídia em desenvolvimento
 from django.http import HttpResponse
+from apps.usuarios import views as usuarios_views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),  # Rota para acessar o painel admin (/admin/)
 
 
-
+    path('', usuarios_views.home, name='home'),
     path('', include('apps.vias.urls')),  # Rota principal do site (/) usando as URLs do app vias
     path('ocorrencias/', include('apps.ocorrencias.urls')),  # Rotas web relacionadas a ocorrências
 #    path('semaforos/', include('apps.semaforos.urls')),  # Rotas web relacionadas a semáforos
