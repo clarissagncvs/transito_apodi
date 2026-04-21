@@ -42,9 +42,9 @@ html {
 /*cabeçalho*/
 
 .header {
-    width: calc(100% - 270px);
+    width: calc(100% - 250px);
     height: 80px;
-    margin-left: 270px;
+    margin-left: 250px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -181,13 +181,14 @@ html {
 /*primeira seção*/
 
 .first-section {
-    margin-left: 270px;
+    margin-left: 250px;
+    width: calc(100% - 250px);
     margin-right: 20px;
     min-height: 80vh;
     height: auto;
     display: flex;
     flex-direction: column;
-    padding: 10px 20px;
+    padding: 20px 20px;
     overflow: visible;
 }
 
@@ -257,12 +258,8 @@ html {
 /*responsividade*/
 
 @media  (max-width: 920px) {
-    .header {
-        width: calc(100% - 80px);
-        margin-left: 80px;
-    }
-    
-    .first-section {
+    .header, .first-section {
+        width: calc(100% - 90px);
         margin-left: 80px;
     }
 
@@ -281,8 +278,10 @@ html {
 
     .sidebar {
         width: 70px;
-        padding-right: 5px;
-        padding-left: 5px;
+        margin: 0;
+        border-radius: 0;
+        padding-right: 0;
+        padding-left: 0;
         align-items: center;
     }
 
@@ -307,7 +306,7 @@ html {
 
     .sidebar-button i {
         margin: 0 auto;
-        font-size: 2.8rem;
+        font-size: 3.5rem;
     }
     
     .sidebar-button:hover > span {

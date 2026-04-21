@@ -44,13 +44,13 @@
                     <label for="ocorrencia">Tipo de ocorrência</label>
                 </span>
                 <div class="input">
-                    <input list="ocorrencias" id="ocorrencia" name="ocorrencia" placeholder="Qual problema você deseja registrar?"></input>
+                    <input id="ocorrencia" name="ocorrencia" placeholder="Qual problema você deseja registrar?"></input>
 
-                    <datalist class="lista-ocorrencias" id="ocorrencias">
-                        <option value="Acidente">
-                        <option value="Obra">
-                        <option value="Congestionamento">
-                    </datalist>
+                    <ul class="lista-ocorrencias">
+                        <li onclick="selecionar('Acidente')">Acidente</li>
+                        <li onclick="selecionar('Obra')">Obra</li>
+                        <li onclick="selecionar('Congestionamento')">Congestionamento</li>
+                    </ul>
                 </div>
                 <span>
                     <label for="text">Endereço</label>
@@ -69,6 +69,9 @@
         </div>
 
     </section>
+
+<script src="../../static/js/ocorrencias.js"></script>
+
 </body>
 
 </html>
