@@ -42,9 +42,9 @@ html {
 /*cabeçalho*/
 
 .header {
-    width: calc(100% - 270px);
+    width: calc(100% - 250px);
     height: 80px;
-    margin-left: 270px;
+    margin-left: 250px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -105,17 +105,17 @@ html {
 
 .sidebar {
     background-color: #054c05;
-    position: fixed;
     top: 0;
     display: flex;
     flex-direction: column;
     width: 230px;
+    margin: 10px;
+    position: fixed;
     height: 100%;
     padding-top: 75px;
     padding-right: 5px;
     padding-left: 20px;
     border-radius: 12px;
-    margin: 10px;
     transition: all 0.2s;
 }
 
@@ -166,7 +166,8 @@ html {
 /*primeira seção*/
 
 .first-section {
-    margin-left: 170px;
+    margin-left: 250px;
+    width: calc(100% - 250px);
     margin-right: 20px;
     min-height: 80vh;
     height: auto;
@@ -186,10 +187,11 @@ html {
     width: 100%;
     max-width: 1100px;
     margin: 0 auto;
-
 }
 
 .ipt .input {
+    position: relative;
+    z-index: 5;
     width: 100%;
     height: 60px;
     display: flex;
@@ -197,10 +199,13 @@ html {
     justify-content: center;
     padding: 20px;
     background-color: #e8e8e8;
-    border-radius: 11px;
-    text-decoration: none;
+    border-radius: 10px;
     transition: transform 0.2s, background 0.2s;
-    text-align: center;
+    z-index: 1;
+}
+
+.ipt .input:focus-within, .ipt .input:hover {
+    z-index: 100;
 }
 
 .ipt .input:hover {
@@ -209,15 +214,16 @@ html {
 }
 
 .ipt .input > input {
-    font-size: 2rem;
-    height: 100%;
+    font-size: 1.8rem;
     width: 100%;
     background-color: transparent;
-    
+    border: none;
+    outline: none;
+    color: #054c05;
 }
 
-.ipt .input > input > placeholder{
-    color: #ff8000;   
+.ipt .input > input::-webkit-calendar-picker-indicator {
+    display: none !important;
 }
 
 .ipt > span {
@@ -232,13 +238,81 @@ html {
     padding: auto;
 }
 
-.input > span {
+.input > input::placeholder {
     top: 0;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     border: none;
     padding: auto;
+    color: #054c05;
+}
+
+.ipt .input .lista-ocorrencias {
+    position: relative;
+    width: 100%;
+    max-width: 1100px;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: #e8e8e8;
+    border-radius: 0 0 10px 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 10;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.lista-ocorrencias {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #e8e8e8;
+    border: 1px solid #cdcdcd;
+    opacity: 1;
+    border-radius: 0 0 10px 10px;
+    list-style: none;
+    padding: 5px;
+    margin: 0;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+#ocorrencia:focus + .lista-ocorrencias,
+.lista-ocorrencias:hover {
+    display: block;
+}
+
+.ipt .input.open .lista-ocorrencias {
+    display: block;
+}
+
+.lista-ocorrencias > li {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    color: #054c05;
+    background-color: #e8e8e8;
+    border-radius: 10px;
+    padding: 0 15px;
+    font-size: 1.6rem;
+    font-weight: 500;
+    border: 1px solid #cdcdcd;
+    transition: background 0.2s;
+}
+
+.lista-ocorrencias li:hover {
+    background-color: #cdcdcd;
+}
+
+#hora {
+    color: #054c05;
 }
 
 .botao-submeter {
@@ -250,7 +324,7 @@ html {
     font-size: 16px;
     gap: 20px;
     height: 40px;
-    width: 170px;
+    width: 130px;
     margin: 0 auto;
     flex-direction: column;
     background-color: #ff8000;
@@ -259,6 +333,7 @@ html {
     text-decoration: none;
     transition: transform 0.2s, background 0.2s;
     text-align: center;
+    margin-top: 20px;
 }
 
 .botao-submeter:hover {
@@ -268,32 +343,21 @@ html {
 /*responsividade*/
 
 @media  (max-width: 920px) {
-    .header {
-        width: calc(100% - 80px);
+    .header, .first-section {
+        width: calc(100% - 90px);
         margin-left: 80px;
-    }
-    
-    .first-section {
-        margin-left: 100px;
     }
 
     .first-section h1 {
         font-size: 3rem;
     }
-    
-    .input button {
-        width: 200px;
-        height: 240px;
-    }
-
-    .input button a i {
-        display: none;
-    }
 
     .sidebar {
         width: 70px;
-        padding-right: 5px;
-        padding-left: 5px;
+        margin: 0;
+        border-radius: 0;
+        padding-right: 0;
+        padding-left: 0;
         align-items: center;
     }
 
@@ -318,11 +382,25 @@ html {
 
     .sidebar-button i {
         margin: 0 auto;
-        font-size: 2.8rem;
+        font-size: 3.5rem;
     }
     
     .sidebar-button:hover > span {
         background-color: transparent;
+    }
+
+    .input {
+        width: 200px;
+        height: 240px;
+    }
+
+    .ipt .input {
+        width: 100%; 
+        max-width: 100%;
+    }
+
+    .input button a i {
+        display: none;
     }
 
 }
@@ -358,7 +436,6 @@ html {
     .input {
         width: 350px;
         height: 150px;
-        margin: 0 0 16px 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
