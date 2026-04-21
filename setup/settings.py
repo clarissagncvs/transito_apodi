@@ -18,7 +18,7 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 DEBUG = os.getenv('DEBUG') == 'True'
 
 # Lista de hosts permitidos (vazio em desenvolvimento)
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Libera requisições de qualquer origem (CORS) — só para desenvolvimento
@@ -120,13 +120,12 @@ USE_TZ = True
 
 
 # Arquivos estáticos (CSS, JS, imagens)
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Diretório onde estão seus arquivos estáticos
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
-
 
 # Configuração do Django REST Framework
 REST_FRAMEWORK = {
