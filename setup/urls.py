@@ -4,6 +4,7 @@ from django.conf import settings  # Permite acessar configurações do settings.
 from django.conf.urls.static import static  # Usado para servir arquivos de mídia em desenvolvimento
 from django.http import HttpResponse
 from apps.usuarios import views as usuarios_views
+from apps.usuarios import views as usuarios_views
 
 
 urlpatterns = [
@@ -22,3 +23,4 @@ urlpatterns = [
 #    path('api/semaforos/', include('apps.semaforos.api_urls')),  # Endpoints da API REST para semáforos
 #    path('api/usuarios/', include('apps.usuarios.api_urls')),  # Endpoints da API REST para usuários
 ]# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # Serve arquivos de mídia (ex: imagens) em desenvolvimento
+    

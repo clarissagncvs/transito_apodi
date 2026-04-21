@@ -1,63 +1,61 @@
-# Importa o modelo base de usuário do Django (já vem com autenticação pronta)
 from django.contrib.auth.models import AbstractUser
-
-# Importa o módulo de modelos do Django
 from django.db import models
+from django.core.validators import RegexValidator
 
 
-# Cria um modelo de usuário personalizado herdando do AbstractUser
+# model customizado de usuário baseado no abstractuser do django
 class Usuario(AbstractUser):
 
-    # Classe interna para definir os tipos de usuário (como enum)
+    # enum para tipos de usuário (melhor que usar string solta)
     class Tipo(models.TextChoices):
-        # Tipo cidadão
         CIDADAO = 'CIDADAO', 'Cidadão'
+        AGENTE  = 'AGENTE',  'Agente de Trânsito'
+        ADMIN   = 'ADMIN',   'Administrador'
 
-        # Tipo agente de trânsito
-        AGENTE = 'AGENTE', 'Agente de Trânsito'
-
-        # Tipo administrador
-        ADMIN = 'ADMIN', 'Administrador'
-
-
-    # Campo que armazena o tipo de usuário
+    # define o tipo do usuário no sistema
     tipo = models.CharField(
-        max_length=10,                # Limite de 10 caracteres
-        choices=Tipo.choices,         # Só permite valores definidos na classe Tipo
-        default=Tipo.CIDADAO          # Valor padrão é cidadão
+        max_length=10,
+        choices=Tipo.choices,
+        default=Tipo.CIDADAO,
+        verbose_name='tipo de usuário'
     )
 
-
-    # Campo para telefone (opcional)
+    # telefone opcional com validação de 10 ou 11 dígitos numéricos
     telefone = models.CharField(
-        max_length=20,  # Limite de caracteres
-        blank=True      # Permite deixar vazio no formulário
+        max_length=20,
+        blank=True,
+        validators=[RegexValidator(r'^\d{10,11}$', 'telefone inválido')]
     )
 
-
-    # Campo para foto do usuário
+    # imagem de perfil do usuário (armazenada em /media/usuarios/)
     foto = models.ImageField(
-        upload_to='usuarios/',  # Pasta onde as imagens serão salvas
-        blank=True,             # Não obrigatório no formulário
-        null=True               # Pode ser nulo no banco de dados
+        upload_to='usuarios/',
+        blank=True,
+        null=True,
+        verbose_name='foto de perfil'
     )
 
+    # data automática de criação do usuário
+    criado_em = models.DateTimeField(auto_now_add=True)
 
-    # Propriedade que verifica se o usuário é agente
+    # propriedade auxiliar para verificar se é agente
     @property
     def is_agente(self):
-        # Retorna True se o tipo for AGENTE
         return self.tipo == self.Tipo.AGENTE
 
-
-    # Propriedade que verifica se o usuário é administrador de trânsito
+    # propriedade auxiliar para verificar se é admin do sistema de trânsito
     @property
     def is_admin_transito(self):
-        # Retorna True se o tipo for ADMIN
         return self.tipo == self.Tipo.ADMIN
 
+    class Meta:
+        # nome amigável no admin
+        verbose_name = 'usuário'
+        verbose_name_plural = 'usuários'
 
-    # Define como o objeto será exibido (ex: no admin do Django)
+        # ordenação padrão: mais recentes primeiro
+        ordering = ['-criado_em']
+
+    # representação textual do objeto (usado no admin e logs)
     def __str__(self):
-        # Exibe username + tipo formatado (ex: "joao (Cidadão)")
-        return f'{self.username} ({self.get_tipo_display()})'
+        return f'{self.get_full_name() or self.username} ({self.get_tipo_display()})'

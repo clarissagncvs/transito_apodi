@@ -1,160 +1,131 @@
-# importa funções para renderizar templates, redirecionar e buscar objetos no banco
+# importa funções de renderização e redirecionamento
 from django.shortcuts import render, redirect, get_object_or_404
 
-# importa funções de autenticação (login, logout e validação de usuário)
+# importa funções de autenticação
 from django.contrib.auth import login, logout, authenticate
 
-# decorator que exige que o usuário esteja logado
+# decorator para exigir login
 from django.contrib.auth.decorators import login_required
 
-# sistema de mensagens do django (feedback para o usuário)
+# sistema de mensagens
 from django.contrib import messages
 
-# ferramenta de paginação
+# paginação
 from django.core.paginator import Paginator
 
-# exceção usada para bloquear acesso sem permissão
+# exceção de permissão
 from django.core.exceptions import PermissionDenied
 
-# importa o model usuario
+# importa modelo e formulários
 from .models import Usuario
-
-# importa os formulários usados nas views
 from .forms import LoginForm, RegistroForm, PerfilForm, UsuarioAdminForm
 
-# importa a camada de serviço (regra de negócio)
+# importa service
 from apps.usuarios.services.usuario_service import UsuarioService
 
 
 # view da página inicial
 def home(request):
-    # renderiza o template da home
     return render(request, 'home/home.html')
 
 
-# ── autenticação ──────────────────────────────────────────────
-
-# view de login
+# login do usuário
 def login_view(request):
-    # se já estiver logado, redireciona
+    # redireciona se já estiver logado
     if request.user.is_authenticated:
         return redirect('mapa')
 
-    # se for envio de formulário
+    # verifica envio do formulário
     if request.method == 'POST':
-        # cria o form com os dados enviados
         form = LoginForm(request.POST)
 
-        # valida o formulário
         if form.is_valid():
-            # autentica o usuário
+            # autentica usuário
             user = authenticate(
                 request,
                 username=form.cleaned_data['username'],
                 password=form.cleaned_data['password'],
             )
 
-            # se autenticou corretamente
+            # se autenticado, faz login
             if user:
-                # faz login
                 login(request, user)
-                # redireciona para próxima página ou mapa
                 return redirect(request.GET.get('next', 'mapa'))
 
-            # mensagem de erro
-            messages.error(request, 'Usuário ou senha incorretos.')
+            # erro de login
+            messages.error(request, 'usuário ou senha incorretos.')
     else:
-        # cria form vazio
         form = LoginForm()
 
-    # renderiza tela de login
     return render(request, 'usuarios/login.html', {'form': form})
 
 
-# view de logout
+# logout do usuário
 def logout_view(request):
-    # encerra a sessão
     logout(request)
-    # redireciona para login
     return redirect('apps.usuarios:login')
 
 
-# view de registro
+# registro de usuário
 def registrar(request):
     # impede acesso se já estiver logado
     if request.user.is_authenticated:
         return redirect('mapa')
 
-    # se envio de formulário
     if request.method == 'POST':
-        # cria form com dados e arquivos
         form = RegistroForm(request.POST, request.FILES)
 
-        # valida o form
         if form.is_valid():
-            # salva usuário
+            # cria usuário via form
             user = form.save()
+
             # loga automaticamente
             login(request, user)
-            # mensagem de sucesso
-            messages.success(request, f'Bem-vindo, {user.first_name or user.username}!')
-            # redireciona
+
+            messages.success(request, f'bem-vindo, {user.first_name or user.username}!')
             return redirect('mapa')
     else:
-        # form vazio
         form = RegistroForm()
 
-    # renderiza tela de cadastro
     return render(request, 'usuarios/cadastro.html', {'form': form})
 
 
-# ── perfil ───────────────────────────────────────────────────
-
-# exige login
+# perfil do usuário logado
 @login_required
 def perfil(request):
-    # se envio de formulário
     if request.method == 'POST':
-        # cria form com dados do usuário logado
         form = PerfilForm(request.POST, request.FILES, instance=request.user)
 
-        # valida form
         if form.is_valid():
-            # atualiza usando service
+            # usa service para atualizar
             UsuarioService.atualizar_perfil(request.user, form.cleaned_data)
-            # mensagem de sucesso
-            messages.success(request, 'Perfil atualizado com sucesso.')
-            # redireciona
+
+            messages.success(request, 'perfil atualizado com sucesso.')
             return redirect('apps.usuarios:perfil')
     else:
-        # form preenchido com dados atuais
         form = PerfilForm(instance=request.user)
 
-    # renderiza página de perfil
     return render(request, 'usuarios/perfil.html', {'form': form})
 
 
-# ── permissão admin ──────────────────────────────────────────
-
-# decorator customizado para exigir admin_transito
+# decorator para exigir admin
 def admin_required(view_func):
     def wrapper(request, *args, **kwargs):
-        # verifica se está logado e se é admin
+        # bloqueia usuários não admin
         if not request.user.is_authenticated or not request.user.is_admin_transito:
             raise PermissionDenied
         return view_func(request, *args, **kwargs)
     return wrapper
 
 
-# ── lista de usuários ────────────────────────────────────────
-
+# lista de usuários
 @login_required
 @admin_required
 def usuario_lista(request):
-    # pega todos os usuários
+    # queryset inicial
     qs = Usuario.objects.all()
 
-    # pega filtros da url
+    # filtros
     tipo  = request.GET.get('tipo', '')
     busca = request.GET.get('q', '')
     ativo = request.GET.get('ativo', '')
@@ -162,11 +133,10 @@ def usuario_lista(request):
     # aplica filtros via service
     qs = UsuarioService.filtrar_usuarios(qs, tipo, busca, ativo)
 
-    # pagina resultados
+    # paginação
     paginator = Paginator(qs, 15)
     page = paginator.get_page(request.GET.get('page'))
 
-    # renderiza lista
     return render(request, 'usuarios/lista.html', {
         'page_obj': page,
         'tipo_choices': Usuario.Tipo.choices,
@@ -177,121 +147,100 @@ def usuario_lista(request):
     })
 
 
-# ── criar usuário ────────────────────────────────────────────
-
+# criar usuário
 @login_required
 @admin_required
 def usuario_criar(request):
-    # se envio de formulário
     if request.method == 'POST':
         form = RegistroForm(request.POST, request.FILES)
 
-        # valida form
         if form.is_valid():
-            # pega dados limpos
             data = form.cleaned_data
 
             # adiciona tipo manualmente
             data['tipo'] = request.POST.get('tipo', Usuario.Tipo.CIDADAO)
 
-            # cria usuário via service
+            # cria via service
             user = UsuarioService.criar_usuario(data)
 
-            # mensagem de sucesso
-            messages.success(request, f'Usuário {user.username} criado com sucesso.')
+            messages.success(request, f'usuário {user.username} criado com sucesso.')
             return redirect('apps.usuarios:lista')
     else:
-        # form vazio
         form = RegistroForm()
 
-    # renderiza form
     return render(request, 'usuarios/form.html', {
         'form': form,
-        'titulo': 'Novo usuário',
+        'titulo': 'novo usuário',
         'tipo_choices': Usuario.Tipo.choices,
-        'btn_label': 'Criar usuário',
+        'btn_label': 'criar usuário',
     })
 
 
-# ── editar usuário ───────────────────────────────────────────
-
+# editar usuário
 @login_required
 @admin_required
 def usuario_editar(request, pk):
-    # busca usuário
     usuario = get_object_or_404(Usuario, pk=pk)
 
-    # se envio
     if request.method == 'POST':
         form = UsuarioAdminForm(request.POST, request.FILES, instance=usuario)
 
-        # valida form
         if form.is_valid():
             form.save()
-            messages.success(request, 'Usuário atualizado.')
+            messages.success(request, 'usuário atualizado.')
             return redirect('apps.usuarios:lista')
     else:
         form = UsuarioAdminForm(instance=usuario)
 
-    # renderiza form
     return render(request, 'usuarios/form.html', {
         'form': form,
-        'titulo': f'Editar — {usuario.username}',
+        'titulo': f'editar — {usuario.username}',
         'usuario': usuario,
         'tipo_choices': Usuario.Tipo.choices,
-        'btn_label': 'Salvar alterações',
+        'btn_label': 'salvar alterações',
     })
 
 
-# ── detalhe ──────────────────────────────────────────────────
-
+# detalhe do usuário
 @login_required
 @admin_required
 def usuario_detalhe(request, pk):
-    # busca usuário
     usuario = get_object_or_404(Usuario, pk=pk)
-    # renderiza detalhe
     return render(request, 'usuarios/detalhe.html', {'usuario': usuario})
 
 
-# ── deletar usuário ──────────────────────────────────────────
-
+# deletar usuário
 @login_required
 @admin_required
 def usuario_deletar(request, pk):
-    # busca usuário
     usuario = get_object_or_404(Usuario, pk=pk)
 
-    # só executa se for post
     if request.method == 'POST':
         try:
             # usa service para deletar
             UsuarioService.deletar_usuario(usuario, request.user)
-            messages.success(request, f'Usuário {usuario.username} removido.')
+            messages.success(request, f'usuário {usuario.username} removido.')
         except Exception as e:
             messages.error(request, str(e))
 
         return redirect('apps.usuarios:lista')
 
-    # renderiza confirmação
     return render(request, 'usuarios/confirmar_delete.html', {'usuario': usuario})
 
 
-# ── ativar / desativar ───────────────────────────────────────
-
+# ativar ou desativar usuário
 @login_required
 @admin_required
 def usuario_toggle_ativo(request, pk):
-    # busca usuário
     usuario = get_object_or_404(Usuario, pk=pk)
 
     try:
-        # alterna status via service
+        # usa service para alternar status
         UsuarioService.toggle_ativo(usuario, request.user)
+
         status = 'ativado' if usuario.is_active else 'desativado'
-        messages.success(request, f'Usuário {usuario.username} {status}.')
+        messages.success(request, f'usuário {usuario.username} {status}.')
     except Exception as e:
         messages.error(request, str(e))
 
-    # redireciona
     return redirect('apps.usuarios:lista')
