@@ -29,7 +29,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
 
     # Rota de registro de usuário (ex: /usuarios/registro/)
-    path('registro/', views.registrar, name='registro'),
+    path('cadastro/', views.registrar, name='cadastro'),
 
     # Rota do perfil do usuário (ex: /usuarios/perfil/)
     # Geralmente protegida com login_required
