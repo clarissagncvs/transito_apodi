@@ -19,15 +19,17 @@
         <div class="retangulo">
         <h1>Entrar</h1>
 
-        <form action="" method="">
+        <form action="{% url 'apps.usuarios:login' %}" method="POST">
+            {% csrf_token %}
+
             <div class="form-group">
-                <label for="email">Email:</label>
-                <input class="input-field" id="email" type="email" name="email" placeholder="Digite seu email">
+                <label for="username">Usuário:</label>
+                <input class="input-field" id="username" type="text" name="username" placeholder="Digite seu usuário">
             </div>    
 
             <div class="form-group">
-                <label for="senha">Senha:</label>
-                <input class="input-field" id="senha" type="password" name="senha" placeholder="Digite sua senha">
+                <label for="password">Senha:</label>
+                <input class="input-field" id="password" type="password" name="password" placeholder="Digite sua senha">
             </div>
 
             <label class="input-box">
@@ -43,8 +45,8 @@
 
 
             <div class="form-links">
-                <a href="cadastro.html" target="_self" class="href-sign">Não possui uma conta? Cadastre-se</a></p>
-                <a href="" target="_self" class="href-senha">Esqueci minha senha</a> <!-- Criar arquivo para essa função -->
+                <a href="{% url 'apps.usuarios:cadastro' %}" target="_self" class="href-sign">Não possui uma conta? Cadastre-se</a></p>
+                <a href="#" target="_self" class="href-senha">Esqueci minha senha</a> <!-- Criar arquivo para essa função -->
             </div>
         </form>
         </div>

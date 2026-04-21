@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import RegistroForm, LoginForm
 from .models import Usuario
+from django.views.decorators.http import require_POST
 
 # View da página inicial
 def home(request):
@@ -14,9 +15,9 @@ def home(request):
 # View de login
 def login_view(request):
     # Se o usuário já estiver autenticado (logado),
-    # redireciona direto para o perfil
+    # redireciona direto para home
     if request.user.is_authenticated:
-        return redirect('perfil')
+        return redirect('home')
 
     # Verifica se o formulário foi enviado (POST)
     if request.method == 'POST':
@@ -38,8 +39,8 @@ def login_view(request):
                 login(request, user)
 
                 # Pega a URL que o usuário tentou acessar antes do login
-                # Se não existir, vai para 'perfil'
-                next_url = request.GET.get('next', 'perfil')
+                # Se não existir, vai para 'home'
+                next_url = request.GET.get('next', 'home')
 
                 # Redireciona o usuário
                 return redirect(next_url)
@@ -63,42 +64,33 @@ def logout_view(request):
     messages.success(request, 'Você saiu da conta.')
 
     # Redireciona para a tela de login
-    return redirect('usuarios:login')
+    return redirect('apps.usuarios:login')
 
 
 # View de registro (cadastro)
 def registrar(request):
-    # Se já estiver logado, manda para o perfil
-    if request.user.is_authenticated:
-        return redirect('perfil')
 
-    # Se o formulário foi enviado
+    if request.user.is_authenticated:
+        return redirect('home')
+
     if request.method == 'POST':
-        # Cria o formulário com dados e arquivos (ex: foto)
         form = RegistroForm(request.POST, request.FILES)
 
-        # Verifica se está válido
         if form.is_valid():
-            # Salva o usuário no banco
             user = form.save()
-
-            # Loga automaticamente após cadastro
             login(request, user)
 
-            # Mensagem de boas-vindas
-            messages.success(
-                request,
-                f'Bem-vindo, {user.first_name or user.username}!'
-            )
+            messages.success(request, f'Bem-vindo, {user.username}!')
 
-            # Redireciona para o perfil
-            return redirect('perfil')
+            return redirect('home')
+
+        else:
+            print(form.errors)  # 👈 DEBUG IMPORTANTE
+
     else:
-        # Formulário vazio se for GET
         form = RegistroForm()
 
-    # Renderiza a página de registro
-    return render(request, 'usuarios/registro.html', {'form': form})
+    return render(request, 'usuarios/cadastro.html', {'form': form})
 
 
 # View de perfil (precisa estar logado)
@@ -125,11 +117,16 @@ def perfil(request):
         messages.success(request, 'Perfil atualizado.')
 
         # Redireciona para o próprio perfil
-        return redirect('usuarios:perfil')
+        return redirect('apps.usuarios:perfil')
 
     # Se for GET, só mostra os dados do usuário
     return render(request, 'usuarios/perfil.html', {'usuario': request.user})
 
+
+@require_POST
+def logout_view(request):
+    logout(request)
+    return redirect('apps.usuarios:login')
 
 # Comentário padrão do Django (pode remover se quiser)
 # Create your views here.
