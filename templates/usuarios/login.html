@@ -4,54 +4,65 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entrar - Trânsito Apodi</title>
-   
-    <link rel="stylesheet" href="{% static 'css/login/login.css' %}">
 
+    <title>Entrar - Trânsito Apodi</title>
+
+    <link rel="stylesheet" href="{% static 'css/login/login.css' %}">
 </head>
+
 <body>
 
-    <div class="site-description">           
-        <h2 style="color: #ff8000; font-size: 60px;"><strong>TRÂNSITO APODI</strong></h2>
+    <div class="site-description">
+        <h2 style="color: #ff8000; font-size: 60px;">
+            <strong>TRÂNSITO APODI</strong>
+        </h2>
         <p>Consulte o tráfego, acidentes e obras da cidade de Apodi/RN</p>
     </div>
 
     <main class="login-container">
         <div class="retangulo">
-        <h1>Entrar</h1>
 
-        <form action="{% url 'apps.usuarios:login' %}" method="POST">
-            {% csrf_token %}
+            <h1>Entrar</h1>
 
-            <div class="form-group">
-                <label for="username">Usuário:</label>
-                <input class="input-field" id="username" type="text" name="username" placeholder="Digite seu usuário">
-            </div>    
+            <form action="{% url 'apps.usuarios:login' %}" method="POST">
+                {% csrf_token %}
 
-            <div class="form-group">
-                <label for="password">Senha:</label>
-                <input class="input-field" id="password" type="password" name="password" placeholder="Digite sua senha">
-            </div>
+                <div class="form-group">
+                    <label for="username">Usuário:</label>
+                    <input class="input-field" id="username" type="text" name="username" placeholder="Digite seu usuário" required>
+                </div>
 
-            <label class="input-box">
-                <input type="checkbox" name="lembrar">
-                <span class="checkmark"></span>
-                Lembrar-me
-            </label>
+                <div class="form-group">
+                    <label for="password">Senha:</label>
+                    <input class="input-field" id="password" type="password" name="password" placeholder="Digite sua senha" required>
+                </div>
 
-            <div class="form-group">
-                <input class="btn-primary" type="submit" value="Entrar">
-            </div>
+                <label class="input-box">
+                    <input type="checkbox" name="lembrar">
+                    <span class="checkmark"></span>
+                    Lembrar-me
+                </label>
 
+                <div class="form-group">
+                    <button class="btn-primary" type="submit">
+                        Entrar
+                    </button>
+                </div>
 
+                <div class="form-links">
+                    <a href="{% url 'apps.usuarios:cadastro' %}" class="href-sign">
+                        Não possui uma conta? Cadastre-se
+                    </a>
 
-            <div class="form-links">
-                <a href="{% url 'apps.usuarios:cadastro' %}" target="_self" class="href-sign">Não possui uma conta? Cadastre-se</a></p>
-                <a href="#" target="_self" class="href-senha">Esqueci minha senha</a> <!-- Criar arquivo para essa função -->
-            </div>
-        </form>
+                    <a href="#" class="href-senha">
+                        Esqueci minha senha
+                    </a>
+                </div>
+
+            </form>
+
         </div>
     </main>
-    
+
 </body>
 </html>
