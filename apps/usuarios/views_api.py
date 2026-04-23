@@ -11,11 +11,12 @@ class UsuarioViewSet(ModelViewSet):
     """
     API para gerenciamento de usuários
     """
-    queryset = Usuario.objects.all().order_by('id')
+
+    queryset = Usuario.objects.all().order_by("id")
     permission_classes = [IsAuthenticated]
 
     # define serializer dinamicamente
     def get_serializer_class(self):
-        if self.action == 'create':
+        if self.action == "create":
             return UsuarioCreateSerializer
         return UsuarioSerializer

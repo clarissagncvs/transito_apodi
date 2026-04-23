@@ -6,8 +6,8 @@ from rest_framework.routers import DefaultRouter
 from .views_api import UsuarioViewSet
 
 router = DefaultRouter()
-router.register(r'usuarios', UsuarioViewSet, basename='usuario')
+router.register(r"usuarios", UsuarioViewSet, basename="usuario")
 
 urlpatterns = [
-    path('token/', obtain_auth_token, name='token'),
+    path("token/", obtain_auth_token, name="token"),
 ] + router.urls
