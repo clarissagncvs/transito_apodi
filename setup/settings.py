@@ -1,5 +1,6 @@
 # Importa ferramentas para lidar com caminhos e variáveis de ambiente
-from pathlib import Path, os
+from pathlib import Path
+import os
 
 # Importa função para carregar variáveis do arquivo .env
 from dotenv import load_dotenv
@@ -17,7 +18,7 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # DEBUG ativado apenas se estiver como "True" no .env
 DEBUG = os.getenv('DEBUG') == 'True'
 
-# Lista de hosts permitidos (vazio em desenvolvimento)
+# Lista de hosts permitidos (liberado em desenvolvimento)
 ALLOWED_HOSTS = ["*"]
 
 
@@ -118,15 +119,20 @@ TIME_ZONE = 'America/Fortaleza'
 USE_I18N = True
 USE_TZ = True
 
+# CONFIGURAÇÃO DE ARQUIVOS ESTÁTICOS (CORRIGIDA)
 
+# URL base para acessar arquivos estáticos
 STATIC_URL = '/static/'
 
+# Pasta onde você colocou css, js, imagens
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / "static"
 ]
 
+# Pasta usada pelo Django internamente
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# Configuração do Django REST Framework
+# 🔌 DJANGO REST FRAMEWORK
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
