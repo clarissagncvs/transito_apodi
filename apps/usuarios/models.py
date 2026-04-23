@@ -58,4 +58,4 @@ class Usuario(AbstractUser):
 
     # representação textual do objeto (usado no admin e logs)
     def __str__(self):
-        return f'{self.get_full_name() or self.username} ({self.get_tipo_display()})'
+        return f'{self.get_full_name() or self.username} ({self.get_tipo_display()})'  # pylint: disable=no-member

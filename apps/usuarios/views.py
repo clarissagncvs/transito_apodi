@@ -1,34 +1,21 @@
-# importa funções para renderizar templates, redirecionar e buscar objetos no banco
+# 1. padrão Python
+from functools import wraps
+
+# 2. Django / terceiros
 from django.shortcuts import render, redirect, get_object_or_404
-
-# importa funções de autenticação (login, logout e validação de usuário)
 from django.contrib.auth import login, logout, authenticate
-
-# decorator que exige que o usuário esteja logado
 from django.contrib.auth.decorators import login_required
-
-# sistema de mensagens do django (feedback para o usuário)
 from django.contrib import messages
-
-# ferramenta de paginação
 from django.core.paginator import Paginator
-
-# exceção usada para bloquear acesso sem permissão
 from django.core.exceptions import PermissionDenied
 
-# importa o model usuario
+# 3. locais
 from .models import Usuario
-
-# importa os formulários usados nas views
 from .forms import LoginForm, RegistroForm, PerfilForm, UsuarioAdminForm
-
-# importa a camada de serviço (regra de negócio)
-from apps.usuarios.services.usuario_service import UsuarioService
+from .services.usuario_service import UsuarioService
 
 
-# view da página inicial
 def home(request):
-    # renderiza o template da home
     return render(request, 'home/home.html')
 
 
@@ -138,8 +125,8 @@ def perfil(request):
 
 # decorator customizado para exigir admin_transito
 def admin_required(view_func):
+    @wraps(view_func)
     def wrapper(request, *args, **kwargs):
-        # verifica se está logado e se é admin
         if not request.user.is_authenticated or not request.user.is_admin_transito:
             raise PermissionDenied
         return view_func(request, *args, **kwargs)
