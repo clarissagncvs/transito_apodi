@@ -47,6 +47,7 @@ fail-under=10
 
 # Files or directories to be skipped. They should be base names, not paths.
 ignore=CVS
+ignore=migrations
 
 # Add files or directories matching the regular expressions patterns to the
 # ignore-list. The regex matches against paths and can be in Posix or Windows
@@ -463,6 +464,7 @@ disable=
     # design (evitar chatice no começo do projeto)
     R0901,  # too-many-ancestors
     R0903,  # too-few-public-methods
+    R0801,
 
     # imports
     W0611,  # unused-import
