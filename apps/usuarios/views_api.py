@@ -1,27 +1,18 @@
-# importa funções de renderização e redirecionamento
+# padrão python
+from functools import wraps
+
+# django
 from django.shortcuts import render, redirect, get_object_or_404
-
-# importa funções de autenticação
 from django.contrib.auth import login, logout, authenticate
-
-# decorator para exigir login
 from django.contrib.auth.decorators import login_required
-
-# sistema de mensagens
 from django.contrib import messages
-
-# paginação
 from django.core.paginator import Paginator
-
-# exceção de permissão
 from django.core.exceptions import PermissionDenied
 
-# importa modelo e formulários
+# locais
 from .models import Usuario
 from .forms import LoginForm, RegistroForm, PerfilForm, UsuarioAdminForm
-
-# importa service
-from apps.usuarios.services.usuario_service import UsuarioService
+from .services.usuario_service import UsuarioService
 
 
 # view da página inicial
@@ -109,9 +100,11 @@ def perfil(request):
 
 
 # decorator para exigir admin
+from functools import wraps
+
 def admin_required(view_func):
+    @wraps(view_func)
     def wrapper(request, *args, **kwargs):
-        # bloqueia usuários não admin
         if not request.user.is_authenticated or not request.user.is_admin_transito:
             raise PermissionDenied
         return view_func(request, *args, **kwargs)

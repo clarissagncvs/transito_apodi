@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Usuario
-from apps.usuarios.services.usuario_service import UsuarioService
+from .services.usuario_service import UsuarioService
 
 
 # serializer principal para leitura de usuários
@@ -38,12 +38,12 @@ class UsuarioCreateSerializer(serializers.ModelSerializer):
         ]
 
     # validação personalizada para garantir que as senhas coincidem
-    def validate(self, data):
-        if data['password'] != data['password2']:
+    def validate(self, attrs):
+        if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({
                 'password2': 'as senhas não coincidem.'
             })
-        return data
+        return attrs
 
     # criação do usuário delegada para a camada de serviço
     def create(self, validated_data):
