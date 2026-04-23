@@ -89,6 +89,7 @@ python manage.py migrate
 ### 7. Iniciar servidor
 
 ```bash
+python manage.py migrate
 python manage.py runserver
 ```
 
