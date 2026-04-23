@@ -1,9 +1,10 @@
 # importa exceção de validação do django
 from django.core.exceptions import ValidationError
 
+from django.db.models import Q
+
 # importa o modelo de usuário
 from apps.usuarios.models import Usuario
-
 
 # classe responsável por centralizar regras de negócio do usuário
 class UsuarioService:
@@ -98,7 +99,6 @@ class UsuarioService:
     @staticmethod
     def filtrar_usuarios(qs, tipo=None, busca=None, ativo=None):
         # importa Q para consultas complexas
-        from django.db.models import Q
 
         # filtra por tipo
         if tipo:
