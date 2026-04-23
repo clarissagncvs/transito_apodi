@@ -119,13 +119,12 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Arquivos estáticos (CSS, JS, imagens)
 STATIC_URL = '/static/'
 
-# Diretório onde estão seus arquivos estáticos
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    BASE_DIR / "static",
 ]
+
 
 # Configuração do Django REST Framework
 REST_FRAMEWORK = {
