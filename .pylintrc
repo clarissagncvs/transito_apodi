@@ -436,19 +436,39 @@ confidence=HIGH,
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use "--disable=all --enable=classes
 # --disable=W".
-disable=raw-checker-failed,
-        bad-inline-option,
-        locally-disabled,
-        file-ignored,
-        suppressed-message,
-        useless-suppression,
-        deprecated-pragma,
-        use-symbolic-message-instead,
-        use-implicit-booleaness-not-comparison-to-string,
-        use-implicit-booleaness-not-comparison-to-zero,
-        C0114,  # missing module docstring
-        C0115,  # missing class docstring
-        C0116   # missing function docstring
+disable=
+    raw-checker-failed,
+    bad-inline-option,
+    locally-disabled,
+    file-ignored,
+    suppressed-message,
+    useless-suppression,
+    deprecated-pragma,
+
+    # docstrings
+    C0114,
+    C0115,
+    C0116,
+
+    # estilo / formatação
+    C0301,  # line-too-long
+    C0304,  # missing-final-newline
+    C0103,  # invalid-name
+
+    # django / DRF (muito comum dar falso positivo)
+    E1101,  # no-member
+    E0611,  # import-error (viewset etc)
+    E0401,  # import-error
+
+    # design (evitar chatice no começo do projeto)
+    R0901,  # too-many-ancestors
+    R0903,  # too-few-public-methods
+
+    # imports
+    W0611,  # unused-import
+
+    # exceptions
+    W0718   # broad-exception-caught
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -466,8 +486,7 @@ timeout-methods=requests.api.delete,requests.api.get,requests.api.head,requests.
 
 [MISCELLANEOUS]
 
-# Whether or not to search for fixme's in docstrings.
-check-fixme-in-docstring=no
+# Whether or not to search for fixme's in
 
 # List of note tags to take in consideration, separated by a comma.
 notes=FIXME,
@@ -585,6 +604,12 @@ contextmanager-decorators=contextlib.contextmanager
 # system, and so shouldn't trigger E1101 when accessed. Python regular
 # expressions are accepted.
 generated-members=
+    objects,
+    DoesNotExist,
+    id,
+    pk,
+    save,
+    delete
 
 # Tells whether to warn about missing members when the owner of the attribute
 # is inferred to be None.

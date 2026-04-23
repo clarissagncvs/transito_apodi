@@ -3,7 +3,13 @@ from django.urls import path, include  # Importa funções para criar rotas e in
 from rest_framework.routers import DefaultRouter  # Importa o roteador automático do Django REST Framework
 from .views_api import OcorrenciaViewSet, AlertaViewSet  # Importa os ViewSets da API (lógica das rotas)
 
+# from .views_api import OcorrenciaViewSet, AlertaViewSet
+
 router = DefaultRouter()  # Cria um roteador que gera URLs automaticamente para os ViewSets
+
+# router.register(r'ocorrencias', OcorrenciaViewSet)  
+# router.register(r'alertas', AlertaViewSet)         
+
 
 router.register(r'alertas', AlertaViewSet, basename='alerta')  # Registra rotas para alertas (/alertas/)
 router.register(r'', OcorrenciaViewSet, basename='ocorrencia')  # Registra rotas principais (/), ou seja, ocorrências
