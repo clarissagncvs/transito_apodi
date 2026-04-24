@@ -11,4 +11,4 @@ def home(request):
     # Renderiza o template localizado em:
     # templates/home/home.html
     # e retorna ele como resposta para o navegador
-    return render(request, 'home/home.html')
+    return render(request, "home/home.html")

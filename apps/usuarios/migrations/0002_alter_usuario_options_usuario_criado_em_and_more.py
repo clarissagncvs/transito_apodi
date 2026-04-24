@@ -6,32 +6,65 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('usuarios', '0001_initial'),
+        ("usuarios", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='usuario',
-            options={'ordering': ['-criado_em'], 'verbose_name': 'Usuário', 'verbose_name_plural': 'Usuários'},
+            name="usuario",
+            options={
+                "ordering": ["-criado_em"],
+                "verbose_name": "Usuário",
+                "verbose_name_plural": "Usuários",
+            },
         ),
+
+        # campo criado_em
         migrations.AddField(
-            model_name='usuario',
-            name='criado_em',
-            field=models.DateTimeField(auto_now_add=True, null=True),
+            model_name="usuario",
+            name="criado_em",
+            field=models.DateTimeField(
+                auto_now_add=True,
+                null=True,  # manter se já existe dado antigo
+            ),
         ),
+
+        # foto
         migrations.AlterField(
-            model_name='usuario',
-            name='foto',
-            field=models.ImageField(blank=True, null=True, upload_to='usuarios/', verbose_name='Foto de perfil'),
+            model_name="usuario",
+            name="foto",
+            field=models.ImageField(
+                upload_to="usuarios/",
+                verbose_name="Foto de perfil",
+                blank=True,
+                null=True,
+            ),
         ),
+
+        # telefone
         migrations.AlterField(
-            model_name='usuario',
-            name='telefone',
-            field=models.CharField(blank=True, max_length=20, verbose_name='Telefone'),
+            model_name="usuario",
+            name="telefone",
+            field=models.CharField(
+                max_length=20,
+                verbose_name="Telefone",
+                blank=True,
+            ),
         ),
+
+        # tipo
         migrations.AlterField(
-            model_name='usuario',
-            name='tipo',
-            field=models.CharField(choices=[('CIDADAO', 'Cidadão'), ('AGENTE', 'Agente de Trânsito'), ('ADMIN', 'Administrador')], default='CIDADAO', max_length=10, verbose_name='Tipo de usuário'),
+            model_name="usuario",
+            name="tipo",
+            field=models.CharField(
+                max_length=10,
+                choices=[
+                    ("CIDADAO", "Cidadão"),
+                    ("AGENTE", "Agente de Trânsito"),
+                    ("ADMIN", "Administrador"),
+                ],
+                default="CIDADAO",
+                verbose_name="Tipo de usuário",
+            ),
         ),
     ]
