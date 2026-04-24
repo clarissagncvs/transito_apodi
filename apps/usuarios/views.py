@@ -16,7 +16,7 @@ from .services.usuario_service import UsuarioService
 
 
 def home(request):
-    return render(request, "home/home.html")
+    return render(request, "pages/home.html")
 
 
 # ── autenticação ──────────────────────────────────────────────
@@ -56,7 +56,7 @@ def login_view(request):
         form = LoginForm()
 
     # renderiza tela de login
-    return render(request, "usuarios/login.html", {"form": form})
+    return render(request, "pages/login.html", {"form": form})
 
 
 # view de logout
@@ -93,7 +93,7 @@ def registrar(request):
         form = RegistroForm()
 
     # renderiza tela de cadastro
-    return render(request, "usuarios/cadastro.html", {"form": form})
+    return render(request, "pages/cadastro.html", {"form": form})
 
 
 # ── perfil ───────────────────────────────────────────────────
@@ -120,7 +120,7 @@ def perfil(request):
         form = PerfilForm(instance=request.user)
 
     # renderiza página de perfil
-    return render(request, "usuarios/perfil.html", {"form": form})
+    return render(request, "pages/perfil.html", {"form": form})
 
 
 # ── permissão admin ──────────────────────────────────────────
@@ -161,7 +161,7 @@ def usuario_lista(request):
     # renderiza lista
     return render(
         request,
-        "usuarios/lista.html",
+        "pages/lista.html",
         {
             "page_obj": page,
             "tipo_choices": Usuario.Tipo.choices,
@@ -204,7 +204,7 @@ def usuario_criar(request):
     # renderiza form
     return render(
         request,
-        "usuarios/form.html",
+        "pages/form.html",
         {
             "form": form,
             "titulo": "Novo usuário",
@@ -238,7 +238,7 @@ def usuario_editar(request, pk):
     # renderiza form
     return render(
         request,
-        "usuarios/form.html",
+        "pages/form.html",
         {
             "form": form,
             "titulo": f"Editar — {usuario.username}",
@@ -258,7 +258,7 @@ def usuario_detalhe(request, pk):
     # busca usuário
     usuario = get_object_or_404(Usuario, pk=pk)
     # renderiza detalhe
-    return render(request, "usuarios/detalhe.html", {"usuario": usuario})
+    return render(request, "pages/detalhe.html", {"usuario": usuario})
 
 
 # ── deletar usuário ──────────────────────────────────────────
@@ -282,7 +282,7 @@ def usuario_deletar(request, pk):
         return redirect("apps.usuarios:lista")
 
     # renderiza confirmação
-    return render(request, "usuarios/confirmar_delete.html", {"usuario": usuario})
+    return render(request, "pages/confirmar_delete.html", {"usuario": usuario})
 
 
 # ── ativar / desativar ───────────────────────────────────────

@@ -18,11 +18,6 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
-
-<<<<<<< HEAD
-if __name__ == '__main__':
-    main()
-=======
 if __name__ == "__main__":
     main()
->>>>>>> 154649d931cc7ae295a1ec8fed665a9da86bc548
+
