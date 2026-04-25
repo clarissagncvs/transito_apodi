@@ -1,5 +1,9 @@
+import re
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django.core.exceptions import ValidationError
+
 from .models import Usuario
 
 # classes css padrão para reutilização nos campos
@@ -40,7 +44,7 @@ class RegistroForm(UserCreationForm):
                 attrs={"class": CSS, "placeholder": "Sobrenome"}
             ),
             "telefone": forms.TextInput(
-                attrs={"class": CSS, "placeholder": "Telefone"}
+                attrs={"class": CSS, "placeholder": "(XX) 9XXXX-XXXX"}
             ),
         }
 
@@ -57,6 +61,21 @@ class RegistroForm(UserCreationForm):
         self.fields["password2"].widget.attrs.update(
             {"class": CSS, "placeholder": "Confirme a senha"}
         )
+
+    # validações
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if Usuario.objects.filter(email=email).exists():
+            raise ValidationError("Este e-mail já foi cadastrado por algum usuário.")
+        return email
+
+    def clean_telefone(self):
+        telefone = self.cleaned_data.get('telefone')
+        if telefone:
+            padrao = r'^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$'
+            if not re.match(padrao, telefone):
+                raise ValidationError("Formato inválido. Tente novamente.")
+        return telefone
 
 
 # form simples para login
