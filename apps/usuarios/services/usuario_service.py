@@ -56,8 +56,14 @@ class UsuarioService:
 
         # dispara o e-mail
         send_mail(
-            subject="Confirme sua conta - Trânsito Apodi",
-            message=f"Seu código de verificação é: {codigo}. Ele expira em 10 minutos.",
+            subject="🚗 Ativação de Conta - Trânsito Apodi",
+            message=(
+                f"Olá, {usuario.username}!\n\n"
+                f"Bem-vindo ao sistema de monitoramento de trânsito de Apodi!\n"
+                f"Seu código de segurança é: {codigo}\n\n"
+                f"Insira este código no site para ativar sua conta. "
+                f"Ele será válido por apenas 10 minutos."
+                ),
             from_email=settings.DEFAULT_FROM_EMAIL,  # lembre-se de configurar no settings.py
             recipient_list=[usuario.email],
             fail_silently=False,
