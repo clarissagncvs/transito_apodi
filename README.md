@@ -2,9 +2,13 @@
 
 ### Essa aplicação web foi criada em 2026 como uma atividade complementar interdisciplinar do 3º ano do ensino médio integrado com técnico em Informática, apresentado para as disciplinas de Projeto de Desenvolvimento de Software e Programação com Acesso a Banco de Dados. 
 
+---
+
 ## Descrição
 
 ### A proposta dessa aplicação era solucionar um problema de mobilidade urbana regional, sendo inclusa a elaboração de um projeto da ideia proposta pela sala. A problemática escolhida foi o intenso congestionamento em ruas e desorganização no trânsito da cidade de Apodi, sendo indicada para sua resolução a criação de um sistema de trânsito inteligente que serve para ver o estado do trânsito, registrar ocorrências e visualizá-las.
+
+---
 
 ## Tecnologias
 
@@ -41,6 +45,8 @@
   
 </div>
 
+---
+
 ## Funcionalidades
 
 * Cadastro e login de usuários
@@ -74,7 +80,11 @@ python -m venv venv
 
 ```bash
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+```bash
 python -m venv venv
+```
+```bash
 venv\Scripts\activate
 ```
 
@@ -92,24 +102,32 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
----
-
 ### 5. Instalar dependências
 
 ```bash
 pip install -r requirements.txt
 ```
+ou
+```bash
+python -m pip install -r requirements.txt
+```
 
 #### Em computadores do IF
 
 ```bash
-pip install asgiref==3.11.1 Django==5.2.13 python-dotenv==1.2.2 sqlparse==0.5.5 tzdata==2025.3
+pip install asgiref==3.7.2 astroid==3.3.8 black==26.3.1 click==8.3.3 colorama==0.4.6 dill==0.3.8 Django==5.0.6 django-cors-headers==4.3.1 django-debug-toolbar==4.4.6 djangorestframework==3.15.2 djangorestframework-simplejwt==5.3.1 isort==5.13.2 mccabe==0.7.0 mypy_extensions==1.1.0 packaging==26.1 pathspec==1.1.0 pillow==12.2.0 platformdirs==4.2.2 PyJWT==2.8.0 pylint==3.3.1 python-dotenv==1.0.1 pytokens==0.4.1 setuptools==82.0.1 sqlparse==0.4.4 tomlkit==0.12.5 tzdata==2024.1 wheel==0.47.0
+```
+ou
+```bash
+python -m pip install asgiref==3.7.2 astroid==3.3.8 black==26.3.1 click==8.3.3 colorama==0.4.6 dill==0.3.8 Django==5.0.6 django-cors-headers==4.3.1 django-debug-toolbar==4.4.6 djangorestframework==3.15.2 djangorestframework-simplejwt==5.3.1 isort==5.13.2 mccabe==0.7.0 mypy_extensions==1.1.0 packaging==26.1 pathspec==1.1.0 pillow==12.2.0 platformdirs==4.2.2 PyJWT==2.8.0 pylint==3.3.1 python-dotenv==1.0.1 pytokens==0.4.1 setuptools==82.0.1 sqlparse==0.4.4 tomlkit==0.12.5 tzdata==2024.1 wheel==0.47.0
 ```
 
----
 
 ### 6. Rodar migrações
 
+```bash
+python manage.py makemigrations
+```
 ```bash
 python manage.py migrate
 ```
@@ -117,7 +135,6 @@ python manage.py migrate
 ### 7. Iniciar servidor
 
 ```bash
-python manage.py migrate
 python manage.py runserver
 ```
 
@@ -139,58 +156,40 @@ Exemplo:
 git checkout -b feature/login
 ```
 
----
 
 ### 2. Fazer alterações
 
 ```bash
 git add .
+```
+```bash
 git commit -m "Descrição da alteração"
 ```
 
----
 
-### 3. Atualizar com a branch principal
+### 3. Subir a Branch pro GitHub/Repositório Remoto
 
 ```bash
-git checkout main
-git pull
-git checkout nome-da-branch
-git merge main
+git status
 ```
-
----
-
-### 4. Enviar para o repositório remoto
-
+```bash
+git pull
+```
 ```bash
 git push origin nome-da-branch
 ```
-
----
-
-### 5. Merge (junção das branches)
-
-```bash
-git checkout main
-git merge nome-da-branch
-```
-
----
 
 ### Padrão de nomes de branches
 
 * feature/nome-da-funcionalidade
 * fix/nome-do-problema
 * hotfix/nome-urgente
-* fix/nome-erro
 * docs/documentação
 
----
 
 ### Boas práticas
 
-* Não trabalhar diretamente na main
+* Não trabalhar diretamente na master
 * Criar uma branch para cada tarefa
 * Escrever mensagens de commit claras
 * Manter as branches atualizadas
@@ -206,11 +205,8 @@ O projeto utiliza um arquivo `.env` para armazenar informações sensíveis, com
 
 * Chaves secretas
 * Configurações de banco de dados
-* Credenciais
-
+  
 Esse arquivo não é versionado.
-
----
 
 ### Como configurar
 
@@ -225,36 +221,25 @@ No Windows:
 ```bash
 copy .env.example .env
 ```
+2. Criando SECRET_KEY
 
-2. Edite o arquivo `.env`:
-
-```env
-SECRET_KEY=sua_chave_secreta
-DEBUG=True
-DATABASE_URL=sqlite:///db.sqlite3
+```bash
+python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
 ```
 
----
-
-### Arquivo `.env.example`
-
-Modelo das variáveis necessárias:
+3. Edite o arquivo `.env`:
 
 ```env
-SECRET_KEY=
-DEBUG=
-DATABASE_URL=
+SECRET_KEY = 'sua_chave_secreta'
+DEBUG = True
+DATABASE_URL = nome_do_banco
 ```
-
----
 
 ### Importante
 
 * Não enviar o `.env` para o repositório
 * Cada desenvolvedor deve ter seu próprio `.env`
 * Manter o `.env.example` atualizado
-
----
 
 ### Boas práticas
 
