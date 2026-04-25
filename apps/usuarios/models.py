@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core.validators import RegexValidator
+from django.utils import timezone
 
 
 # model customizado de usuário baseado no abstractuser do django
@@ -34,6 +35,8 @@ class Usuario(AbstractUser):
 
     # data automática de criação do usuário
     criado_em = models.DateTimeField(auto_now_add=True)
+    codigo_verificacao = models.CharField(max_length=6, blank=True, null=True)
+    codigo_expira_em = models.DateTimeField(blank=True, null=True)
 
     # propriedade auxiliar para verificar se é agente
     @property

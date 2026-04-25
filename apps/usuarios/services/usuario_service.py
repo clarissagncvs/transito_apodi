@@ -1,6 +1,11 @@
+import random
+from datetime import timedelta
+
 # importa exceção de validação do django
 from django.core.exceptions import ValidationError
+from django.core.mail import send_mail
 from django.db.models import Q
+from django.utils import timezone
 
 # importa o modelo de usuário
 from apps.usuarios.models import Usuario
@@ -12,18 +17,50 @@ class UsuarioService:
     # método para criar usuário
     @staticmethod
     def criar_usuario(data: dict) -> Usuario:
-        # pega a senha do dicionário
-        password = data.pop("password", None)
+        password1 = data.pop("password1", None)
+        password2 = data.pop("password2", None)
 
-        # valida se a senha foi informada
-        if not password:
+        if not password1:
             raise ValidationError("senha é obrigatória.")
 
-        # cria usuário usando o método padrão do django
-        user = Usuario.objects.create_user(password=password, **data)
+        if password1 != password2:
+            raise ValidationError("as senhas não coincidem.")
 
-        # retorna o usuário criado
+        data["is_active"] = False
+
+        user = Usuario.objects.create_user(
+            password=password1,
+            **data
+        )
+
+        UsuarioService.gerar_e_enviar_codigo(user)
+
         return user
+
+    # método para gerar código e enviar e-mail
+    @staticmethod
+    def gerar_e_enviar_codigo(usuario: Usuario):
+        # gera código de 6 dígitos
+        codigo = str(random.randint(100000, 999999))
+
+        # salva no usuário com expiração de 10 min
+        usuario.codigo_verificacao = codigo
+        usuario.codigo_expira_em = timezone.now() + timedelta(minutes=10)
+        usuario.is_active = False
+
+        # salva os novos campos no banco de dados
+        usuario.save(
+            update_fields=["codigo_verificacao", "codigo_expira_em", "is_active"]
+        )
+
+        # dispara o e-mail
+        send_mail(
+            subject="Confirme sua conta - Trânsito Apodi",
+            message=f"Seu código de verificação é: {codigo}. Ele expira em 10 minutos.",
+            from_email="seu_email@gmail.com",  # lembre-se de configurar no settings.py
+            recipient_list=[usuario.email],
+            fail_silently=False,
+        )
 
     # método para alterar o tipo do usuário
     @staticmethod
@@ -98,8 +135,6 @@ class UsuarioService:
     # método para filtrar usuários
     @staticmethod
     def filtrar_usuarios(qs, tipo=None, busca=None, ativo=None):
-        # importa Q para consultas complexas
-
         # filtra por tipo
         if tipo:
             qs = qs.filter(tipo=tipo)
@@ -120,3 +155,4 @@ class UsuarioService:
 
         # retorna queryset filtrado
         return qs
+    

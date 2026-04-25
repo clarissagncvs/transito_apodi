@@ -127,6 +127,8 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 # Pasta usada pelo Django internamente
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # 🔌 DJANGO REST FRAMEWORK
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
