@@ -1,7 +1,8 @@
+import re
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
-import re
 
 from .models import Usuario
 
@@ -61,32 +62,21 @@ class RegistroForm(UserCreationForm):
             {"class": CSS, "placeholder": "Confirme a senha"}
         )
 
-    def __init__(self, name, *args, **kwargs):
-        super().__init__(name,  *args, **kwargs)
-
-        self;self.fields["password1"].widget.attrs.update(
-            {"class": CSS, "placeholder": "Senha"}
-        )
-
-        self.fields["password2"].widget.attrs.update(
-            {"class": CSS, "placeholder": "Confirme sua senha"}
-        )
-
-#validações
-
+    # validações
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if Usuario.objects.filter(email=email).exists():
             raise ValidationError("Este e-mail já foi cadastrado por algum usuário.")
         return email
-    
+
     def clean_telefone(self):
         telefone = self.cleaned_data.get('telefone')
         if telefone:
             padrao = r'^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$'
             if not re.match(padrao, telefone):
-                raise ValidationError("Formato inválido. Tente novamente outra vez")
+                raise ValidationError("Formato inválido. Tente novamente.")
         return telefone
+
 
 # form simples para login
 class LoginForm(forms.Form):
