@@ -3,6 +3,7 @@
 Essa aplicação web foi criada em 2026 como uma atividade complementar interdisciplinar do 3º ano do ensino médio integrado com técnico em Informática, apresentado para as disciplinas de Projeto de Desenvolvimento de Software e Programação com Acesso a Banco de Dados. 
 ---
 ## Descrição
+
 A proposta dessa aplicação era solucionar um problema de mobilidade urbana regional, sendo inclusa a elaboração de um projeto da ideia proposta pela sala. A problemática escolhida foi o intenso congestionamento em ruas e desorganização no trânsito da cidade de Apodi, sendo indicada para sua resolução a criação de um sistema de trânsito inteligente que serve para ver o estado do trânsito, registrar ocorrências e visualizá-las.
 ---
 ## Tecnologias
