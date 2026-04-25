@@ -79,15 +79,15 @@ def registrar(request):
         if form.is_valid():
             # Pegamos os dados validados do formulário
             dados_usuario = form.cleaned_data
-            
+
             # Chamamos o Service (Ele cria o usuário inativo e envia o e-mail)
             user = UsuarioService.criar_usuario(dados_usuario)
-            
+
             messages.success(request, f"Código enviado para {user.email}!")
-            
+
             # Guardamos o ID do usuário na sessão para saber quem está verificando o código
             request.session['usuario_verificando_id'] = user.id
-            
+
             return redirect("apps.usuarios:verificar_codigo")
         else:
             # Se cair aqui, o formulário volta com os erros (ex: email duplicado)
@@ -97,10 +97,11 @@ def registrar(request):
 
     return render(request, "pages/cadastro.html", {"form": form})
 
+
 def verificar_codigo(request):
     # Pega o ID do usuário que acabou de se cadastrar
     usuario_id = request.session.get('usuario_verificando_id')
-    
+
     if not usuario_id:
         return redirect("apps.usuarios:registrar")
 
@@ -110,14 +111,13 @@ def verificar_codigo(request):
 
         # Validação do código e do tempo
         agora = timezone.now()
-        
-        if (usuario.codigo_verificacao == codigo_digitado and 
-            usuario.codigo_expira_em > agora):
-            
+
+        if (usuario.codigo_verificacao == codigo_digitado and usuario.codigo_expira_em > agora):
+
             usuario.is_active = True
-            usuario.codigo_verificacao = None # Limpa o código
+            usuario.codigo_verificacao = None  # Limpa o código
             usuario.save(update_fields=['is_active', 'codigo_verificacao'])
-            
+
             messages.success(request, "Conta ativada com sucesso! Faça login.")
             return redirect("apps.usuarios:login")
         else:

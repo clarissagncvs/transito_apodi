@@ -155,4 +155,3 @@ class UsuarioService:
 
         # retorna queryset filtrado
         return qs
-    
