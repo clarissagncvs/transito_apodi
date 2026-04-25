@@ -34,6 +34,8 @@ class Usuario(AbstractUser):
 
     # data automática de criação do usuário
     criado_em = models.DateTimeField(auto_now_add=True)
+    codigo_verificacao = models.CharField(max_length=6, blank=True, null=True)
+    codigo_expira_em = models.DateTimeField(blank=True, null=True)
 
     # propriedade auxiliar para verificar se é agente
     @property

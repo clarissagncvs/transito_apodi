@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.core.exceptions import PermissionDenied
+from django.utils import timezone
 
 # 3. locais
 from .models import Usuario
@@ -26,7 +27,7 @@ def home(request):
 def login_view(request):
     # se já estiver logado, redireciona
     if request.user.is_authenticated:
-        return redirect("mapa")
+        return redirect("home")
 
     # se for envio de formulário
     if request.method == "POST":
@@ -47,7 +48,7 @@ def login_view(request):
                 # faz login
                 login(request, user)
                 # redireciona para próxima página ou mapa
-                return redirect(request.GET.get("next", "mapa"))
+                return redirect(request.GET.get("next", "home"))
 
             # mensagem de erro
             messages.error(request, "Usuário ou senha incorretos.")
@@ -69,32 +70,60 @@ def logout_view(request):
 
 # view de registro
 def registrar(request):
-    # impede acesso se já estiver logado
     if request.user.is_authenticated:
-        return redirect("mapa")
+        return redirect("home")
 
-    # se envio de formulário
     if request.method == "POST":
-        # cria form com dados e arquivos
         form = RegistroForm(request.POST, request.FILES)
 
-        # valida o form
         if form.is_valid():
-            # salva usuário
-            user = form.save()
-            # loga automaticamente
-            login(request, user)
-            # mensagem de sucesso
-            messages.success(request, f"Bem-vindo, {user.first_name or user.username}!")
-            # redireciona
-            return redirect("mapa")
+            # Pegamos os dados validados do formulário
+            dados_usuario = form.cleaned_data
+
+            # Chamamos o Service (Ele cria o usuário inativo e envia o e-mail)
+            user = UsuarioService.criar_usuario(dados_usuario)
+
+            messages.success(request, f"Código enviado para {user.email}!")
+
+            # Guardamos o ID do usuário na sessão para saber quem está verificando o código
+            request.session['usuario_verificando_id'] = user.id
+
+            return redirect("apps.usuarios:verificar_codigo")
+        else:
+            # Se cair aqui, o formulário volta com os erros (ex: email duplicado)
+            messages.error(request, "Erro no cadastro. Verifique os dados.")
     else:
-        # form vazio
         form = RegistroForm()
 
-    # renderiza tela de cadastro
     return render(request, "pages/cadastro.html", {"form": form})
 
+
+def verificar_codigo(request):
+    # Pega o ID do usuário que acabou de se cadastrar
+    usuario_id = request.session.get('usuario_verificando_id')
+
+    if not usuario_id:
+        return redirect("apps.usuarios:registrar")
+
+    if request.method == "POST":
+        codigo_digitado = request.POST.get("codigo")
+        usuario = get_object_or_404(Usuario, id=usuario_id)
+
+        # Validação do código e do tempo
+        agora = timezone.now()
+
+        if (usuario.codigo_verificacao == codigo_digitado and usuario.codigo_expira_em > agora):
+
+            usuario.is_active = True
+            usuario.codigo_verificacao = None  # Limpa o código
+            usuario.save(update_fields=['is_active', 'codigo_verificacao'])
+
+            messages.success(request, "Conta ativada com sucesso! Faça login.")
+            return redirect("apps.usuarios:login")
+        else:
+            messages.error(request, "Código inválido ou expirado.")
+
+    return render(request, "pages/verificador.html")
 
 # ── perfil ───────────────────────────────────────────────────
 
