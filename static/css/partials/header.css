@@ -1,0 +1,65 @@
+/*cabeçalho*/
+.logo-img {
+    width: 60px;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.4s;
+    display: block;
+}
+
+.logo img {
+    width: 100%;
+    height: 100%;
+}
+
+.logo-img:hover {
+    transform: scale(1.2);
+}
+
+.botao-logo {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding-top: 2px;
+    display: block;
+    padding: 10px;
+}
+
+.botao-header {
+    width: 100%;
+    height: 40px;
+    position: relative;
+    cursor: pointer;
+    font-size: 1.5rem;
+    background-color: #ffd2a5;
+    color: #ff8000;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.2s ease-in;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 12px;
+    transition: transform 0.3s;
+    border: none;
+}
+
+.botao-header:hover {
+    transform: scale(1.02);
+    background: #ffba74;
+}
+
+.botao-header img {
+    width: auto;
+    height: 32px;
+    margin-left: 16px;
+    object-fit: contain;     
+}
+
+.botao-header .header-img {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border: none;
+    padding: auto;
+}
