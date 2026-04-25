@@ -1,10 +1,8 @@
 # Importa a função render, usada para retornar templates HTML
 from django.shortcuts import render
 
+
 # Importa HttpResponse, usado para retornar respostas simples (texto puro, por exemplo)
-from django.http import HttpResponse
-
-
 # View responsável por exibir a lista de ocorrências
 def lista(request):
 

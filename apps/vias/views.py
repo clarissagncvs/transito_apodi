@@ -2,7 +2,6 @@
 from django.shortcuts import render
 
 # Importa HttpResponse (não está sendo usado aqui)
-from django.http import HttpResponse
 
 
 # View da página inicial (home)
