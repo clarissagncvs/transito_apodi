@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.db.models import Q
 from django.utils import timezone
+from django.conf import settings
 
 # importa o modelo de usuário
 from apps.usuarios.models import Usuario
@@ -57,7 +58,7 @@ class UsuarioService:
         send_mail(
             subject="Confirme sua conta - Trânsito Apodi",
             message=f"Seu código de verificação é: {codigo}. Ele expira em 10 minutos.",
-            from_email="seu_email@gmail.com",  # lembre-se de configurar no settings.py
+            from_email=settings.DEFAULT_FROM_EMAIL,  # lembre-se de configurar no settings.py
             recipient_list=[usuario.email],
             fail_silently=False,
         )
