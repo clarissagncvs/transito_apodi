@@ -11,7 +11,7 @@ def lista(request):
     # Renderiza (carrega) o template HTML localizado em:
     # templates/ocorrencia/ocorrencias.html
     # e retorna como resposta para o navegador
-    return render(request, "ocorrencia/ocorrencias.html")
+    return render(request, "pages/ocorrencias.html")
 
 
 # Comentário padrão criado pelo Django ao gerar o arquivo views.py
