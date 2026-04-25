@@ -1,0 +1,10 @@
+[flake8]
+# Ignora a pasta de migrations, o ambiente virtual e arquivos de cache
+exclude = 
+    .git,
+    __pycache__,
+    venv,
+    */migrations/*
+
+# Aumenta o limite de caracteres para o padrão do Django (119)
+max-line-length = 119

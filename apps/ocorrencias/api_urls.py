@@ -1,36 +1,25 @@
 # api rest de ocorrencias
-from django.urls import (
-    path,
-    include,
-)  # Importa funções para criar rotas e incluir outras URLs
-from rest_framework.routers import (
-    DefaultRouter,
-)  # Importa o roteador automático do Django REST Framework
-from .views_api import (
-    OcorrenciaViewSet,
-    AlertaViewSet,
-)  # Importa os ViewSets da API (lógica das rotas)
+from django.urls import include, path
 
-# from .views_api import OcorrenciaViewSet, AlertaViewSet
+# Importa o roteador automático do Django REST Framework
+from rest_framework.routers import DefaultRouter
 
-router = (
-    DefaultRouter()
-)  # Cria um roteador que gera URLs automaticamente para os ViewSets
+# Importa os ViewSets da API (lógica das rotas)
+from .views_api import AlertaViewSet, OcorrenciaViewSet
 
-# router.register(r'ocorrencias', OcorrenciaViewSet)
-# router.register(r'alertas', AlertaViewSet)
+# Cria um roteador que gera URLs automaticamente para os ViewSets
+router = DefaultRouter()
 
+# a ordem do register importa — o alertas precisa vir antes do '' porque o router
+# testa as rotas em sequência e o '' vazio engoleria tudo se viesse primeiro.
 
-router.register(
-    r"alertas", AlertaViewSet, basename="alerta"
-)  # Registra rotas para alertas (/alertas/)
-router.register(
-    r"", OcorrenciaViewSet, basename="ocorrencia"
-)  # Registra rotas principais (/), ou seja, ocorrências
+# Registra rotas para alertas (/alertas/)
+router.register(r"alertas", AlertaViewSet, basename="alerta")
+
+# Registra rotas principais (/), ou seja, ocorrências
+router.register(r"", OcorrenciaViewSet, basename="ocorrencia")
 
 urlpatterns = [
-    path(
-        "", include(router.urls)
-    ),  # Inclui todas as rotas geradas automaticamente pelo router
+    # Inclui todas as rotas geradas automaticamente pelo router
+    path("", include(router.urls)),
 ]
-# a ordem do register importa — o alertas precisa vir antes do '' porque o router testa as rotas em sequência e o '' vazio engoleria tudo se viesse primeiro.
