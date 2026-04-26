@@ -17,7 +17,7 @@ class TestUsuarioViews:
         """Testa o fluxo completo de login"""
         # Criamos o usuário no banco
         user = Usuario.objects.create_user(username="jose", password="123")
-        url = reverse("apps.usuarios:login")
+        url = "/usuarios/login/"
         
         # Simula o POST do formulário
         response = client.post(url, {"username": "jose", "password": "123"})
@@ -39,7 +39,7 @@ class TestUsuarioViews:
         user = Usuario.objects.create_user(username="cidadao", password="123", tipo="CIDADAO")
         client.force_login(user) # Loga o usuário
         
-        url = reverse("apps.usuarios:lista")
+        url = reverse("usuarios:lista")
         response = client.get(url)
         
         # O decorator admin_required deve subir um PermissionDenied (403)
@@ -51,7 +51,7 @@ class TestUsuarioViews:
         admin = Usuario.objects.create_user(username="admin", password="123", tipo="ADMIN")
         client.force_login(admin)
         
-        url = reverse("apps.usuarios:lista")
+        url = reverse("usuarios:lista")
         response = client.get(url)
         
         assert response.status_code == 200
@@ -71,7 +71,7 @@ class TestUsuarioViews:
         session['usuario_verificando_id'] = user.id
         session.save()
 
-        url = reverse("apps.usuarios:verificar_codigo")
+        url = reverse("usuarios:verificar_codigo")
         response = client.post(url, {"codigo": "123456"})
         
         user.refresh_from_db()

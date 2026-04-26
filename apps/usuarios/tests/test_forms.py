@@ -13,10 +13,12 @@ class TestUsuarioForms:
             "last_name": "Silva",
             "email": "joao@email.com",
             "telefone": "84999998888",
-            "password1": "senha123",
-            "password2": "senha123",
+            "password1": "Senha@Forte123!",
+            "password2": "Senha@Forte123!",
         }
         form = RegistroForm(data=dados)
+        if not form.is_valid():
+            print(f"\nERROS DO FORM: {form.errors.as_json()}")
         assert form.is_valid() is True
 
     def test_registro_form_email_duplicado(self):

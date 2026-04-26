@@ -40,7 +40,8 @@ class TestUsuarioModel:
 
     def test_validacao_telefone_formato_correto(self):
         """Garante que telefones com 10 ou 11 dígitos passam"""
-        usuario = Usuario(username="test_fone_ok", telefone="84999998888")
+        # Adicione a senha aqui
+        usuario = Usuario(username="test_fone_ok", telefone="84999998888", password="123")
         try:
             usuario.full_clean()
         except ValidationError:

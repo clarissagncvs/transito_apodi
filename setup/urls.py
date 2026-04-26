@@ -11,8 +11,9 @@ from django.http import HttpResponse
 from apps.usuarios import views as usuarios_views
 
 urlpatterns = [
-    path("admin/", admin.site.urls),  # Rota para acessar o painel admin (/admin/)
+    path("admin/", admin.site.urls, name="admin"),  # Rota para acessar o painel admin (/admin/)
     path("", usuarios_views.home, name="home"),
+    path("usuarios/", include(("apps.usuarios.urls", "usuarios"), namespace="usuarios")),
     path(
         "", include("apps.vias.urls")
     ),  # Rota principal do site (/) usando as URLs do app vias

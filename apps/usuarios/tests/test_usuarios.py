@@ -35,4 +35,4 @@ class TestUsuarioService:
         assert usuario.username == "maria"
         assert usuario.is_active is False
         assert len(mailoutbox) == 1  # Verifica se o e-mail foi enviado
-
+        

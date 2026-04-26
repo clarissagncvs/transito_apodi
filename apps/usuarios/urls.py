@@ -6,7 +6,7 @@ app_name = "apps.usuarios"
 
 urlpatterns = [
     # autenticação
-    path("login/", views.login_view, name="login"),
+    path("login/", views.login_view),
     path("verificar-codigo/", views.verificar_codigo, name="verificar_codigo"),
     path("logout/", views.logout_view, name="logout"),
     path("cadastro/", views.registrar, name="cadastro"),
