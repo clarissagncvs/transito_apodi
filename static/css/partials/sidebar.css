@@ -201,7 +201,8 @@
         cursor: pointer
     }
 
-    .sidebar-button:hover>span {
+    .sidebar-button:hover>span,
+    .form-logout:hover>span {
         background-color: transparent
     }
 
@@ -213,7 +214,4 @@
         font-size: 3rem;
     }
 
-    .sidebar-button:hover>span {
-        background-color: transparent;
-    }
 }
