@@ -1,8 +1,71 @@
-/*responsividade*/
+/* first-section de home */
+.first-section .button-section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
 
+.first-section .button-section > i {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    
+}
+
+/* botões */
+.btn {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.btn .button {
+    width: 250px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: var(--branco-entradas-);
+    color: var(--laranja-);
+    border-radius: 9px;
+    text-decoration: none;
+    transition: transform 0.2s, background 0.2s;
+    text-align: center;
+}
+
+.btn .button:hover {
+    transform: translateY(-5px);
+    background-color: var(--branco-navbar-);
+}
+
+.button i {
+    font-size: 6rem;
+    margin-bottom: 20px;
+}
+
+.button dt {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.button dd {
+    margin: 0 15px;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--laranja-);
+}
+
+/* responsividade */
 @media  (max-width: 920px) {
-    .header, .first-section {
-        width: calc(100% - 90px);
+    header, .first-section {
+        width: calc(100% - 70px);
         margin-left: 80px;
     }
 
@@ -19,51 +82,7 @@
         display: none;
     }
 
-    .sidebar {
-        width: 70px;
-        margin: 0;
-        border-radius: 0;
-        padding-right: 0;
-        padding-left: 0;
-        align-items: center;
-    }
-
-    .sidebar-button {
-        justify-content: center;
-    }
-
-    .sidebar-button > span > span {
-        display: none;
-    }
-
-    .sidebar-button > span {
-        width: auto;
-        padding: 0;
-        gap: 0;
-        justify-content: center;
-    }
-
-    .sidebar nav {
-        width: 100%;
-    }
-
-    .sidebar-button i {
-        margin: 0 auto;
-        font-size: 3.5rem;
-    }
     
-    .sidebar-button:hover > span {
-        background-color: transparent;
-    }
-
-    .btn .button > dt {
-        font-size: 2.2rem;   
-    }
-
-    .btn .button > dd {
-        font-size: 1.8rem;
-    }
-
 }
 
 @media (max-width: 600px) {

@@ -1,6 +1,7 @@
-@import './header.css';
-@import './aside.css';
-@import './section-um.css';
-@import './footer.css';
-
 @import '../global/global.css';
+@import '../pages/pages.css';
+
+@import './header.css';
+@import './sidebar.css';
+@import './first-section.css';
+@import './footer.css';
