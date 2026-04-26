@@ -63,7 +63,7 @@ class UsuarioService:
                 f"Seu código de segurança é: {codigo}\n\n"
                 f"Insira este código no site para ativar sua conta. "
                 f"Ele será válido por apenas 10 minutos."
-            ),
+                ),
             from_email=settings.DEFAULT_FROM_EMAIL,  # lembre-se de configurar no settings.py
             recipient_list=[usuario.email],
             fail_silently=False,
