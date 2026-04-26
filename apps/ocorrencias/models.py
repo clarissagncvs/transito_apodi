@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
-from vias.models import Via
-from semaforos.models import Semaforo
+from apps.vias.models import Via
+from apps.semaforos.models import Semaforo
  
  
 class Ocorrencia(models.Model):

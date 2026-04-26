@@ -1,5 +1,5 @@
 from django.db import models
-from vias.models import Via
+from apps.vias.models import Via
  
  
 class Semaforo(models.Model):
