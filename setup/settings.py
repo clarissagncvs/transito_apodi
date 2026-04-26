@@ -127,7 +127,7 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 # Pasta usada pelo Django internamente
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' teste
+#  EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' teste
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -137,7 +137,7 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = f'Trânsito Apodi <{os.getenv("EMAIL_HOST_USER")}>'
 
-# 🔌 DJANGO REST FRAMEWORK
+#  DJANGO REST FRAMEWORK
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
