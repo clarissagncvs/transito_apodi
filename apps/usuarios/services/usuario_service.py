@@ -80,7 +80,7 @@ class UsuarioService:
 
         # atualiza o código e o prazo — 10 minutos
         usuario.codigo_verificacao = novo_codigo
-        usuario.codigo_expira_em   = timezone.now() + timedelta(minutes=10)
+        usuario.codigo_expira_em = timezone.now() + timedelta(minutes=10)
         usuario.save(update_fields=[
             'codigo_verificacao',
             'codigo_expira_em'

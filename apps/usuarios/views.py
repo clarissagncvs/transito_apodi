@@ -128,6 +128,7 @@ def verificar_codigo(request):
 
     return render(request, "pages/verificador.html")
 
+
 def reenviar_codigo(request):
     usuario_id = request.session.get('usuario_verificando_id')
 
