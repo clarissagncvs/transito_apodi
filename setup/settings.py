@@ -1,56 +1,47 @@
-# Importa ferramentas para lidar com caminhos e variáveis de ambiente
+# ── 1. imports ────────────────────────────────
 from pathlib import Path
+from datetime import timedelta
+from django.contrib.messages import constants as messages_constants
+from dotenv import load_dotenv
 import os
 
-from django.contrib.messages import constants as messages_constants
-# Importa função para carregar variáveis do arquivo .env
-from dotenv import load_dotenv
-
-# Carrega as variáveis do .env (como SECRET_KEY, DEBUG, etc.)
+# ── 2. ambiente ───────────────────────────────
 load_dotenv()
 
-# Define o diretório base do projeto
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Chave secreta do projeto (vem do .env)
+BASE_DIR   = Path(__file__).resolve().parent.parent
 SECRET_KEY = str(os.getenv("SECRET_KEY"))
+DEBUG      = os.getenv("DEBUG") == "True"
 
-# DEBUG ativado apenas se estiver como "True" no .env
-DEBUG = os.getenv("DEBUG") == "True"
-
-# Lista de hosts permitidos (liberado em desenvolvimento)
 ALLOWED_HOSTS = ["*"]
 
 
-# Libera requisições de qualquer origem (CORS) — só para desenvolvimento
-CORS_ALLOW_ALL_ORIGINS = True
-
-
-# Apps instalados no projeto
+# ── 3. apps instalados ────────────────────────
 INSTALLED_APPS = [
+    # django padrão
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # Bibliotecas externas
+    # bibliotecas externas
     "corsheaders",
     "rest_framework",
-    # Seus apps
-    "apps.ocorrencias",
-    "apps.semaforos",
+    "rest_framework.authtoken",
+    "rest_framework_simplejwt",
+    # apps do projeto
     "apps.usuarios",
     "apps.vias",
+    "apps.ocorrencias",
+    "apps.semaforos",
 ]
 
 
-# Middlewares (ordem importa!)
+# ── 4. middleware (ordem importa) ─────────────
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.security.SecurityMiddleware",      # sempre primeiro
+    "corsheaders.middleware.CorsMiddleware",              # antes do CommonMiddleware
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -59,17 +50,16 @@ MIDDLEWARE = [
 ]
 
 
-# Arquivo principal de URLs
-ROOT_URLCONF = "setup.urls"
+# ── 5. urls e wsgi ────────────────────────────
+ROOT_URLCONF       = "setup.urls"
+WSGI_APPLICATION   = "setup.wsgi.application"
 
 
-# Configuração de templates
+# ── 6. templates ──────────────────────────────
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        # Diretório global de templates
-        "DIRS": [os.path.join(BASE_DIR, "templates")],
-        # Permite buscar templates dentro dos apps também
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -82,11 +72,7 @@ TEMPLATES = [
 ]
 
 
-# Configuração WSGI
-WSGI_APPLICATION = "setup.wsgi.application"
-
-
-# Banco de dados (SQLite)
+# ── 7. banco de dados ─────────────────────────
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -95,56 +81,80 @@ DATABASES = {
 }
 
 
-# Define que você está usando um usuário customizado
+# ── 8. autenticação ───────────────────────────
 AUTH_USER_MODEL = "usuarios.Usuario"
 
-
-# Validações de senha
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
-    },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
+LOGIN_URL           = "/usuarios/login/"
+LOGIN_REDIRECT_URL  = "/"
+LOGOUT_REDIRECT_URL = "/usuarios/login/"
 
-# Idioma e fuso horário
+
+# ── 9. internacionalização ────────────────────
 LANGUAGE_CODE = "pt-br"
-TIME_ZONE = "America/Fortaleza"
+TIME_ZONE     = "America/Fortaleza"
+USE_I18N      = True
+USE_TZ        = True
 
-USE_I18N = True
-USE_TZ = True
 
-# CONFIGURAÇÃO DE ARQUIVOS ESTÁTICOS (CORRIGIDA)
-
-# URL base para acessar arquivos estáticos
-STATIC_URL = "/static/"
-
-# Pasta onde você colocou css, js, imagens
+# ── 10. arquivos estáticos e mídia ────────────
+STATIC_URL       = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT      = BASE_DIR / "staticfiles"
 
-# Pasta usada pelo Django internamente
-STATIC_ROOT = BASE_DIR / "staticfiles"
+MEDIA_URL  = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' teste
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = f'Trânsito Apodi <{os.getenv("EMAIL_HOST_USER")}>'
+# ── 11. e-mail ────────────────────────────────
+EMAIL_BACKEND       = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST          = "smtp.gmail.com"
+EMAIL_PORT          = 587
+EMAIL_USE_TLS       = True
+EMAIL_HOST_USER     = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL  = f'Trânsito Apodi <{os.getenv("EMAIL_HOST_USER")}>'
 
-# 🔌 DJANGO REST FRAMEWORK
+
+# ── 12. django rest framework ─────────────────
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    )
+        "rest_framework.authentication.SessionAuthentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
+    ),
 }
 
-MESSAGE_TAGS = {
-    messages_constants.ERROR: 'danger',
+
+# ── 13. JWT ───────────────────────────────────
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME":  timedelta(hours=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "AUTH_HEADER_TYPES":      ("Bearer",),
 }
+
+
+# ── 14. cors ──────────────────────────────────
+CORS_ALLOW_ALL_ORIGINS = True   # apenas em desenvolvimento
+
+
+# ── 15. mensagens ─────────────────────────────
+MESSAGE_TAGS = {
+    messages_constants.DEBUG:   "secondary",
+    messages_constants.INFO:    "info",
+    messages_constants.SUCCESS: "success",
+    messages_constants.WARNING: "warning",
+    messages_constants.ERROR:   "danger",
+}
+
+
+# ── 16. chave padrão de auto campo ────────────
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

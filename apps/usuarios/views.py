@@ -16,7 +16,10 @@ from .forms import LoginForm, RegistroForm, PerfilForm, UsuarioAdminForm
 from .services.usuario_service import UsuarioService
 
 
+@login_required
 def home(request):
+    print(request.user)           # mostra quem está logado
+    print(request.user.is_authenticated)  # True ou False
     return render(request, "pages/home.html")
 
 
