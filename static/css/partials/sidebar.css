@@ -1,6 +1,6 @@
 /*sidebar*/
+
 .sidebar {
-    background-color: var(--verde-);
     position: fixed;
     top: 0;
     left: 0;
@@ -11,7 +11,7 @@
     padding: 20px 10px;
     transition: all 0.2s;
     z-index: 1000;
-    background: linear-gradient(var(--verde-escuro-), var(--verde-claro-));
+    background: linear-gradient(var(--verde-escuro-), var(--verde-));
 }
 
 .caixa-logo {
@@ -19,9 +19,9 @@
     align-items: center;
     gap: 15px;
     width: 100%;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     padding: 10px;
-    border-radius: 1px solid var(--verde-escuro-);
+    border-radius: 1px solid var(--verde-);
 }
 
 .caixa-logo .logo-texto {
@@ -71,6 +71,7 @@
     width: 100%;
     height: 60px;
     text-decoration: none;
+    padding: 0 20px 0 10px;
     color: var(--branco-navbar-);
     background: transparent;
 }
@@ -79,11 +80,11 @@
     display: inline-flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 16px;
+    gap: 10px;
     height: 45px;
-    padding: 0 50px 0 30px;
-    border-radius: 12px;
-    font-size: 2.5rem;
+    padding: 0 20px 0 10px;
+    border-radius: 9px;
+    font-size: 2rem;
     font-weight: 500;
     transition: background 0.4s;
 }
@@ -101,10 +102,11 @@
 }
 
 .form-logout {
-    width: 100%;
-    height: 100%;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
 }
 
 .form-logout button {
@@ -115,7 +117,7 @@
     font-size: inherit;
     font-weight: inherit;
     cursor: pointer;
-    padding: 0;
+    padding: 0 20px 0 10px;
     margin: 0;
 }
 
@@ -125,9 +127,9 @@
     justify-content: flex-start;
     gap: 16px;
     height: 45px;
-    padding: 0 50px 0 30px;
+    padding: 0 20px 0 10px;
     border-radius: 12px;
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 500;
     transition: background 0.4s;
 }
@@ -154,6 +156,15 @@
         padding-right: 0;
         padding-left: 3px;
         align-items: center;
+    }
+
+    .sidebar nav {
+        width: 100%;
+    }
+
+    .caixa-logo {
+        display: flex;
+        justify-content: center;
     }
 
     .caixa-logo .logo-texto .txt-transito {
@@ -184,8 +195,14 @@
         display: none;
     }
 
-    .sidebar nav {
-        width: 100%;
+    .form-logout,
+    .form-logout i,
+    .form-logout button {
+        cursor: pointer
+    }
+
+    .sidebar-button:hover>span {
+        background-color: transparent
     }
 
     .sidebar-button i {

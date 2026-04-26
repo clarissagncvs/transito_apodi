@@ -20,20 +20,22 @@
 }
 
 .first-section h1 {
-    color: var(--verde-);
-    font-size: 3rem;
+    color: var(--verde-escuro-);
+    font-size: 3.2rem;
 }
 
 .first-section h2 {
-    color: var(--verde-);
-    font-size: 1.8rem;
+    color: var(--verde-escuro-);
+    font-size: 2rem;
     font-weight: 500;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
 }
 
 /* first-section */
-@media  (max-width: 920px) {
-    header, .first-section {
+@media (max-width: 920px) {
+
+    header,
+    .first-section {
         width: calc(100% - 70px);
         margin-left: 80px;
     }
@@ -48,7 +50,7 @@
     }
 
     .conteudo-principal {
-        margin-bottom: 16px;
+        margin-bottom: 24px;
     }
 
 }
