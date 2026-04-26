@@ -68,7 +68,7 @@ def logout_view(request):
     # encerra a sessão
     logout(request)
     # redireciona para login
-    return redirect("apps.usuarios:login")
+    return redirect("/usuarios/login/")
 
 
 # view de registro
@@ -77,6 +77,7 @@ def registrar(request):
         return redirect("home")
 
     if request.method == "POST":
+
         form = RegistroForm(request.POST, request.FILES)
 
         if form.is_valid():
@@ -122,7 +123,7 @@ def verificar_codigo(request):
             usuario.save(update_fields=['is_active', 'codigo_verificacao'])
 
             messages.success(request, "Conta ativada com sucesso! Faça login.")
-            return redirect("apps.usuarios:login")
+            return redirect("/usuarios/login/")
         else:
             messages.error(request, "Código inválido ou expirado.")
 

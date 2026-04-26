@@ -111,7 +111,6 @@ STATIC_ROOT      = BASE_DIR / "staticfiles"
 MEDIA_URL  = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-
 # ── 11. e-mail ────────────────────────────────
 EMAIL_BACKEND       = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST          = "smtp.gmail.com"
@@ -121,8 +120,16 @@ EMAIL_HOST_USER     = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL  = f'Trânsito Apodi <{os.getenv("EMAIL_HOST_USER")}>'
 
-
 # ── 12. django rest framework ─────────────────
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
+    ),
+}
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
