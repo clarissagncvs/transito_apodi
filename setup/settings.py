@@ -2,6 +2,7 @@
 from pathlib import Path
 import os
 
+from django.contrib.messages import constants as messages_constants
 # Importa função para carregar variáveis do arquivo .env
 from dotenv import load_dotenv
 
@@ -142,4 +143,8 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     )
+}
+
+MESSAGE_TAGS = {
+    messages_constants.ERROR: 'danger',
 }

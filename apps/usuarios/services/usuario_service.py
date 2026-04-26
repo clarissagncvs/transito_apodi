@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.db.models import Q
 from django.utils import timezone
+from django.utils.crypto import get_random_string
 from django.conf import settings
 
 # importa o modelo de usuário
@@ -65,6 +66,31 @@ class UsuarioService:
                 f"Ele será válido por apenas 10 minutos."
                 ),
             from_email=settings.DEFAULT_FROM_EMAIL,  # lembre-se de configurar no settings.py
+            recipient_list=[usuario.email],
+            fail_silently=False,
+        )
+
+    @staticmethod
+    def reenviar_codigo(usuario):
+        # gera novo código de 6 dígitos
+        novo_codigo = get_random_string(
+            length=6,
+            allowed_chars='0123456789'
+        )
+
+        # atualiza o código e o prazo — 10 minutos
+        usuario.codigo_verificacao = novo_codigo
+        usuario.codigo_expira_em   = timezone.now() + timedelta(minutes=10)
+        usuario.save(update_fields=[
+            'codigo_verificacao',
+            'codigo_expira_em'
+        ])
+
+        # envia o e-mail
+        send_mail(
+            subject='Novo código — Trânsito Apodi',
+            message=f'Seu novo código é: {novo_codigo}\n\nExpira em 10 minutos.',
+            from_email=None,
             recipient_list=[usuario.email],
             fail_silently=False,
         )

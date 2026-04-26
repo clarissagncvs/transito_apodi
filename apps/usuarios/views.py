@@ -125,6 +125,23 @@ def verificar_codigo(request):
 
     return render(request, "pages/verificador.html")
 
+def reenviar_codigo(request):
+    usuario_id = request.session.get('usuario_verificando_id')
+
+    if not usuario_id:
+        return redirect("apps.usuarios:registro")
+
+    usuario = get_object_or_404(Usuario, id=usuario_id)
+
+    try:
+        UsuarioService.reenviar_codigo(usuario)
+        messages.success(request, f"Novo código enviado para {usuario.email}!")
+    except Exception as e:
+        print(f'Erro ao reenviar: {e}')
+        messages.error(request, f"Erro: {e}")
+
+    return redirect("apps.usuarios:verificar_codigo")
+
 # ── perfil ───────────────────────────────────────────────────
 
 

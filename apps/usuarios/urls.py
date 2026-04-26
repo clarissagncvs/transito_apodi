@@ -8,6 +8,7 @@ urlpatterns = [
     # autenticação
     path("login/", views.login_view, name="login"),
     path("verificar-codigo/", views.verificar_codigo, name="verificar_codigo"),
+    path('reenviar-codigo/',   views.reenviar_codigo,  name='reenviar_codigo'),
     path("logout/", views.logout_view, name="logout"),
     path("cadastro/", views.registrar, name="cadastro"),
     path("perfil/", views.perfil, name="perfil"),
