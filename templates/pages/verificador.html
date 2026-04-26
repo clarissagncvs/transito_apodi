@@ -42,6 +42,19 @@
                         </a>
                     </div>
                 </form>
+
+                <div style="text-align:center;margin-top:16px">
+                    <p style="font-size:13px;color:#6b7280;margin-bottom:8px">
+                        Não recebeu o código?
+                    </p>
+                    <form action="{% url 'apps.usuarios:reenviar_codigo' %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-reenviar">
+                            Reenviar código
+                        </button>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>
