@@ -74,7 +74,7 @@ def registrar(request):
         return redirect("home")
 
     if request.method == "POST":
-        
+
         form = RegistroForm(request.POST, request.FILES)
 
         if form.is_valid():

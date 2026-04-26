@@ -2,18 +2,19 @@ import pytest
 from apps.usuarios.serializers import UsuarioSerializer, UsuarioCreateSerializer
 from apps.usuarios.models import Usuario
 
+
 @pytest.mark.django_db
 class TestUsuarioSerializers:
 
     def test_usuario_serializer_saida_correta(self):
         """Verifica se o serializer de leitura entrega o tipo_display correto"""
         usuario = Usuario.objects.create(
-            username="agente_apodi", 
-            tipo="AGENTE", 
+            username="agente_apodi",
+            tipo="AGENTE",
             first_name="Marcos"
         )
         serializer = UsuarioSerializer(instance=usuario)
-        
+
         # O campo 'tipo_display' deve vir do get_tipo_display do model
         assert serializer.data["tipo_display"] == "Agente de Trânsito"
         assert serializer.data["username"] == "agente_apodi"
@@ -27,7 +28,7 @@ class TestUsuarioSerializers:
             "password2": "senha_errada"
         }
         serializer = UsuarioCreateSerializer(data=dados_invalidos)
-        
+
         assert serializer.is_valid() is False
         assert "password2" in serializer.errors
         assert "as senhas não coincidem" in str(serializer.errors["password2"][0])
@@ -36,7 +37,7 @@ class TestUsuarioSerializers:
         """Verifica se o min_length=8 da senha é respeitado"""
         dados = {
             "username": "user",
-            "password": "123", # Curta demais
+            "password": "123",  # Curta demais
             "password2": "123"
         }
         serializer = UsuarioCreateSerializer(data=dados)
@@ -50,14 +51,14 @@ class TestUsuarioSerializers:
         """
         # Mockamos o service para apenas verificar se ele foi chamado
         mock_service = mocker.patch("apps.usuarios.services.usuario_service.UsuarioService.criar_usuario")
-        
+
         dados_validos = {
             "username": "api_user",
             "email": "api@email.com",
             "password": "password123",
             "password2": "password123"
         }
-        
+
         serializer = UsuarioCreateSerializer(data=dados_validos)
         if serializer.is_valid():
             serializer.save()

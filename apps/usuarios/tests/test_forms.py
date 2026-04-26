@@ -2,6 +2,7 @@ import pytest
 from apps.usuarios.forms import RegistroForm, LoginForm
 from apps.usuarios.models import Usuario
 
+
 @pytest.mark.django_db
 class TestUsuarioForms:
 
@@ -25,15 +26,15 @@ class TestUsuarioForms:
         """Garante que não permite cadastrar e-mail que já existe"""
         # Criamos um usuário prévio
         Usuario.objects.create_user(username="antigo", email="teste@email.com", password="123")
-        
+
         dados = {
             "username": "novo",
-            "email": "teste@email.com", # Email já em uso
+            "email": "teste@email.com",  # Email já em uso
             "password1": "senha123",
             "password2": "senha123",
         }
         form = RegistroForm(data=dados)
-        
+
         assert form.is_valid() is False
         assert "Este e-mail já foi cadastrado" in form.errors["email"][0]
 
@@ -47,7 +48,7 @@ class TestUsuarioForms:
             "password2": "senha123",
         }
         form = RegistroForm(data=dados)
-        
+
         assert form.is_valid() is False
         assert "Formato inválido" in form.errors["telefone"][0]
 
