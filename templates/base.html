@@ -34,10 +34,15 @@
                     <span>Perfil</span>
                 </span>
             </a>
-                <form method="POST" action="{% url 'apps.usuarios:logout' %}">
+            <div class="sidebar-button">
+                <form method="POST" action="{% url 'apps.usuarios:logout' %}" class="form-logout">
                     {% csrf_token %}
-                    <button type="submit">Sair</button>
+                    <span>
+                        <i class="bi bi-box-arrow-right"></i>
+                        <button type="submit">Sair</button>
+                    </span>
                 </form>
+            </div>
         </nav>
     </aside>
 

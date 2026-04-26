@@ -7,11 +7,11 @@
     display: flex;
     flex-direction: column;
     width: 220px;
-    height: 100vh;
+    height: 100%;
     padding: 20px 10px;
     transition: all 0.2s;
     z-index: 1000;
-    background: linear-gradient(var(--verde-), var(--verde-escuro-));
+    background: linear-gradient(var(--verde-escuro-), var(--verde-claro-));
 }
 
 .caixa-logo {
@@ -20,7 +20,8 @@
     gap: 15px;
     width: 100%;
     margin-bottom: 30px;
-    padding: 10px;border-radius: 1px solid var(--verde-escuro-);
+    padding: 10px;
+    border-radius: 1px solid var(--verde-escuro-);
 }
 
 .caixa-logo .logo-texto {
@@ -35,7 +36,7 @@
     font-weight: 700;
     letter-spacing: 1px;
     color: var(--branco-navbar-);
-    margin-bottom: 5px;
+    margin-bottom: 3px;
 }
 
 .caixa-logo .logo-texto .txt-apodi {
@@ -66,6 +67,7 @@
 .sidebar-button {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     width: 100%;
     height: 60px;
     text-decoration: none;
@@ -76,10 +78,11 @@
 .sidebar-button>span {
     display: inline-flex;
     align-items: center;
-    gap: 25px;
+    justify-content: flex-start;
+    gap: 16px;
     height: 45px;
-    padding: 0 50px 0 40px;
-    border-radius: 5px;
+    padding: 0 50px 0 30px;
+    border-radius: 12px;
     font-size: 2.5rem;
     font-weight: 500;
     transition: background 0.4s;
@@ -92,9 +95,45 @@
 .sidebar button i {
     color: var(--branco-navbar-);
     position: relative;
-    font-size: 2.5rem;
+    font-size: 3rem;
     transition: 0.2s;
     cursor: default;
+}
+
+.form-logout {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.form-logout button {
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+}
+
+.form-logout span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    height: 45px;
+    padding: 0 50px 0 30px;
+    border-radius: 12px;
+    font-size: 2.5rem;
+    font-weight: 500;
+    transition: background 0.4s;
+}
+
+.form-logout:hover>span {
+    background-color: var(--verde-);
 }
 
 .sidebar nav {
@@ -107,13 +146,13 @@
 }
 
 /* responsividade */
-@media  (max-width: 920px) {
+@media (max-width: 920px) {
     .sidebar {
         width: 70px;
         margin: 0;
         border-radius: 0;
         padding-right: 0;
-        padding-left: 0;
+        padding-left: 3px;
         align-items: center;
     }
 
@@ -125,19 +164,24 @@
         display: none;
     }
 
-    .sidebar-button {
+    .sidebar-button,
+    .form-logout {
         justify-content: center;
     }
 
-    .sidebar-button > span > span {
+    .sidebar-button>span>span {
         display: none;
     }
 
-    .sidebar-button > span {
+    .sidebar-button,
+    .form-logout>span {
         width: auto;
         padding: 0;
         gap: 0;
-        justify-content: center;
+    }
+
+    .form-logout>span>button {
+        display: none;
     }
 
     .sidebar nav {
@@ -145,11 +189,14 @@
     }
 
     .sidebar-button i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         margin: 0 auto;
-        font-size: 3.5rem;
+        font-size: 3rem;
     }
-    
-    .sidebar-button:hover > span {
+
+    .sidebar-button:hover>span {
         background-color: transparent;
     }
 }

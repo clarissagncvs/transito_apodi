@@ -1,3 +1,17 @@
+/* first-section de home */
+.first-section .button-section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.first-section .button-section > i {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    
+}
+
 /* botões */
 .btn {
     display: flex;
