@@ -1,16 +1,10 @@
 :root{
     --laranja-: #ff8000; /* Todos os elementos laranjas */
-    --fundo-padrao-: #ffffff; /* Fundo padrão */
-    --texto-login-cadastro-: #0b830b; /* Texto das telas login-cadastro */
-    --fundo-login-cadastro-: #062603; /* Fundo para as telas login-cadastro */
-    --inputs-: #e8e8e8; /* Todos os elementos de entrada */
-    --fundo-navbar-: #054c05; /* Fundo do menu navbar */
-    --notificacoes-: #ffd2a5; /* Notificações */
-    --elementos-navbar-: #cdcdcd; /* Elementos visuais da navbar */
-
-    /*tamanho de fontes*/
-    --fpequena-: 1rem; /*16px*/
-    --fbase-: 1.5rem; /*24px*/
-    --fmedia-: 2rem; /*32px*/
-    --fgrande-: 3rem; /*48px*/ 
+    --branco-padrao-: #ffffff; /* Fundo padrão */
+    --verde-claro-: #0b830b; /* Texto das telas login-cadastro */
+    --verde-escuro-: #062603; /* Fundo para as telas login-cadastro */
+    --branco-entradas-: #e8e8e8; /* Todos os elementos de entrada */
+    --verde-: #054c05; /* Fundo do menu navbar */
+    --laranja-claro-: #ffd2a5; /* Notificações */
+    --branco-navbar-: #cdcdcd; /* Elementos visuais da navbar */ 
 }

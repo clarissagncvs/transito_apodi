@@ -1,18 +1,66 @@
 /*sidebar*/
 .sidebar {
-    background-color: #054c05;
+    background-color: var(--verde-);
     position: fixed;
     top: 0;
+    left: 0;
     display: flex;
     flex-direction: column;
-    width: 230px;
-    height: 100%;
-    padding-top: 75px;
-    padding-right: 5px;
-    padding-left: 20px;
-    border-radius: 12px;
-    margin: 10px;
+    width: 220px;
+    height: 100vh;
+    padding: 20px 10px;
     transition: all 0.2s;
+    z-index: 1000;
+    background: linear-gradient(var(--verde-), var(--verde-escuro-));
+}
+
+.caixa-logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 30px;
+    padding: 10px;border-radius: 1px solid var(--verde-escuro-);
+}
+
+.caixa-logo .logo-texto {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    color: var(--branco-navbar-);
+}
+
+.caixa-logo .logo-texto .txt-transito {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--branco-navbar-);
+    margin-bottom: 5px;
+}
+
+.caixa-logo .logo-texto .txt-apodi {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--branco-navbar-);
+}
+
+.caixa-logo span {
+    color: var(--branco-navbar-);
+    font-size: 1.6rem;
+    font-weight: bold;
+    display: block;
+    text-transform: uppercase;
+}
+
+.logo-img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+}
+
+.logo img {
+    width: 100%;
+    height: 100%;
 }
 
 .sidebar-button {
@@ -21,31 +69,30 @@
     width: 100%;
     height: 60px;
     text-decoration: none;
-    color: #cdcdcd;
+    color: var(--branco-navbar-);
     background: transparent;
-    margin-bottom: 5px;
 }
 
-.sidebar-button > span {
+.sidebar-button>span {
     display: inline-flex;
     align-items: center;
     gap: 25px;
     height: 45px;
     padding: 0 50px 0 40px;
     border-radius: 5px;
-    font-size: 2.2rem;
+    font-size: 2.5rem;
     font-weight: 500;
     transition: background 0.4s;
 }
 
 .sidebar-button:hover>span {
-    background-color: #0b830b;
+    background-color: var(--verde-);
 }
 
 .sidebar button i {
-    color: #cdcdcd;
+    color: var(--branco-navbar-);
     position: relative;
-    font-size: 1rem;
+    font-size: 2.5rem;
     transition: 0.2s;
     cursor: default;
 }
@@ -57,4 +104,52 @@
     display: flex;
     flex-direction: column;
     width: 205px;
+}
+
+/* responsividade */
+@media  (max-width: 920px) {
+    .sidebar {
+        width: 70px;
+        margin: 0;
+        border-radius: 0;
+        padding-right: 0;
+        padding-left: 0;
+        align-items: center;
+    }
+
+    .caixa-logo .logo-texto .txt-transito {
+        display: none;
+    }
+
+    .caixa-logo .logo-texto .txt-apodi {
+        display: none;
+    }
+
+    .sidebar-button {
+        justify-content: center;
+    }
+
+    .sidebar-button > span > span {
+        display: none;
+    }
+
+    .sidebar-button > span {
+        width: auto;
+        padding: 0;
+        gap: 0;
+        justify-content: center;
+    }
+
+    .sidebar nav {
+        width: 100%;
+    }
+
+    .sidebar-button i {
+        margin: 0 auto;
+        font-size: 3.5rem;
+    }
+    
+    .sidebar-button:hover > span {
+        background-color: transparent;
+    }
 }

@@ -1,0 +1,36 @@
+/*primeira seção*/
+.first-section {
+    width: calc(100% - 250px);
+    margin-left: 280px;
+    margin-right: 20px;
+    min-height: 80vh;
+    height: auto;
+    display: flex;
+    flex-direction: column; 
+    margin: 20px 20px;
+    overflow: visible;
+}
+
+.first-section h1 {
+    color: var(--verde-);
+    font-size: 4rem;
+}
+
+.first-section h2 {
+    color: var(--verde-);
+    font-size: 2.8rem;
+    font-weight: 500;
+    margin-bottom: 40px;
+}
+
+/* first-section */
+@media  (max-width: 920px) {
+    header, .first-section {
+        width: calc(100% - 60px);
+        margin-left: 70px;
+    }
+
+    .first-section h1 {
+        font-size: 3rem;
+    }
+}

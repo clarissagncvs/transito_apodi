@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'img/icone.ico' %}">
+    <link rel="stylesheet" href="{% static 'css/partials/index.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <title>{% block title %} {% endblock %}</title>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <nav>
+            <div class="caixa-logo">
+                <img class="logo-img" src="{% static 'img/logo.png' %}">
+
+            <div class="logo-texto">
+                <span class="txt-transito">trânsito</span>
+                <span class="txt-apodi">apodi</span>
+            </div>
+            </div>
+
+            <a href="{% url 'home' %}" class="sidebar-button">
+                <span>
+                    <i class="bi bi-house-door-fill"></i>
+                    <span>Início</span>
+                </span>
+            </a>
+            <a href="#" class="sidebar-button">
+                <span>
+                    <i class="bi bi-person-fill"></i>
+                    <span>Perfil</span>
+                </span>
+            </a>
+                <form method="POST" action="{% url 'apps.usuarios:logout' %}">
+                    {% csrf_token %}
+                    <button type="submit">Sair</button>
+                </form>
+        </nav>
+    </aside>
+
+    {% block content %}
+
+    {% endblock %}
