@@ -34,6 +34,12 @@
                     <span>Perfil</span>
                 </span>
             </a>
+            <a href="#" class="sidebar-button">
+                <span>
+                    <i class="bi bi-gear"></i>
+                    <span>Configurações</span>
+                </span>
+            </a>
             <div class="sidebar-button">
                 <form method="POST" action="{% url 'apps.usuarios:logout' %}" class="form-logout">
                     {% csrf_token %}
