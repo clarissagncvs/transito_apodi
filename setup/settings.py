@@ -8,9 +8,9 @@ import os
 # ── 2. ambiente ───────────────────────────────
 load_dotenv()
 
-BASE_DIR   = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = str(os.getenv("SECRET_KEY"))
-DEBUG      = os.getenv("DEBUG") == "True"
+DEBUG = os.getenv("DEBUG") == "True"
 
 ALLOWED_HOSTS = ["*"]
 
@@ -51,8 +51,8 @@ MIDDLEWARE = [
 
 
 # ── 5. urls e wsgi ────────────────────────────
-ROOT_URLCONF       = "setup.urls"
-WSGI_APPLICATION   = "setup.wsgi.application"
+ROOT_URLCONF = "setup.urls"
+WSGI_APPLICATION = "setup.wsgi.application"
 
 
 # ── 6. templates ──────────────────────────────
@@ -91,34 +91,34 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-LOGIN_URL           = "/usuarios/login/"
-LOGIN_REDIRECT_URL  = "/"
+LOGIN_URL = "/usuarios/login/"
+LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/usuarios/login/"
 
 
 # ── 9. internacionalização ────────────────────
 LANGUAGE_CODE = "pt-br"
-TIME_ZONE     = "America/Fortaleza"
-USE_I18N      = True
-USE_TZ        = True
+TIME_ZONE = "America/Fortaleza"
+USE_I18N = True
+USE_TZ = True
 
 
 # ── 10. arquivos estáticos e mídia ────────────
-STATIC_URL       = "/static/"
+STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT      = BASE_DIR / "staticfiles"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
-MEDIA_URL  = "/media/"
+MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 # ── 11. e-mail ────────────────────────────────
-EMAIL_BACKEND       = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST          = "smtp.gmail.com"
-EMAIL_PORT          = 587
-EMAIL_USE_TLS       = True
-EMAIL_HOST_USER     = os.getenv("EMAIL_HOST_USER")
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL  = f'Trânsito Apodi <{os.getenv("EMAIL_HOST_USER")}>'
+DEFAULT_FROM_EMAIL = f'Trânsito Apodi <{os.getenv("EMAIL_HOST_USER")}>'
 
 # ── 12. django rest framework ─────────────────
 REST_FRAMEWORK = {
