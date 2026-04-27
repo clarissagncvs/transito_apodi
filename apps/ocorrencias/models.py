@@ -3,6 +3,7 @@ from django.conf import settings
 from apps.vias.models import Via
 from apps.semaforos.models import Semaforo
 
+
 class Ocorrencia(models.Model):
     """Registro de ocorrência de trânsito reportada por cidadão ou agente."""
 
@@ -49,7 +50,7 @@ class Ocorrencia(models.Model):
         related_name="ocorrencias",
         verbose_name="Semáforo relacionado"
     )
-    
+
     # Coordenadas (DecimalField é melhor para GPS)
     latitude = models.DecimalField(
         max_digits=9, decimal_places=6, null=True, blank=True
