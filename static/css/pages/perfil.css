@@ -1,0 +1,34 @@
+html {
+    font-family: 'Roboto', sans-serif;
+}
+
+.first-section .perfil-card{
+    width: 1000px;
+    height: 600;
+    background-color: var(--branco-entradas-);
+    box-shadow: 2px 2px 5px 1px rgba(0, 0, 3, 0.3);
+}
+
+.first-section .perfil-card:hover {
+    transform: translateY(-5px);
+    background-color: var(--branco-navbar-);
+}
+
+.perfil-card .informacoes-usuario {
+    display: flex;
+    flex-direction: column;
+    margin: 24px;
+}
+
+.perfil-card .foto-usuario {
+    width: 80px;
+    height: 80px;
+    border-radius: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow: hidden;
+    object-fit: cover;
+    margin: 24px;
+    padding: 16px;
+}
