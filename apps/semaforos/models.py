@@ -50,8 +50,6 @@ class Semaforo(models.Model):
         verbose_name_plural = "semáforos"
         ordering = ["codigo"]
 
-    def __str__(self):
-        return f"{self.codigo} ({self.get_status_display()}) — {self.via}"
     # Localização
     via = models.ForeignKey(
         Via,
@@ -75,11 +73,6 @@ class Semaforo(models.Model):
     ativo = models.BooleanField(default=True, verbose_name="ativo")
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        verbose_name = "semáforo"
-        verbose_name_plural = "semáforos"
-        ordering = ["codigo"]
 
     def __str__(self):
         return f"{self.codigo} ({self.get_status_display()}) — {self.via}"
