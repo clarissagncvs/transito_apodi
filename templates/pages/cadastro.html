@@ -2,18 +2,25 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Cadastre-se - Trânsito Apodi</title>
-
     <link rel="icon" type="image/x-icon" href="{% static 'img/icone.ico' %}">
     <link rel="stylesheet" href="{% static 'css/pages/cadastro.css' %}">
+    <style>
+        .error-message {
+            color: #d9534f;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: block;
+        }
+        .input-error {
+            border: 2px solid #d9534f !important;
+        }
+    </style>
 </head>
 
 <body>
-
     <div class="site-description">
         <h2 style="color: #ff8000; font-size: 60px;">
             <strong>TRÂNSITO APODI</strong>
@@ -23,9 +30,9 @@
 
     <main class="sign-container">
         <div class="retangulo">
-
             <h1>Cadastrar</h1>
 
+            {# Mensagens de erro globais do Django Messages #}
             {% if messages %}
                 {% for message in messages %}
                 <div class="alert alert-{{ message.tags }} small">
@@ -34,37 +41,84 @@
                 {% endfor %}
             {% endif %}
 
-            <form method="POST" action="{% url 'apps.usuarios:cadastro' %}">
+            {# Erros que não pertencem a um campo específico (ex: senhas diferentes) #}
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors.0 }}
+                </div>
+            {% endif %}
+
+            <form method="POST" action="{% url 'usuarios:cadastro' %}">
                 {% csrf_token %}
 
                 <div class="form-group">
                     <label for="username">Username:</label>
-                    <input id="username" class="input-field" type="text" name="username" placeholder="Usuário" required>
+                    <input id="username" 
+                           class="input-field {% if form.username.errors %}input-error{% endif %}" 
+                           type="text" name="username" 
+                           value="{{ form.username.value|default:'' }}" 
+                           placeholder="Usuário">
+                    {% if form.username.errors %}
+                        <span class="error-message">{{ form.username.errors.0 }}</span>
+                    {% endif %}
                 </div>
 
                 <div class="form-group">
                     <label for="first_name">Nome:</label>
-                    <input id="first_name" class="input-field" type="text" name="first_name" placeholder="Nome" required>
+                    <input id="first_name" 
+                           class="input-field {% if form.first_name.errors %}input-error{% endif %}" 
+                           type="text" name="first_name" 
+                           value="{{ form.first_name.value|default:'' }}" 
+                           placeholder="Nome">
+                    {% if form.first_name.errors %}
+                        <span class="error-message">{{ form.first_name.errors.0 }}</span>
+                    {% endif %}
                 </div>
 
                 <div class="form-group">
                     <label for="last_name">Sobrenome:</label>
-                    <input id="last_name" class="input-field" type="text" name="last_name" placeholder="Sobrenome" required>
+                    <input id="last_name" 
+                           class="input-field {% if form.last_name.errors %}input-error{% endif %}" 
+                           type="text" name="last_name" 
+                           value="{{ form.last_name.value|default:'' }}" 
+                           placeholder="Sobrenome">
+                    {% if form.last_name.errors %}
+                        <span class="error-message">{{ form.last_name.errors.0 }}</span>
+                    {% endif %}
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input id="email" class="input-field" type="email" name="email" placeholder="Email" required>
+                    <input id="email" 
+                           class="input-field {% if form.email.errors %}input-error{% endif %}" 
+                           type="email" name="email" 
+                           value="{{ form.email.value|default:'' }}" 
+                           placeholder="Email">
+                    {% if form.email.errors %}
+                        <span class="error-message">{{ form.email.errors.0 }}</span>
+                    {% endif %}
                 </div>
 
                 <div class="form-group">
                     <label for="password1">Senha:</label>
-                    <input id="password1" class="input-field" type="password" name="password1" placeholder="Senha" required>
+                    <input id="password1" 
+                           class="input-field {% if form.password1.errors %}input-error{% endif %}" 
+                           type="password" name="password1" 
+                           placeholder="Senha">
+                    {% if form.password1.errors %}
+                        <span class="error-message">{{ form.password1.errors.0 }}</span>
+                    {% endif %}
                 </div>
 
                 <div class="form-group">
                     <label for="password2">Confirmar senha:</label>
-                    <input id="password2" class="input-field" type="password" name="password2" placeholder="Confirmar senha" required>
+                    <input id="password2" 
+                           class="input-field {% if form.password2.errors %}input-error{% endif %}" 
+                           type="password" name="password2" 
+                           placeholder="Confirmar senha">
+                    {% if form.password2.errors %}
+                        <span class="error-message">{{ form.password2.errors.0 }}</span>
+                    {% endif %}
                 </div>
 
                 <div class="form-group">
@@ -74,15 +128,12 @@
                 </div>
 
                 <div class="form-links">
-                    <a href="{% url 'apps.usuarios:login' %}">
+                    <a href="{% url 'usuarios:login' %}">
                         Já possui conta? Entrar
                     </a>
                 </div>
-
             </form>
-
         </div>
     </main>
-
 </body>
 </html>

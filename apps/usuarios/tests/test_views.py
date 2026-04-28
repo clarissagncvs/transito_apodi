@@ -7,10 +7,23 @@ from apps.usuarios.models import Usuario
 @pytest.mark.django_db
 class TestUsuarioViews:
 
-    def test_acesso_home_nao_exige_login(self, client):
-        """A página inicial deve carregar para qualquer um"""
-        url = reverse("home")
+    @pytest.mark.django_db
+    def test_acesso_home_com_usuario_logado(self, client, django_user_model):
+        # 1. Cria um usuário de teste
+        user = django_user_model.objects.create_user(
+            username='testuser',
+            password='password123@'
+        )
+        client.login(username=user.username, password='password123@')
+
+        # 2. Faz o login do cliente
+        client.login(username='testuser', password='password123@')
+
+        # 3. Agora tenta acessar a home
+        url = reverse('home')
         response = client.get(url)
+
+        # Agora deve retornar 200 porque ele está autenticado
         assert response.status_code == 200
 
     def test_login_com_sucesso(self, client):
