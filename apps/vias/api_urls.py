@@ -1,6 +1,10 @@
-from django.urls import path
-from .views_api import ViaViews
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views_api import ViaViewSet
+
+router = DefaultRouter()
+router.register(r'', ViaViewSet, basename='via')
 
 urlpatterns = [
-    path('vias/', ViaViews.as_view(), name='vias'),
+    path('', include(router.urls)),
 ]
