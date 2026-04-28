@@ -7,11 +7,14 @@ from apps.usuarios.models import Usuario
 @pytest.mark.django_db
 class TestUsuarioViews:
 
-    def test_acesso_home_nao_exige_login(self, client):
-        """A página inicial deve carregar para qualquer um"""
-        url = reverse("home")
+    def test_acesso_home_exige_login(self, client): # Mudei o nome para fazer sentido
+        url = reverse('home')
         response = client.get(url)
-        assert response.status_code == 200
+        
+        # O teste agora passa se houver um redirecionamento
+        assert response.status_code == 302
+        # Opcional: verificar se ele está mandando para a página de login
+        assert '/login/' in response.url
 
     def test_login_com_sucesso(self, client):
         """Testa o fluxo completo de login"""
