@@ -29,13 +29,13 @@
                     <span>Início</span>
                 </span>
             </a>
-            <a url="{% 'perfil' %}" class="sidebar-button">
+            <a href="{% url 'apps.usuarios:perfil' %}" class="sidebar-button">
                 <span>
                     <i class="bi bi-person-fill"></i>
                     <span>Perfil</span>
                 </span>
             </a>
-            <a href="{% url 'configuracoes' %}" class="sidebar-button">
+            <a href="{% url 'apps.usuarios:logout' %}" class="sidebar-button">
                 <span>
                     <i class="bi bi-gear"></i>
                     <span>Configurações</span>
