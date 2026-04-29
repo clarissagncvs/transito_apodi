@@ -2,33 +2,120 @@ html {
     font-family: 'Roboto', sans-serif;
 }
 
-.first-section .perfil-card{
-    width: 1000px;
-    height: 600;
+.first-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    min-height: calc(100vh - 80px);
+}
+
+.first-section .perfil-card {
+    width: 100%;
+    max-width: 800px;
+    min-height: 450px;
     background-color: var(--branco-entradas-);
-    box-shadow: 2px 2px 5px 1px rgba(0, 0, 3, 0.3);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s ease;
+    padding-bottom: 30px;
 }
 
 .first-section .perfil-card:hover {
     transform: translateY(-5px);
+    background-color: var(--branco-padrao-);
+    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.perfil-card .foto-usuario {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 4px solid var(--laranja-);
+
+    margin: 30px auto;
+    overflow: hidden;
     background-color: var(--branco-navbar-);
+
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Informações */
+.perfil-card h1 {
+    font-size: 2.8rem;
+    color: var(--verde-escuro-);
+    margin-bottom: 20px;
 }
 
 .perfil-card .informacoes-usuario {
     display: flex;
     flex-direction: column;
-    margin: 24px;
+    width: 80%;
+    gap: 15px;
 }
 
-.perfil-card .foto-usuario {
-    width: 80px;
-    height: 80px;
-    border-radius: 50px;
+
+.nome,
+.email {
+    font-size: 1.4rem;
+    color: var(--laranja-);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.nome-usuario,
+.email-usuario {
+    font-size: 1.8rem;
+    color: var(--verde-escuro-);
+    padding: 15px;
+    background-color: var(--laranja-claro-);
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.botao-alteracao {
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    overflow: hidden;
-    object-fit: cover;
-    margin: 24px;
-    padding: 16px;
+    flex-direction: row;
+    justify-content: center;
+    gap: 50px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.btn-usuario,
+.btn-email {
+    flex: 1;
+    max-width: 200px;
+    padding: 12px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
+    background-color: var(--verde-);
+    color: white;
+    transition: background 0.3s;
+}
+
+.btn-usuario:hover,
+.btn-email:hover {
+    background-color: var(--verde-claro-);
+    transform: translateY(-4px);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
+}
+
+.btn-usuario,
+.btn-email {
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
 }
