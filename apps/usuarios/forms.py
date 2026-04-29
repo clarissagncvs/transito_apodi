@@ -176,3 +176,9 @@ def clean_email(self):
     if Usuario.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
         raise ValidationError("Este e-mail já está em uso por outra conta.")
     return email
+
+
+class UsuarioUpdateTipoForm(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = ['tipo']
