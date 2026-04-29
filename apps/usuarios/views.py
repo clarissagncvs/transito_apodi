@@ -9,6 +9,8 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.core.exceptions import PermissionDenied
 from django.utils import timezone
+from .forms import UsuarioUpdateEmailForm
+from .forms import UsuarioUpdateNomeForm
 
 # 3. locais
 from .models import Usuario
@@ -355,3 +357,51 @@ def usuario_toggle_ativo(request, pk):
 
     # redireciona
     return redirect("apps.usuarios:lista")
+
+# mudei aqui (aiane)
+
+# form de mudar usuario
+
+
+def editar_usuario(request, pk):
+    usuario = get_object_or_404(Usuario, pk=pk)
+    if request.method == "POST":
+        form = UsuarioUpdateNomeForm(request.POST, instance=usuario)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Nome de usuário atualizado com sucesso!")
+            # Redireciona de volta para o perfil
+            return redirect("apps.usuarios:perfil")
+    else:
+        form = UsuarioUpdateNomeForm(instance=usuario)
+
+    context = {
+        "form": form,
+        "titulo": f"Alterar usuário – {usuario.username}",
+        "btn_label": "Confirmar Alteração",
+    }
+    return render(request, "pages/editar-usuario.html", context)
+
+# form pra mudar email
+
+
+def editar_email(request, pk):
+    usuario = get_object_or_404(Usuario, pk=pk)
+
+    if request.method == "POST":
+        form = UsuarioUpdateEmailForm(request.POST, instance=usuario)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "E-mail atualizado com sucesso!")
+            # Redireciona de volta para o perfil
+            return redirect("apps.usuarios:perfil")
+    else:
+        form = UsuarioUpdateEmailForm(instance=usuario)
+
+    context = {
+        "form": form,
+        "titulo": f"Alterar E-mail – {usuario.username}",
+        "btn_label": "Confirmar Alteração",
+    }
+    return render(request, "pages/editar-email.html", context)

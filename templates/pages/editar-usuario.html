@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %} {% block title %} Perfil {% endblock %}
+
+{% block content %}
+<body>
+
+    <section class="first-section">
+        <div class="perfil-card">
+            <div class="foto-usuario">
+                <img src="{% static 'img/icone-usuario.png' %}" alt="Foto de Perfil" class="profile-img">
+            </div>
+            <h1>Altere seu perfil</h1>
+            <div class="informacoes-usuario">
+                <span class="nome">Usuário atual:</span>
+                <span class="nome-usuario">{{ user.username }}</span>
+
+                <span class="email">Novo usuário:</span>
+                <input type="text" id="username" name="username" class="input-perfil" placeholder="Insira seu novo usuário" onfocus="this.placeholder = ''" 
+                onblur="this.placeholder = 'Insira seu novo usuário'">
+            </div>
+        </div>
+
+        <div class="botao-alteracao">
+                <button class="btn btn-primary2">Alterar Usuário</button>
+        </div>
+    </section>
+
+</body>
+{% endblock %}

@@ -142,3 +142,37 @@ class UsuarioAdminForm(forms.ModelForm):
             "tipo": forms.Select(attrs={"class": CSS_SEL}),
             "is_active": forms.CheckboxInput(attrs={"class": "form-check-input"}),
         }
+
+# mudei aqui (aiane)
+
+# Formulário para editar APENAS o nome (username) na pagina editar-usuario
+
+
+class UsuarioUpdateNomeForm(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = ["username"]
+        widgets = {
+            "username": forms.TextInput(attrs={"class": CSS, "placeholder": "Novo nome de usuário"}),
+        }
+
+# Formulário para editar APENAS o e-mail na pagina editar-email
+
+
+class UsuarioUpdateEmailForm(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = ["email"]
+        widgets = {
+            "email": forms.EmailInput(attrs={"class": CSS, "placeholder": "Novo e-mail"}),
+        }
+
+# Reutiliza a validação de email
+
+
+def clean_email(self):
+    email = self.cleaned_data.get('email')
+    # Verifica se o e-mail já existe, mas ignora o e-mail do próprio usuário atual
+    if Usuario.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
+        raise ValidationError("Este e-mail já está em uso por outra conta.")
+    return email
