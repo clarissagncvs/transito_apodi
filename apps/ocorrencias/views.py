@@ -1,6 +1,6 @@
 # Importa a função render, usada para retornar templates HTML
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required   
+from django.contrib.auth.decorators import login_required
 
 
 # Importa HttpResponse, usado para retornar respostas simples (texto puro, por exemplo)

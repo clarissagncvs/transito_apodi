@@ -55,8 +55,7 @@ def login_view(request):
                 # redireciona para próxima página ou mapa
                 return redirect(request.GET.get("next", "home"))
 
-            # mensagem de erro
-            messages.error(request, "Usuário ou senha incorretos.")
+            messages.error(request, "Usuário ou senha incorretos.")  # mensagem de erro
     else:
         # cria form vazio
         form = LoginForm()
@@ -407,6 +406,7 @@ def editar_email(request, pk):
     return render(request, "pages/editar-email.html", context)
 
 # ── configurações ───────────────────────────────────────
+
 
 @login_required
 def configuracoes(request):
