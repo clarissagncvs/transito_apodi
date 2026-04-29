@@ -499,7 +499,8 @@ def solicitar_mudanca_tipo(request):
 
     return redirect('apps.usuarios:perfil')
 
-#busca
+# busca
+
 
 def busca_binaria_usuarios(lista, alvo):
     baixo = 0
@@ -509,15 +510,16 @@ def busca_binaria_usuarios(lista, alvo):
         meio = (baixo + alto) // 2
         # Comparamos o username (string)
         chute = lista[meio].username.lower()
-        
+
         if chute == alvo.lower():
             return [lista[meio]]  # Retorna o usuário em uma lista
-        
+
         if chute > alvo.lower():
             alto = meio - 1
         else:
             baixo = meio + 1
     return []
+
 
 @admin_required
 def lista_usuarios(request):
