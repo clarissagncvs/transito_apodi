@@ -22,10 +22,16 @@ class Via(models.Model):
     bairro = models.CharField(max_length=100, blank=True, verbose_name="bairro")
 
     # Coordenadas para integração com mapas
-    latitude = models.DecimalField(
+    latitude_inicial = models.DecimalField(
         max_digits=9, decimal_places=6, null=True, blank=True
     )
-    longitude = models.DecimalField(
+    longitude_inicial = models.DecimalField(
+        max_digits=9, decimal_places=6, null=True, blank=True
+    )
+    latitude_final = models.DecimalField(
+        max_digits=9, decimal_places=6, null=True, blank=True
+    )
+    longitude_final = models.DecimalField(
         max_digits=9, decimal_places=6, null=True, blank=True
     )
 
