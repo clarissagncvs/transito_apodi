@@ -1,6 +1,66 @@
-<h1>Lista de Usuários</h1>
-<ul>
-    {% for usuario in usuarios %}
-        <li>{{ usuario.username }}</li>
-    {% endfor %}
-</ul>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Gerenciar Usuários {% endblock %}
+
+{% block content %}
+<section class="first-section">
+    <div class="conteudo-principal">
+
+        <div class="text-section">
+            <h1>Gerenciamento de Usuários</h1>
+            <h2>Administre as permissões de acesso</h2>
+        </div>
+
+        <form class="ipt" method="GET" style="display: flex; gap: 10px; margin-bottom: 40px; max-width: 600px;">
+            <div class="input" style="flex: 1; margin-bottom: 0;">
+                <input type="text" name="search" placeholder="Procurar por nome ou e-mail..." 
+                       value="{{ request.GET.search|default:'' }}">
+            </div>
+            <button class="botao-submeter" type="submit" style="width: auto; margin: 0; padding: 0 25px; height: 45px;">
+                Buscar
+            </button>
+        </form>
+
+        <div style="width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden; background-color: #ffffff; border: 1px solid #f0f0f0;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead style="background-color: #f8f9fa; border-bottom: 2px solid #eeeeee;">
+                    <tr>
+                        <th style="padding: 20px; color: #004d00; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">Usuário</th>
+                        <th style="padding: 20px; color: #004d00; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">E-mail</th>
+                        <th style="padding: 20px; color: #004d00; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">Nível de Acesso</th>
+                        <th style="padding: 20px; color: #004d00; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; text-align: center;">Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in page_obj %}
+                    <tr style="border-bottom: 1px solid #f5f5f5;">
+                        <td style="padding: 20px; color: #444; font-size: 0.9rem;">{{ usuario.username }}</td>
+                        <td style="padding: 20px; color: #666; font-size: 0.9rem;">{{ usuario.email }}</td>
+                        <td style="padding: 20px;">
+                            {% if usuario.tipo == 'ADMIN' %}
+                                <span style="background-color: #f8d7da; color: #842029; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: bold;">Admin</span>
+                            {% elif usuario.tipo == 'AGENTE' %}
+                                <span style="background-color: #fff3cd; color: #664d03; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: bold;">Agente</span>
+                            {% else %}
+                                <span style="background-color: #cfe2f3; color: #084298; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: bold;">Cidadão</span>
+                            {% endif %}
+                        </td>
+                        <td style="padding: 20px; text-align: center;">
+                            <a href="{% url 'apps.usuarios:editar' usuario.id %}" class="botao-submeter"
+                               style="text-decoration: none; padding: 8px 15px; font-size: 0.8rem; display: inline-block; width: auto; margin: 0;">
+                                Alterar Tipo
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 40px; color: #999;">Nenhum usuário encontrado.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

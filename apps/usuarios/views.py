@@ -498,3 +498,43 @@ def solicitar_mudanca_tipo(request):
         messages.error(request, "Não foi possível enviar o e-mail no momento. Tente mais tarde.")
 
     return redirect('apps.usuarios:perfil')
+
+#busca
+
+def busca_binaria_usuarios(lista, alvo):
+    baixo = 0
+    alto = len(lista) - 1
+
+    while baixo <= alto:
+        meio = (baixo + alto) // 2
+        # Comparamos o username (string)
+        chute = lista[meio].username.lower()
+        
+        if chute == alvo.lower():
+            return [lista[meio]]  # Retorna o usuário em uma lista
+        
+        if chute > alvo.lower():
+            alto = meio - 1
+        else:
+            baixo = meio + 1
+    return []
+
+@admin_required
+def lista_usuarios(request):
+    # 1. Pegamos todos e ordenamos (essencial para busca binária)
+    usuarios_todos = list(Usuario.objects.all().order_by('username'))
+
+    termo_busca = request.GET.get('search')
+
+    if termo_busca:
+        # 2. Aplicamos o mecanismo de busca binária
+        usuarios_filtrados = busca_binaria_usuarios(usuarios_todos, termo_busca)
+    else:
+        usuarios_filtrados = usuarios_todos
+
+    # Mantemos a paginação que você já usa
+    paginator = Paginator(usuarios_filtrados, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, "pages/lista_usuarios.html", {"page_obj": page_obj})
