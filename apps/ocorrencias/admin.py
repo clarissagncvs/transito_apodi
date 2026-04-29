@@ -12,24 +12,21 @@ class OcorrenciaAdmin(admin.ModelAdmin):
     # Otimiza as consultas para não pesar no banco de dados (especialmente SQLite)
     list_select_related = ["via", "semaforo", "usuario"]
 
-   
     list_display = [
         "id",
         "badge_tipo",
-        "status",        
-        "badge_status",  
+        "status",
+        "badge_status",
         "via",
         "usuario_link",
         "criado_em",
     ]
 
-    
     list_editable = ["status"]
 
     # Filtros laterais
     list_filter = ["status", "tipo", "criado_em", "via"]
 
-    
     search_fields = ["descricao", "via__nome", "usuario__username"]
 
     ordering = ["-criado_em"]
@@ -76,7 +73,7 @@ class OcorrenciaAdmin(admin.ModelAdmin):
         return format_html(
             '<div style="width:12px;height:12px;border-radius:50%;'
             'background:{};display:inline-block;margin-right:5px"></div>',
-            txt 
+            txt
         )
     badge_status.short_description = "Status Visual"
 
