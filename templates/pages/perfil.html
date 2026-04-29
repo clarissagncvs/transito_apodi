@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
-
-{% block title %} Perfil {% endblock %}
+{% load static %} {% block title %} Perfil {% endblock %}
 
 {% block content %}
 <body>
@@ -8,15 +7,21 @@
     <section class="first-section">
         <div class="perfil-card">
             <div class="foto-usuario">
-                <img src="#" alt="Foto de Perfil" class="profile-img">
+                <img src="{% static 'img/icone-usuario.png' %}" alt="Foto de Perfil" class="profile-img">
             </div>
             <h1>Perfil</h1>
             <div class="informacoes-usuario">
-                <span class="nome">Nome</span>
-                <span class="nome-usuario"></span>
-                <span class="email">E-mail</span>
-                <span class="email-usuario"></span>
+                <span class="nome">Usuário:</span>
+                <span class="nome-usuario">{{ user.username }}</span>
+
+                <span class="email">E-mail:</span>
+                <span class="email-usuario">{{ user.email }}</span>
             </div>
+        </div>
+        <br> <br>
+        <div class="botao-alteracao">
+                <button class="btn-usuario">Alterar Usuário</button>
+                <button class="btn-email">Alterar E-mail</button>
         </div>
     </section>
     
