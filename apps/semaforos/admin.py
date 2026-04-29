@@ -5,68 +5,59 @@ from .models import Semaforo
 
 @admin.register(Semaforo)
 class SemaforoAdmin(admin.ModelAdmin):
-    """Configuração do painel administrativo para os Semáforos de Apodi."""
 
-    # Otimiza a consulta da FK 'via' para evitar o problema de N+1 consultas
+    # Otimização de consulta para a Via relacionada
     list_select_related = ["via"]
 
-    # Colunas exibidas na listagem principal
     list_display = [
         "codigo",
         "via",
         "badge_status",
+        "status",  # Campo original para edição rápida
         "ativo",
+        "atualizado_em",
     ]
 
-    # Filtros laterais para facilitar a gestão
-    list_filter = ["status", "ativo", "via", "criado_em"]
-
-    # Campos pesquisáveis (pesquisa pelo código ou pelo nome da via relacionada)'
-    search_fields = ["codigo", "via__nome"]
-
-    # Ordenação padrão (por código)
-    ordering = ["codigo"]
-
-    # Permite alterar o status e ligar/desligar sem precisar entrar no registro
+    # Permite alterar o status e ativar/desativar direto na lista
     list_editable = ["status", "ativo"]
 
-    # Organização do formulário de edição/criação em blocos
+    # Filtros e buscas
+    list_filter = ["status", "ativo", "via"]
+    search_fields = ["codigo", "via__nome"]
+
+    # Organização do formulário
     fieldsets = (
-        ("Identificação Básica", {
-            "fields": ("codigo", "via")
+        ("Identificação Técnica", {
+            "fields": ("codigo", "ativo")
         }),
-        ("Coordenadas Geográficas", {
+        ("Estado do Dispositivo", {
+            "fields": ("status", "via")
+        }),
+        ("Geolocalização", {
             "fields": ("latitude", "longitude"),
-            "description": "Localização precisa para o sistema de monitoramento regional."
+            "classes": ("collapse",)
         }),
-        ("Estado de Operação", {
-            "fields": ("status", "ativo"),
-        }),
-        ("Informações de Registro", {
+        ("Metadados", {
             "fields": ("criado_em", "atualizado_em"),
-            "classes": ("collapse",),  # Deixa este bloco recolhido por padrão
+            "classes": ("collapse",)
         }),
     )
 
-    # Método para exibir o status com um badge colorido (estilo Pills)
     def badge_status(self, obj):
         cores = {
             "VERDE": ("#dcfce7", "#15803d"),
-            "AMARELO": ("#fef3c7", "#92400e"),
+            "AMARELO": ("#fef9c3", "#854d0e"),
             "VERMELHO": ("#fee2e2", "#991b1b"),
             "APAGADO": ("#f3f4f6", "#374151"),
-            "MANUTENCAO": ("#dbeafe", "#1d4ed8"),
+            "MANUTENCAO": ("#fef3c7", "#92400e"),
         }
 
         bg, txt = cores.get(obj.status, ("#f3f4f6", "#374151"))
 
         return format_html(
-            '<span style="background:{}; color:{}; padding:3px 12px; '
-            'border-radius:20px; font-size:11px; font-weight:700; '
-            'text-transform:uppercase;">{}</span>',
-            bg,
-            txt,
-            obj.get_status_display(),
+            '<span style="background:{};color:{};padding:2px 10px;'
+            'border-radius:20px;font-size:11px;font-weight:600">{}</span>',
+            bg, txt, obj.get_status_display(),
         )
 
-    badge_status.short_description = "Status Atual"
+    badge_status.short_description = "Sinalização Atual"
