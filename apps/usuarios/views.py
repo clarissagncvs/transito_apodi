@@ -405,3 +405,11 @@ def editar_email(request, pk):
         "btn_label": "Confirmar Alteração",
     }
     return render(request, "pages/editar-email.html", context)
+
+# ── configurações ───────────────────────────────────────
+
+@login_required
+def configuracoes(request):
+    print(request.user)           # mostra quem está logado
+    print(request.user.is_authenticated)  # True ou False
+    return render(request, "pages/configuracoes.html")
