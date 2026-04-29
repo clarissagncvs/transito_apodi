@@ -1,3 +1,4 @@
+/*lembrar de comentar melhor isso aqui*/
 html {
     font-family: 'Roboto', sans-serif;
 }
@@ -85,7 +86,7 @@ html {
     margin-bottom: 10px;
 }
 
-.botao-alteracao {
+.botao-alteracao-perfil {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -94,9 +95,9 @@ html {
     margin-top: 20px;
 }
 
-.btn-usuario,
-.btn-email {
+.btn-primary {
     flex: 1;
+    font-size: 16px;
     max-width: 200px;
     padding: 12px 20px;
     cursor: pointer;
@@ -104,18 +105,66 @@ html {
     font-weight: bold;
     background-color: var(--verde-);
     color: white;
-    transition: background 0.3s;
+    text-decoration: none; 
+    text-align: center;    
+    display: inline-block;
+    border: none;          
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
 }
 
-.btn-usuario:hover,
-.btn-email:hover {
+.btn-primary:hover {
     background-color: var(--verde-claro-);
+    color: white; 
     transform: translateY(-4px);
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
 }
 
-.btn-usuario,
-.btn-email {
+/*mudança para editar usuario e email*/
+.input-perfil, .input-email {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px; 
+    background-color: var(--laranja-claro-);
+    color: #333; 
+}
+
+.input-perfil, .input-email::placeholder {
+    color: #999; 
+    opacity: 1; 
+}
+
+.input-perfil, .input-email:focus {
+    outline: none;
+    border-color: var(--laranja-claro-);
+    background-color: var(--laranja-claro-);
+}
+
+.btn-primary2 {
+    margin-top: 40px;
+    font-size: 16px;
+    max-width: 200px;
+    padding: 12px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
+    background-color: var(--verde-);
+    color: white;
+    text-decoration: none; 
+    text-align: center;    
+    display: inline-block;
+    border: none;          
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
 }
+
+.btn-primary2:hover {
+    background-color: var(--verde-claro-);
+    color: white; 
+    transform: translateY(-4px);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
+}
+
