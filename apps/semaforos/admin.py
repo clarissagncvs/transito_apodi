@@ -7,8 +7,6 @@ from .models import Semaforo
 class SemaforoAdmin(admin.ModelAdmin):
     """Configuração do painel administrativo para os Semáforos de Apodi."""
 
-
-
     # Otimiza a consulta da FK 'via' para evitar o problema de N+1 consultas
     list_select_related = ["via"]
 
@@ -53,14 +51,13 @@ class SemaforoAdmin(admin.ModelAdmin):
     # Método para exibir o status com um badge colorido (estilo Pills)
     def badge_status(self, obj):
         cores = {
-            "VERDE": ("#dcfce7", "#15803d"),     
-            "AMARELO": ("#fef3c7", "#92400e"),   
-            "VERMELHO": ("#fee2e2", "#991b1b"),  
-            "APAGADO": ("#f3f4f6", "#374151"),   
-            "MANUTENCAO": ("#dbeafe", "#1d4ed8"), 
+            "VERDE": ("#dcfce7", "#15803d"),
+            "AMARELO": ("#fef3c7", "#92400e"),
+            "VERMELHO": ("#fee2e2", "#991b1b"),
+            "APAGADO": ("#f3f4f6", "#374151"),
+            "MANUTENCAO": ("#dbeafe", "#1d4ed8"),
         }
 
-        
         bg, txt = cores.get(obj.status, ("#f3f4f6", "#374151"))
 
         return format_html(
