@@ -11,39 +11,36 @@ class Ocorrencia(models.Model):
         ACIDENTE = "ACIDENTE", "Acidente"
         SEMAFORO_DEFEITO = "SEMAFORO_DEFEITO", "Semáforo com Defeito"
         CONGESTIONAMENTO = "CONGESTIONAMENTO", "Congestionamento"
-        BURACO = "BURACO", "Buraco na via"
-        ALAGAMENTO = "ALAGAMENTO", "Alagamento"
-        OBRA = "OBRA", "Obra na Via"
+        OBRA = "OBRA", "Obra / Interdição"
         OUTRO = "OUTRO", "Outro"
 
     class Status(models.TextChoices):
         ABERTA = "ABERTA", "Aberta"
         EM_ANDAMENTO = "EM_ANDAMENTO", "Em Andamento"
         RESOLVIDA = "RESOLVIDA", "Resolvida"
-        CANCELADA = "CANCELADA", "Cancelada"
+        ENCERRADA = "ENCERRADA", "Encerrada"
 
-    # Tipo e descrição
+    # Campos principais
     tipo = models.CharField(
         max_length=20,
         choices=Tipo.choices,
-        verbose_name="Tipo de ocorrência",
+        verbose_name="Tipo de ocorrência"
     )
     descricao = models.TextField(verbose_name="Descrição")
-
-    # Situação atual
     status = models.CharField(
         max_length=20,
         choices=Status.choices,
         default=Status.ABERTA,
-        verbose_name="Situação",
+        verbose_name="Situação"
     )
 
     # Localização
     via = models.ForeignKey(
         Via,
-        on_delete=models.PROTECT,
+        on_delete=models.SET_NULL,
+        null=True,
         related_name="ocorrencias",
-        verbose_name="Via/Rua",
+        verbose_name="Via/Rua"
     )
     semaforo = models.ForeignKey(
         Semaforo,
@@ -51,10 +48,10 @@ class Ocorrencia(models.Model):
         null=True,
         blank=True,
         related_name="ocorrencias",
-        verbose_name="Semáforo relacionado",
+        verbose_name="Semáforo relacionado"
     )
 
-    # Coordenadas (DecimalField é melhor para precisão de GPS que FloatField)
+    # Coordenadas (DecimalField é melhor para GPS)
     latitude = models.DecimalField(
         max_digits=9, decimal_places=6, null=True, blank=True
     )
@@ -62,19 +59,12 @@ class Ocorrencia(models.Model):
         max_digits=9, decimal_places=6, null=True, blank=True
     )
 
-    # Mídia e Relator
-    foto = models.ImageField(
-        upload_to='ocorrencias/',
-        blank=True,
-        null=True,
-        verbose_name='Foto da ocorrência'
-    )
     usuario = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
         null=True,
         related_name="ocorrencias_reportadas",
-        verbose_name="Registrada por",
+        verbose_name="Registrada por"
     )
 
     criado_em = models.DateTimeField(auto_now_add=True)

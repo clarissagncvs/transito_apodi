@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     {% load static %}
     <meta charset="UTF-8">
@@ -14,12 +15,12 @@
     <aside class="sidebar">
         <nav>
             <div class="caixa-logo">
-                <img class="logo-img" src="{% static 'img/logo.png' %}">
+                <img class="logo-img" src="{% static 'img/logo.png' %}" alt="Logo Sidebar">
 
-            <div class="logo-texto">
-                <span class="txt-transito">trânsito</span>
-                <span class="txt-apodi">apodi</span>
-            </div>
+                <div class="logo-texto">
+                    <span class="txt-transito">trânsito</span>
+                    <span class="txt-apodi">apodi</span>
+                </div>
             </div>
 
             <a href="{% url 'home' %}" class="sidebar-button">
@@ -28,13 +29,13 @@
                     <span>Início</span>
                 </span>
             </a>
-            <a href="#" class="sidebar-button">
+            <a href="{% url 'apps.usuarios:perfil' %}" class="sidebar-button">
                 <span>
                     <i class="bi bi-person-fill"></i>
                     <span>Perfil</span>
                 </span>
             </a>
-            <a href="#" class="sidebar-button">
+            <a href="{% url 'apps.usuarios:configuracoes' %}" class="sidebar-button">
                 <span>
                     <i class="bi bi-gear"></i>
                     <span>Configurações</span>

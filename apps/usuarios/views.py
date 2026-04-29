@@ -9,11 +9,21 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.core.exceptions import PermissionDenied
 from django.utils import timezone
+from django.core.mail import send_mail
+from django.conf import settings
+from django.urls import reverse
 
 # 3. locais
 from .models import Usuario
-from .forms import LoginForm, RegistroForm, PerfilForm, UsuarioAdminForm
 from .services.usuario_service import UsuarioService
+from .forms import (
+    LoginForm,
+    RegistroForm,
+    PerfilForm,
+    UsuarioAdminForm,
+    UsuarioUpdateEmailForm,
+    UsuarioUpdateNomeForm
+)
 
 
 @login_required
@@ -53,8 +63,7 @@ def login_view(request):
                 # redireciona para próxima página ou mapa
                 return redirect(request.GET.get("next", "home"))
 
-            # mensagem de erro
-            messages.error(request, "Usuário ou senha incorretos.")
+            messages.error(request, "Usuário ou senha incorretos.")  # mensagem de erro
     else:
         # cria form vazio
         form = LoginForm()
@@ -355,3 +364,179 @@ def usuario_toggle_ativo(request, pk):
 
     # redireciona
     return redirect("apps.usuarios:lista")
+
+# mudei aqui (aiane)
+
+# form de mudar usuario
+
+
+@login_required
+def editar_usuario(request, pk):
+    usuario = get_object_or_404(Usuario, pk=pk)
+    if request.method == "POST":
+        form = UsuarioUpdateNomeForm(request.POST, instance=usuario)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Nome de usuário atualizado com sucesso!")
+            # Redireciona de volta para o perfil
+            return redirect("apps.usuarios:perfil")
+    else:
+        form = UsuarioUpdateNomeForm(instance=usuario)
+
+    context = {
+        "form": form,
+        "titulo": f"Alterar usuário – {usuario.username}",
+        "btn_label": "Confirmar Alteração",
+    }
+    return render(request, "pages/editar-usuario.html", context)
+
+# form pra mudar email
+
+
+@login_required
+def editar_email(request, pk):
+    usuario = get_object_or_404(Usuario, pk=pk)
+
+    if request.method == "POST":
+        form = UsuarioUpdateEmailForm(request.POST, instance=usuario)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "E-mail atualizado com sucesso!")
+            # Redireciona de volta para o perfil
+            return redirect("apps.usuarios:perfil")
+    else:
+        form = UsuarioUpdateEmailForm(instance=usuario)
+
+    context = {
+        "form": form,
+        "titulo": f"Alterar E-mail – {usuario.username}",
+        "btn_label": "Confirmar Alteração",
+    }
+    return render(request, "pages/editar-email.html", context)
+
+# ── configurações ───────────────────────────────────────
+
+
+@login_required
+def configuracoes(request):
+    print(request.user)           # mostra quem está logado
+    print(request.user.is_authenticated)  # True ou False
+    return render(request, "pages/configuracoes.html")
+
+# ── editar tipo ───────────────────────────────────────
+
+
+@login_required
+@admin_required
+def editar_tipo_usuario(request, pk):
+    usuario_alvo = get_object_or_404(Usuario, pk=pk)
+
+    if request.method == "POST":
+        # Aqui sim, usamos os dados que o usuário enviou (POST)
+        form = UsuarioAdminForm(request.POST, instance=usuario_alvo)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"Tipo do usuário {usuario_alvo.username} atualizado!")
+            return redirect("apps.usuarios:lista")
+    else:
+        # CORREÇÃO AQUI: No GET, passamos apenas a instância para carregar os dados atuais
+        form = UsuarioAdminForm(instance=usuario_alvo)
+
+    return render(request, "pages/form.html", {
+        "form": form,
+        "titulo": f"Alterar Nível de Acesso: {usuario_alvo.username}",
+        "btn_label": "Salvar Alteração"
+    })
+
+
+# ── requisição de alteração de tipo ───────────────────────────────────────
+@login_required
+def solicitar_mudanca_tipo(request):
+    usuario = request.user
+
+    # Gera o link completo para a página de edição do usuário (ex: http://seusite.com/usuarios/gerenciar/5/editar/)
+    url_edicao = request.build_absolute_uri(
+        reverse('apps.usuarios:editar', args=[usuario.pk])
+    )
+
+    assunto = f"[SOLICITAÇÃO] Mudança de Nível - {usuario.username}"
+    mensagem = f"""
+    Olá, Administrador.
+
+    O usuário abaixo solicitou uma alteração de nível de acesso (ADMIN ou AGENTE):
+
+    NOME: {usuario.get_full_name() or usuario.username}
+    E-MAIL: {usuario.email}
+    TIPO ATUAL: {usuario.get_tipo_display()}
+
+    Para aprovar ou rejeitar esta solicitação, acesse o link de edição direta abaixo:
+    {url_edicao}
+
+    Atenciosamente,
+    Sistema de Trânsito Apodi
+    """
+
+    # Filtra os e-mails de quem é ADMIN no banco
+    admins_emails = Usuario.objects.filter(tipo='ADMIN').values_list('email', flat=True)
+
+    if not admins_emails:
+        # Caso não existam admins no banco, envia para um e-mail padrão de suporte
+        admins_emails = [settings.EMAIL_HOST_USER]
+
+    try:
+        send_mail(
+            assunto,
+            mensagem,
+            settings.EMAIL_HOST_USER,
+            list(admins_emails),
+            fail_silently=False,
+        )
+        messages.success(request, "Solicitação enviada com sucesso! Aguarde a análise dos administradores.")
+    except Exception as e:
+        print(f"Erro no envio de e-mail: {e}")  # Log para você ver no terminal se algo falhar
+        messages.error(request, "Não foi possível enviar o e-mail no momento. Tente mais tarde.")
+
+    return redirect('apps.usuarios:perfil')
+
+# busca
+
+
+def busca_binaria_usuarios(lista, alvo):
+    baixo = 0
+    alto = len(lista) - 1
+
+    while baixo <= alto:
+        meio = (baixo + alto) // 2
+        # Comparamos o username (string)
+        chute = lista[meio].username.lower()
+
+        if chute == alvo.lower():
+            return [lista[meio]]  # Retorna o usuário em uma lista
+
+        if chute > alvo.lower():
+            alto = meio - 1
+        else:
+            baixo = meio + 1
+    return []
+
+
+@admin_required
+def lista_usuarios(request):
+    # 1. Pegamos todos e ordenamos (essencial para busca binária)
+    usuarios_todos = list(Usuario.objects.all().order_by('username'))
+
+    termo_busca = request.GET.get('search')
+
+    if termo_busca:
+        # 2. Aplicamos o mecanismo de busca binária
+        usuarios_filtrados = busca_binaria_usuarios(usuarios_todos, termo_busca)
+    else:
+        usuarios_filtrados = usuarios_todos
+
+    # Mantemos a paginação que você já usa
+    paginator = Paginator(usuarios_filtrados, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, "pages/lista_usuarios.html", {"page_obj": page_obj})

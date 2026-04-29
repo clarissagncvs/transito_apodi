@@ -1,0 +1,10 @@
+html {
+    font-family: 'Roboto', sans-serif;
+}
+
+/* estilização do mapa através do id map*/
+
+#map {
+    width: 700px;
+    height: 400px;
+}

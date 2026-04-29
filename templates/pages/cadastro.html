@@ -2,18 +2,17 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Cadastre-se - Trânsito Apodi</title>
-
     <link rel="icon" type="image/x-icon" href="{% static 'img/icone.ico' %}">
     <link rel="stylesheet" href="{% static 'css/pages/cadastro.css' %}">
+    <style>
+        .error-message { color: #d9534f; font-size: 12px; display: block; margin-top: 5px; }
+    </style>
 </head>
 
 <body>
-
     <div class="site-description">
         <h2 style="color: #ff8000; font-size: 60px;">
             <strong>TRÂNSITO APODI</strong>
@@ -23,7 +22,6 @@
 
     <main class="sign-container">
         <div class="retangulo">
-
             <h1>Cadastrar</h1>
 
             {% if messages %}
@@ -34,37 +32,48 @@
                 {% endfor %}
             {% endif %}
 
+            {# Exibe erros que não são de campos específicos (ex: senhas diferentes) #}
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger small">{{ form.non_field_errors.0 }}</div>
+            {% endif %}
+
             <form method="POST" action="{% url 'apps.usuarios:cadastro' %}">
                 {% csrf_token %}
 
                 <div class="form-group">
                     <label for="username">Username:</label>
-                    <input id="username" class="input-field" type="text" name="username" placeholder="Usuário" required>
+                    <input id="username" class="input-field" type="text" name="username" placeholder="Usuário" value="{{ form.username.value|default:'' }}" required>
+                    {% if form.username.errors %}<span class="error-message">{{ form.username.errors.0 }}</span>{% endif %}
                 </div>
 
                 <div class="form-group">
                     <label for="first_name">Nome:</label>
-                    <input id="first_name" class="input-field" type="text" name="first_name" placeholder="Nome" required>
+                    <input id="first_name" class="input-field" type="text" name="first_name" placeholder="Nome" value="{{ form.first_name.value|default:'' }}" required>
+                    {% if form.first_name.errors %}<span class="error-message">{{ form.first_name.errors.0 }}</span>{% endif %}
                 </div>
 
                 <div class="form-group">
                     <label for="last_name">Sobrenome:</label>
-                    <input id="last_name" class="input-field" type="text" name="last_name" placeholder="Sobrenome" required>
+                    <input id="last_name" class="input-field" type="text" name="last_name" placeholder="Sobrenome" value="{{ form.last_name.value|default:'' }}" required>
+                    {% if form.last_name.errors %}<span class="error-message">{{ form.last_name.errors.0 }}</span>{% endif %}
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input id="email" class="input-field" type="email" name="email" placeholder="Email" required>
+                    <input id="email" class="input-field" type="email" name="email" placeholder="Email" value="{{ form.email.value|default:'' }}" required>
+                    {% if form.email.errors %}<span class="error-message">{{ form.email.errors.0 }}</span>{% endif %}
                 </div>
 
                 <div class="form-group">
                     <label for="password1">Senha:</label>
                     <input id="password1" class="input-field" type="password" name="password1" placeholder="Senha" required>
+                    {% if form.password1.errors %}<span class="error-message">{{ form.password1.errors.0 }}</span>{% endif %}
                 </div>
 
                 <div class="form-group">
                     <label for="password2">Confirmar senha:</label>
                     <input id="password2" class="input-field" type="password" name="password2" placeholder="Confirmar senha" required>
+                    {% if form.password2.errors %}<span class="error-message">{{ form.password2.errors.0 }}</span>{% endif %}
                 </div>
 
                 <div class="form-group">
@@ -78,11 +87,8 @@
                         Já possui conta? Entrar
                     </a>
                 </div>
-
             </form>
-
         </div>
     </main>
-
 </body>
 </html>
