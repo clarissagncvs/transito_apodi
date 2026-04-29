@@ -156,7 +156,7 @@ class UsuarioUpdateNomeForm(forms.ModelForm):
             "username": forms.TextInput(attrs={"class": CSS, "placeholder": "Novo nome de usuário"}),
         }
 
- # Formulário para editar APENAS o e-mail na pagina editar-email
+# Formulário para editar APENAS o e-mail na pagina editar-email
 
 
 class UsuarioUpdateEmailForm(forms.ModelForm):
