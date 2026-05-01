@@ -7,9 +7,12 @@
     <title>Cadastre-se - Trânsito Apodi</title>
     <link rel="icon" type="image/x-icon" href="{% static 'img/icone.ico' %}">
     <link rel="stylesheet" href="{% static 'css/pages/cadastro.css' %}">
+    <!-- No head do seu base.html -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         .error-message { color: #d9534f; font-size: 12px; display: block; margin-top: 5px; }
     </style>
+    <script src="{% static 'js/pages/cadastro.js' %}"></script>
 </head>
 
 <body>
@@ -66,13 +69,21 @@
 
                 <div class="form-group">
                     <label for="password1">Senha:</label>
-                    <input id="password1" class="input-field" type="password" name="password1" placeholder="Senha" required>
+                    <div style="position: relative; display: flex; align-items: center;">
+                        <input id="password1" class="input-field" type="password" name="password1" placeholder="Senha" required>
+                        <i class="bi bi-eye-slash toggle-password" data-target="password1"></i>
+                    </div>
+                    <!-- Legenda do Semáforo -->
+                    <small id="password-strength-text" style="display: block; margin-top: 5px; font-weight: bold;"></small>
                     {% if form.password1.errors %}<span class="error-message">{{ form.password1.errors.0 }}</span>{% endif %}
                 </div>
 
                 <div class="form-group">
                     <label for="password2">Confirmar senha:</label>
-                    <input id="password2" class="input-field" type="password" name="password2" placeholder="Confirmar senha" required>
+                    <div style="position: relative; display: flex; align-items: center;">
+                        <input id="password2" class="input-field" type="password" name="password2" placeholder="Confirmar senha" required>
+                        <i class="bi bi-eye-slash toggle-password" data-target="password2"></i>
+                    </div>
                     {% if form.password2.errors %}<span class="error-message">{{ form.password2.errors.0 }}</span>{% endif %}
                 </div>
 
