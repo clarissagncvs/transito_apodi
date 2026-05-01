@@ -21,8 +21,8 @@
         <br> <br>
         <div class="botao-alteracao-perfil">
                 <a href="{% url 'apps.usuarios:editar_usuario' user.id %}" class="btn btn-primary">Alterar usuário</a>
-                <a href="{% url 'apps.usuarios:solicitar_mudanca' %}" class="btn btn-primary">Mudar para AGENTE ou ADMIN</a>
                 <a href="{% url 'apps.usuarios:editar_email' user.id %}" class="btn btn-primary">Alterar E-mail</a>
+                <a href="{% url 'apps.usuarios:solicitar_mudanca' %}" class="btn btn-primary">Mudar para AGENTE ou ADMIN</a>
     </section>
     
 </body>
