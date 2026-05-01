@@ -3,6 +3,7 @@ from functools import wraps
 import random
 
 # 2. Django / terceiros
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
@@ -384,28 +385,26 @@ def configuracoes(request):
 
 @login_required
 @admin_required
-def editar_tipo_usuario(request, pk):
-    usuario_alvo = get_object_or_404(Usuario, pk=pk)
+def editar_tipo_usuario(request, user_id, novo_tipo):
+    # O user_id e novo_tipo vêm direto da URL
+    usuario_alvo = get_object_or_404(Usuario, pk=user_id)
 
-    if request.method == "POST":
-        # Aqui sim, usamos os dados que o usuário enviou (POST)
-        form = UsuarioAdminForm(request.POST, instance=usuario_alvo)
-        if form.is_valid():
-            form.save()
-            messages.success(request, f"Tipo do usuário {usuario_alvo.username} atualizado!")
-            return redirect("apps.usuarios:lista")
-    else:
-        # CORREÇÃO AQUI: No GET, passamos apenas a instância para carregar os dados atuais
-        form = UsuarioAdminForm(instance=usuario_alvo)
+    # Prepara os dados para o service do Trânsito Apodi
+    dados_atualizacao = {'tipo': novo_tipo}
 
-    return render(request, "pages/form.html", {
-        "form": form,
-        "titulo": f"Alterar Nível de Acesso: {usuario_alvo.username}",
-        "btn_label": "Salvar Alteração"
-    })
+    # O service atualiza o banco e as permissões (is_staff/is_admin)
+    UsuarioService.atualizar_perfil(usuario_alvo, dados_atualizacao)
 
+    # Se for a chamada do AJAX (Card), retorna Sucesso sem Conteúdo (204)
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return HttpResponse(status=204)
+
+    # Backup para caso seja chamado de forma tradicional
+    return redirect("apps.usuarios:lista")
 
 # ── requisição de alteração de tipo ───────────────────────────────────────
+
+
 @login_required
 def solicitar_mudanca_tipo(request):
     url_edicao = request.build_absolute_uri(
