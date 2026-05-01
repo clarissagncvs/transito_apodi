@@ -86,21 +86,23 @@ def registrar(request):
             dados = form.cleaned_data
             codigo_verificacao = str(random.randint(100000, 999999))
 
-            # Armazenamos os dados para persistir após a verificação
             request.session['dados_registro_pendente'] = {
                 'username': dados['username'],
                 'email': dados['email'],
-                'password': dados['password'],  # O form.cleaned_data geralmente traz a senha limpa
+                'password': dados['password'],
                 'codigo': codigo_verificacao
             }
 
             request.session['usuario_verificando_id'] = True
 
-            # Simulação de envio de e-mail
             print(f"Código para {dados['email']}: {codigo_verificacao}")
-            print(f"Código: {request.session['dados_registro_pendente']['codigo']}")
             return redirect('apps.usuarios:verificar_codigo')
-        return render(request, 'usuarios/cadastro.html', {'form': RegistroForm()})
+        
+        # Se o form for INVÁLIDO, ele cai aqui (ainda no POST)
+        return render(request, 'pages/cadastro.html', {'form': form})
+
+    form = RegistroForm()
+    return render(request, 'pages/cadastro.html', {'form': form})
 
 
 def verificar_codigo(request):
