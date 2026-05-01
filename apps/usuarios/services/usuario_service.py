@@ -20,23 +20,28 @@ class UsuarioService:
     # método para criar usuário
     @staticmethod
     def criar_usuario(data: dict) -> Usuario:
-        password1 = data.pop("password1", None)
-        password2 = data.pop("password2", None)
+        # Tenta pegar password1 (do form) ou password (da sessão/teste)
+        password = data.pop("password1", data.pop("password", None))
+        password_confirm = data.pop("password2", password)  # Se não houver p2, assume igual
 
-        if not password1:
+        if not password:
             raise ValidationError("senha é obrigatória.")
 
-        if password1 != password2:
+        if password != password_confirm:
             raise ValidationError("as senhas não coincidem.")
 
-        data["is_active"] = False
+        # Se a View não mandou o status, o padrão é False
+        if "is_active" not in data:
+            data["is_active"] = False
 
         user = Usuario.objects.create_user(
-            password=password1,
+            password=password,
             **data
         )
 
-        UsuarioService.gerar_e_enviar_codigo(user)
+        # Só envia e-mail se o usuário for criado inativo
+        if not user.is_active:
+            UsuarioService.gerar_e_enviar_codigo(user)
 
         return user
 
