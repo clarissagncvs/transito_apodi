@@ -131,6 +131,7 @@ body {
     outline: none;
     padding: 0 10px 0 0;
     height: 44px;
+    padding-right: 45px !important;
 }
  
 .input-field::placeholder {
@@ -212,5 +213,10 @@ body {
 a {
     color: #ff8000;
     text-decoration: none;
+}
+
+.toggle-password:hover {
+    color: #ff8000 !important; /* Laranja da marca */
+    transition: color 0.2s ease;
 }
  
