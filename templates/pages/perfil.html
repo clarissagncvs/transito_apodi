@@ -1,30 +1,111 @@
 {% extends 'base.html' %}
-{% load static %} {% block title %} Perfil {% endblock %}
+{% load static %} 
+{% block title %} Perfil {% endblock %}
 
 {% block content %}
-<body>
+<style>
+    /* Estilos do Card/Modal */
+    .modal-overlay {
+        display: none; 
+        position: fixed; 
+        z-index: 9999; 
+        top: 0; left: 0; 
+        width: 100%; height: 100%; 
+        background: rgba(0, 0, 0, 0.7);
+        align-items: center; 
+        justify-content: center;
+    }
 
-    <section class="first-section">
-        <div class="perfil-card">
-            <div class="foto-usuario">
-                <img src="{% static 'img/icone-usuario.png' %}" alt="Foto de Perfil" class="profile-img">
-            </div>
-            <h1>Perfil</h1>
-            <div class="informacoes-usuario">
-                <span class="nome">Usuário:</span>
-                <span class="nome-usuario">{{ user.username }}</span>
+    .perfil-modal-card {
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        animation: fadeIn 0.3s ease;
+    }
 
-                <span class="email">E-mail:</span>
-                <span class="email-usuario">{{ user.email }}</span>
-            </div>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .perfil-modal-card h3 { margin-bottom: 10px; color: #333; }
+
+    .modal-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 20px;
+    }
+
+    .btn-modal {
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    .btn-modal:hover { transform: scale(1.02); }
+    .btn-agente { background-color: #28a745; color: white; }
+    .btn-admin { background-color: #dc3545; color: white; }
+    .btn-close { background: none; color: #888; text-decoration: underline; font-size: 0.9em; margin-top: 15px; }
+</style>
+
+<section class="first-section">
+    <div class="perfil-card">
+        <div class="foto-usuario">
+            <img src="{% static 'img/icone-usuario.png' %}" alt="Foto de Perfil" class="profile-img">
         </div>
-        <br> <br>
-        <div class="botao-alteracao-perfil">
-                <a href="{% url 'apps.usuarios:editar_usuario' user.id %}" class="btn btn-primary">Alterar usuário</a>
-                <a href="{% url 'apps.usuarios:editar_email' user.id %}" class="btn btn-primary">Alterar E-mail</a>
-                <a href="{% url 'apps.usuarios:solicitar_mudanca' %}" class="btn btn-primary">Mudar para AGENTE ou ADMIN</a>
-    </section>
-    
-</body>
+        <h1>Perfil</h1>
+        <div class="informacoes-usuario">
+            <span class="nome">Usuário:</span>
+            <span class="nome-usuario">{{ user.username }}</span>
+            <span class="email">E-mail:</span>
+            <span class="email-usuario">{{ user.email }}</span>
+        </div>
+    </div>
+    <br> <br>
+    <div class="botao-alteracao-perfil">
+        <a href="{% url 'apps.usuarios:editar_usuario' user.id %}" class="btn btn-primary">Alterar usuário</a>
+        <a href="{% url 'apps.usuarios:editar_email' user.id %}" class="btn btn-primary">Alterar E-mail</a>
+        
+        <button type="button" class="btn btn-primary" onclick="toggleModal(true)">
+            Mudar para AGENTE ou ADMIN
+        </button>
+    </div>
+</section>
+
+<div id="changeAccountModal" class="modal-overlay">
+    <div class="perfil-modal-card">
+        {% csrf_token %} <h3>Solicitar Mudança</h3>
+        <p>Escolha o novo tipo de conta para <strong>{{ user.username }}</strong>:</p>
+        
+        <div class="modal-buttons">
+            <button type="button" 
+                    class="btn-modal btn-agente" 
+                    data-url="{% url 'apps.usuarios:solicitar_mudanca' %}" 
+                    onclick="dispararSolicitacao('AGENTE', this.dataset.url)">
+                Solicitar AGENTE
+            </button>
+                    
+            <button type="button" 
+                    class="btn-modal btn-admin" 
+                    data-url="{% url 'apps.usuarios:solicitar_mudanca' %}" 
+                    onclick="dispararSolicitacao('ADMIN', this.dataset.url)">
+                Solicitar ADMIN
+            </button>
+        </div>
+        <button type="button" onclick="toggleModal(false)" class="btn-close">Cancelar</button>
+    </div>
+</div>
+
+{% block extra_js %}
+    <script src="{% static 'js/pages/perfil.js' %}"></script>
 {% endblock %}
 
+{% endblock %}

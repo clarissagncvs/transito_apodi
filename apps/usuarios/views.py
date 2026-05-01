@@ -3,7 +3,7 @@ from functools import wraps
 import random
 
 # 2. Django / terceiros
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
@@ -407,23 +407,37 @@ def editar_tipo_usuario(request, user_id, novo_tipo):
 
 @login_required
 def solicitar_mudanca_tipo(request):
-    url_edicao = request.build_absolute_uri(
-        reverse('apps.usuarios:editar', args=[request.user.pk])
-    )
+    # Como o nosso JavaScript envia a requisição via POST:
+    if request.method == "POST":
+        novo_tipo = request.POST.get("tipo")  # Pega 'AGENTE' ou 'ADMIN' do JS
 
-    try:
-        UsuarioService.solicitar_upgrade(request.user, url_edicao)
-        messages.success(request, "Solicitação enviada aos administradores.")
-    except Exception as e:
-        print(f"Erro técnico: {e}")
-        messages.error(request, f"Erro ao enviar solicitação: {e}")
+        if novo_tipo in ['AGENTE', 'ADMIN']:
+            url_edicao = request.build_absolute_uri(
+                reverse('apps.usuarios:editar', args=[request.user.pk])
+            )
 
+            try:
+                # NOME CORRETO da função e passando os 3 parâmetros:
+                UsuarioService.solicitar_upgrade_tipo(request.user, novo_tipo, url_edicao)
+
+                # Devolve JsonResponse para o JS saber que deu tudo certo e mostrar o alert
+                return JsonResponse({"status": "sucesso"})
+
+            except Exception as e:
+                print(f"Erro técnico ao enviar e-mail: {e}")
+                # Devolve o erro para o JS mostrar o alert de erro
+                return JsonResponse({"erro": str(e)}, status=500)
+
+        return JsonResponse({"erro": "Tipo de conta inválido."}, status=400)
+
+    # Fallback: Se o usuário acessar a URL diretamente pelo navegador (sem ser o JS)
     return redirect('apps.usuarios:perfil')
 
 
 @admin_required
 def lista_usuarios(request):
     termo_busca = request.GET.get('search')
+
     # Lógica delegada ao Service
     usuarios_filtrados = UsuarioService.buscar_usuarios_binario(termo_busca)
 

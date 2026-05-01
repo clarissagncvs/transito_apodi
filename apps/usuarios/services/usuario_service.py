@@ -201,28 +201,46 @@ class UsuarioService:
         raise ValidationError("Código inválido ou expirado.")
 
     @staticmethod
-    def solicitar_upgrade_tipo(usuario, absolute_uri):
-        """Monta e envia o e-mail de solicitação para os admins."""
-        assunto = f"[SOLICITAÇÃO] Mudança de Nível - {usuario.username}"
+    def solicitar_upgrade_tipo(usuario, novo_tipo, absolute_uri):
+        """
+        Envia a solicitação DIRETAMENTE para o e-mail do sistema (configurado no .env).
+        """
+        # 1. Configura o assunto com o tipo escolhido (AGENTE ou ADMIN)
+        assunto = f"[{novo_tipo}] Solicitação de Mudança de Conta - {usuario.username}"
+
+        # 2. Monta a mensagem detalhada
         mensagem = f"""
-        Olá, Administrador.
-        O usuário abaixo solicitou uma alteração de nível de acesso (ADMIN ou AGENTE):
+        Nova solicitação de alteração de nível de acesso no sistema Trânsito Apodi.
 
-        NOME: {usuario.get_full_name() or usuario.username}
-        E-MAIL: {usuario.email}
-        TIPO ATUAL: {usuario.get_tipo_display()}
+        DADOS DO SOLICITANTE:
+        ---------------------------------
+        Usuário: {usuario.username}
+        E-mail do usuário: {usuario.email}
+        Nível Atual: {usuario.get_tipo_display()}
+        MUDANÇA SOLICITADA PARA: {novo_tipo}  <--
 
-        Para aprovar ou rejeitar, acesse o link: {absolute_uri}
+        AÇÃO NECESSÁRIA:
+        Para aprovar ou alterar o perfil deste usuário, acesse o link:
+        {absolute_uri}
         """
 
-        admins_emails = Usuario.objects.filter(tipo='ADMIN').values_list('email', flat=True)
-        if not admins_emails:
-            admins_emails = [settings.EMAIL_HOST_USER]
+        # 3. Define o destinatário como o e-mail do próprio sistema (seu .env)
+        # O destinatário será o valor de DEFAULT_FROM_EMAIL
+        destinatarios = [settings.DEFAULT_FROM_EMAIL]
 
-        send_mail(
-            assunto, mensagem, settings.EMAIL_HOST_USER,
-            list(admins_emails), fail_silently=False
-        )
+        # 4. Disparo obrigatório
+        try:
+            send_mail(
+                subject=assunto,
+                message=mensagem,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=destinatarios,
+                fail_silently=False,  # Garante que erros apareçam no seu terminal
+            )
+            print(f"✅ E-mail enviado com sucesso para {settings.DEFAULT_FROM_EMAIL}")
+        except Exception as e:
+            print(f"❌ Falha ao enviar e-mail: {e}")
+            raise e
 #  Busca Binária
 
     @staticmethod
