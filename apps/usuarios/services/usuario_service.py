@@ -207,7 +207,7 @@ class UsuarioService:
         """
         # 1. Configura o assunto com o tipo escolhido (AGENTE ou ADMIN)
         assunto = f"[{novo_tipo}] Solicitação de Mudança de Conta - {usuario.username}"
-        
+
         # 2. Monta a mensagem detalhada
         mensagem = f"""
         Nova solicitação de alteração de nível de acesso no sistema Trânsito Apodi.
@@ -235,7 +235,7 @@ class UsuarioService:
                 message=mensagem,
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=destinatarios,
-                fail_silently=False, # Garante que erros apareçam no seu terminal
+                fail_silently=False,  # Garante que erros apareçam no seu terminal
             )
             print(f"✅ E-mail enviado com sucesso para {settings.DEFAULT_FROM_EMAIL}")
         except Exception as e:
