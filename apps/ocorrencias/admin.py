@@ -51,6 +51,7 @@ class OcorrenciaAdmin(admin.ModelAdmin):
             "SEMAFORO_DEFEITO": ("#ffedd5", "#9a3412"),
             "CONGESTIONAMENTO": ("#f3e8ff", "#6b21a8"),
             "OBRA": ("#fef9c3", "#854d0e"),
+            "EVENTO": ("#2797c4ff", "#868685c1"),
             "OUTRO": ("#f3f4f6", "#374151"),
         }
         bg, txt = cores.get(obj.tipo, ("#f3f4f6", "#374151"))

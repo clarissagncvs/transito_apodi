@@ -105,39 +105,47 @@ html {
     font-weight: bold;
     background-color: var(--verde-);
     color: white;
-    text-decoration: none; 
-    text-align: center;    
+    text-decoration: none;
+    text-align: center;
     display: inline-block;
-    border: none;          
+    border: none;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
     background-color: var(--verde-claro-);
-    color: white; 
+    color: white;
     transform: translateY(-4px);
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
 }
 
+<<<<<<< HEAD
 /* mudança para editar usuario e email */
 .input-perfil, .input-email {
+=======
+/*mudança para editar usuario e email*/
+.input-perfil,
+.input-email {
+>>>>>>> 46ffc3df99bbcc571e2de43bdf9ee93d47482770
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 16px; 
+    font-size: 16px;
     background-color: var(--laranja-claro-);
-    color: #333; 
+    color: #333;
 }
 
-.input-perfil, .input-email::placeholder {
-    color: #999; 
-    opacity: 1; 
+.input-perfil,
+.input-email::placeholder {
+    color: #999;
+    opacity: 1;
 }
 
-.input-perfil, .input-email:focus {
+.input-perfil,
+.input-email:focus {
     outline: none;
     border-color: var(--laranja-claro-);
     background-color: var(--laranja-claro-);
@@ -153,17 +161,21 @@ html {
     font-weight: bold;
     background-color: var(--verde-);
     color: white;
-    text-decoration: none; 
-    text-align: center;    
+    text-decoration: none;
+    text-align: center;
     display: inline-block;
-    border: none;          
+    border: none;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
 }
 
 .btn-primary2:hover {
     background-color: var(--verde-claro-);
-    color: white; 
+    color: white;
     transform: translateY(-4px);
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 46ffc3df99bbcc571e2de43bdf9ee93d47482770

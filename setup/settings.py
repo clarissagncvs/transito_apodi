@@ -46,6 +46,7 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    'apps.usuarios.middleware.IPLimitMiddleware',
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
@@ -81,7 +82,16 @@ DATABASES = {
 }
 
 
-# ── 8. autenticação ───────────────────────────
+# ── 8. cache ─────────────────────────
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'fluxo-trafego-cache',
+    }
+}
+
+
+# ── 9. autenticação ───────────────────────────
 AUTH_USER_MODEL = "usuarios.Usuario"
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -96,14 +106,14 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/usuarios/login/"
 
 
-# ── 9. internacionalização ────────────────────
+# ── 10. internacionalização ────────────────────
 LANGUAGE_CODE = "pt-br"
 TIME_ZONE = "America/Fortaleza"
 USE_I18N = True
 USE_TZ = True
 
 
-# ── 10. arquivos estáticos e mídia ────────────
+# ── 11. arquivos estáticos e mídia ────────────
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
@@ -111,7 +121,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-# ── 11. e-mail ────────────────────────────────
+# ── 12. e-mail ────────────────────────────────
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
@@ -120,7 +130,7 @@ EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = f'Trânsito Apodi <{os.getenv("EMAIL_HOST_USER")}>'
 
-# ── 12. django rest framework ─────────────────
+# ── 13. django rest framework ─────────────────
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
@@ -147,7 +157,7 @@ REST_FRAMEWORK = {
     ],
 }
 
-# ── 13. JWT ───────────────────────────────────
+# ── 14. JWT ───────────────────────────────────
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME":  timedelta(hours=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
@@ -155,11 +165,11 @@ SIMPLE_JWT = {
 }
 
 
-# ── 14. cors ──────────────────────────────────
+# ── 15. cors ──────────────────────────────────
 CORS_ALLOW_ALL_ORIGINS = True   # apenas em desenvolvimento
 
 
-# ── 15. mensagens ─────────────────────────────
+# ── 16. mensagens ─────────────────────────────
 MESSAGE_TAGS = {
     messages_constants.DEBUG:   "secondary",
     messages_constants.INFO:    "info",
@@ -169,5 +179,5 @@ MESSAGE_TAGS = {
 }
 
 
-# ── 16. chave padrão de auto campo ────────────
+# ── 17. chave padrão de auto campo ────────────
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

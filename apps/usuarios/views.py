@@ -1,16 +1,15 @@
 # 1. padrão Python
 from functools import wraps
+import random
 
 # 2. Django / terceiros
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.core.exceptions import PermissionDenied
-from django.utils import timezone
-from django.core.mail import send_mail
-from django.conf import settings
 from django.urls import reverse
 
 # 3. locais
@@ -34,7 +33,6 @@ def home(request):
 
 
 # ── autenticação ──────────────────────────────────────────────
-
 
 # view de login
 def login_view(request):
@@ -82,59 +80,61 @@ def logout_view(request):
 
 # view de registro
 def registrar(request):
-    if request.user.is_authenticated:
-        return redirect("home")
-
-    if request.method == "POST":
-
-        form = RegistroForm(request.POST, request.FILES)
-
+    if request.method == 'POST':
+        form = RegistroForm(request.POST)
         if form.is_valid():
-            # Pegamos os dados validados do formulário
-            dados_usuario = form.cleaned_data
+            dados = form.cleaned_data
+            codigo_verificacao = str(random.randint(100000, 999999))
 
-            # Chamamos o Service (Ele cria o usuário inativo e envia o e-mail)
-            user = UsuarioService.criar_usuario(dados_usuario)
+            request.session['dados_registro_pendente'] = {
+                'username': dados['username'],
+                'email': dados['email'],
+                'password': dados['password'],
+                'codigo': codigo_verificacao
+            }
 
-            messages.success(request, f"Código enviado para {user.email}!")
+            request.session['usuario_verificando_id'] = True
 
-            # Guardamos o ID do usuário na sessão para saber quem está verificando o código
-            request.session['usuario_verificando_id'] = user.id
+            print(f"Código para {dados['email']}: {codigo_verificacao}")
+            return redirect('apps.usuarios:verificar_codigo')
 
-            return redirect("apps.usuarios:verificar_codigo")
-        else:
-            # Se cair aqui, o formulário volta com os erros (ex: email duplicado)
-            messages.error(request, "Erro no cadastro. Verifique os dados.")
-    else:
-        form = RegistroForm()
+        # Se o form for INVÁLIDO, ele cai aqui (ainda no POST)
+        return render(request, 'pages/cadastro.html', {'form': form})
 
-    return render(request, "pages/cadastro.html", {"form": form})
+    form = RegistroForm()
+    return render(request, 'pages/cadastro.html', {'form': form})
 
 
 def verificar_codigo(request):
-    # Pega o ID do usuário que acabou de se cadastrar
-    usuario_id = request.session.get('usuario_verificando_id')
-
-    if not usuario_id:
+    if not request.session.get('usuario_verificando_id'):
         return redirect("apps.usuarios:registrar")
 
     if request.method == "POST":
-        codigo_digitado = request.POST.get("codigo")
-        usuario = get_object_or_404(Usuario, id=usuario_id)
+        # .strip() remove espaços acidentais e str() garante a tipagem
+        codigo_digitado = str(request.POST.get("codigo", "")).strip()
+        dados = request.session.get('dados_registro_pendente')
 
-        # Validação do código e do tempo
-        agora = timezone.now()
+        if dados and codigo_digitado == str(dados.get('codigo')):
+            try:
+                UsuarioService.criar_usuario({
+                    'username': dados['username'],
+                    'email': dados['email'],
+                    'password': dados['password'],
+                    'is_active': True
+                })
 
-        if (usuario.codigo_verificacao == codigo_digitado and usuario.codigo_expira_em > agora):
+                # Limpeza segura
+                request.session.pop('usuario_verificando_id', None)
+                request.session.pop('dados_registro_pendente', None)
 
-            usuario.is_active = True
-            usuario.codigo_verificacao = None  # Limpa o código
-            usuario.save(update_fields=['is_active', 'codigo_verificacao'])
+                messages.success(request, "Conta criada com sucesso!")
+                return redirect("/usuarios/login/")  # O esperado 302
 
-            messages.success(request, "Conta ativada com sucesso! Faça login.")
-            return redirect("/usuarios/login/")
+            except Exception as e:
+                messages.error(request, f"Erro no Service: {e}")
         else:
-            messages.error(request, "Código inválido ou expirado.")
+            # Se cair aqui, a View retorna 200 e o teste falha
+            messages.error(request, "Código inválido.")
 
     return render(request, "pages/verificador.html")
 
@@ -197,42 +197,6 @@ def admin_required(view_func):
     return wrapper
 
 
-# ── lista de usuários ────────────────────────────────────────
-
-
-@login_required
-@admin_required
-def usuario_lista(request):
-    # pega todos os usuários
-    qs = Usuario.objects.all()
-
-    # pega filtros da url
-    tipo = request.GET.get("tipo", "")
-    busca = request.GET.get("q", "")
-    ativo = request.GET.get("ativo", "")
-
-    # aplica filtros via service
-    qs = UsuarioService.filtrar_usuarios(qs, tipo, busca, ativo)
-
-    # pagina resultados
-    paginator = Paginator(qs, 15)
-    page = paginator.get_page(request.GET.get("page"))
-
-    # renderiza lista
-    return render(
-        request,
-        "pages/lista.html",
-        {
-            "page_obj": page,
-            "tipo_choices": Usuario.Tipo.choices,
-            "filtro_tipo": tipo,
-            "filtro_busca": busca,
-            "filtro_ativo": ativo,
-            "total": qs.count(),
-        },
-    )
-
-
 # ── criar usuário ────────────────────────────────────────────
 
 
@@ -280,33 +244,26 @@ def usuario_criar(request):
 @login_required
 @admin_required
 def usuario_editar(request, pk):
-    # busca usuário
+
     usuario = get_object_or_404(Usuario, pk=pk)
 
-    # se envio
     if request.method == "POST":
         form = UsuarioAdminForm(request.POST, request.FILES, instance=usuario)
 
-        # valida form
         if form.is_valid():
-            form.save()
-            messages.success(request, "Usuário atualizado.")
+            # O service cuida de salvar as alterações administrativas (como tipo e status)
+            UsuarioService.atualizar_perfil(usuario, form.cleaned_data)
+            messages.success(request, f"Usuário {usuario.username} atualizado com sucesso.")
             return redirect("apps.usuarios:lista")
     else:
         form = UsuarioAdminForm(instance=usuario)
 
-    # renderiza form
-    return render(
-        request,
-        "pages/form.html",
-        {
-            "form": form,
-            "titulo": f"Editar — {usuario.username}",
-            "usuario": usuario,
-            "tipo_choices": Usuario.Tipo.choices,
-            "btn_label": "Salvar alterações",
-        },
-    )
+    return render(request, "pages/form.html", {
+        "form": form,
+        "titulo": f"Editar — {usuario.username}",
+        "usuario": usuario,
+        "btn_label": "Salvar alterações",
+    })
 
 
 # ── detalhe ──────────────────────────────────────────────────
@@ -372,24 +329,25 @@ def usuario_toggle_ativo(request, pk):
 
 @login_required
 def editar_usuario(request, pk):
+    # Por segurança, garantimos que o usuário só edita a si mesmo
     usuario = get_object_or_404(Usuario, pk=pk)
+    if usuario != request.user:
+        raise PermissionDenied
+
     if request.method == "POST":
         form = UsuarioUpdateNomeForm(request.POST, instance=usuario)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Nome de usuário atualizado com sucesso!")
-            # Redireciona de volta para o perfil
+            UsuarioService.atualizar_perfil(usuario, form.cleaned_data)
+            messages.success(request, "Seu nome de usuário foi atualizado!")
             return redirect("apps.usuarios:perfil")
     else:
         form = UsuarioUpdateNomeForm(instance=usuario)
 
-    context = {
+    return render(request, "pages/editar-usuario.html", {
         "form": form,
-        "titulo": f"Alterar usuário – {usuario.username}",
+        "titulo": "Alterar meu usuário",
         "btn_label": "Confirmar Alteração",
-    }
-    return render(request, "pages/editar-usuario.html", context)
-
+    })
 # form pra mudar email
 
 
@@ -429,114 +387,63 @@ def configuracoes(request):
 
 @login_required
 @admin_required
-def editar_tipo_usuario(request, pk):
-    usuario_alvo = get_object_or_404(Usuario, pk=pk)
+def editar_tipo_usuario(request, user_id, novo_tipo):
+    # O user_id e novo_tipo vêm direto da URL
+    usuario_alvo = get_object_or_404(Usuario, pk=user_id)
 
-    if request.method == "POST":
-        # Aqui sim, usamos os dados que o usuário enviou (POST)
-        form = UsuarioAdminForm(request.POST, instance=usuario_alvo)
-        if form.is_valid():
-            form.save()
-            messages.success(request, f"Tipo do usuário {usuario_alvo.username} atualizado!")
-            return redirect("apps.usuarios:lista")
-    else:
-        # CORREÇÃO AQUI: No GET, passamos apenas a instância para carregar os dados atuais
-        form = UsuarioAdminForm(instance=usuario_alvo)
+    # Prepara os dados para o service do Trânsito Apodi
+    dados_atualizacao = {'tipo': novo_tipo}
 
-    return render(request, "pages/form.html", {
-        "form": form,
-        "titulo": f"Alterar Nível de Acesso: {usuario_alvo.username}",
-        "btn_label": "Salvar Alteração"
-    })
+    # O service atualiza o banco e as permissões (is_staff/is_admin)
+    UsuarioService.atualizar_perfil(usuario_alvo, dados_atualizacao)
 
+    # Se for a chamada do AJAX (Card), retorna Sucesso sem Conteúdo (204)
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return HttpResponse(status=204)
+
+    # Backup para caso seja chamado de forma tradicional
+    return redirect("apps.usuarios:lista")
 
 # ── requisição de alteração de tipo ───────────────────────────────────────
+
+
 @login_required
 def solicitar_mudanca_tipo(request):
-    usuario = request.user
+    # Como o nosso JavaScript envia a requisição via POST:
+    if request.method == "POST":
+        novo_tipo = request.POST.get("tipo")  # Pega 'AGENTE' ou 'ADMIN' do JS
 
-    # Gera o link completo para a página de edição do usuário (ex: http://seusite.com/usuarios/gerenciar/5/editar/)
-    url_edicao = request.build_absolute_uri(
-        reverse('apps.usuarios:editar', args=[usuario.pk])
-    )
+        if novo_tipo in ['AGENTE', 'ADMIN']:
+            url_edicao = request.build_absolute_uri(
+                reverse('apps.usuarios:editar', args=[request.user.pk])
+            )
 
-    assunto = f"[SOLICITAÇÃO] Mudança de Nível - {usuario.username}"
-    mensagem = f"""
-    Olá, Administrador.
+            try:
+                # NOME CORRETO da função e passando os 3 parâmetros:
+                UsuarioService.solicitar_upgrade_tipo(request.user, novo_tipo, url_edicao)
 
-    O usuário abaixo solicitou uma alteração de nível de acesso (ADMIN ou AGENTE):
+                # Devolve JsonResponse para o JS saber que deu tudo certo e mostrar o alert
+                return JsonResponse({"status": "sucesso"})
 
-    NOME: {usuario.get_full_name() or usuario.username}
-    E-MAIL: {usuario.email}
-    TIPO ATUAL: {usuario.get_tipo_display()}
+            except Exception as e:
+                print(f"Erro técnico ao enviar e-mail: {e}")
+                # Devolve o erro para o JS mostrar o alert de erro
+                return JsonResponse({"erro": str(e)}, status=500)
 
-    Para aprovar ou rejeitar esta solicitação, acesse o link de edição direta abaixo:
-    {url_edicao}
+        return JsonResponse({"erro": "Tipo de conta inválido."}, status=400)
 
-    Atenciosamente,
-    Sistema de Trânsito Apodi
-    """
-
-    # Filtra os e-mails de quem é ADMIN no banco
-    admins_emails = Usuario.objects.filter(tipo='ADMIN').values_list('email', flat=True)
-
-    if not admins_emails:
-        # Caso não existam admins no banco, envia para um e-mail padrão de suporte
-        admins_emails = [settings.EMAIL_HOST_USER]
-
-    try:
-        send_mail(
-            assunto,
-            mensagem,
-            settings.EMAIL_HOST_USER,
-            list(admins_emails),
-            fail_silently=False,
-        )
-        messages.success(request, "Solicitação enviada com sucesso! Aguarde a análise dos administradores.")
-    except Exception as e:
-        print(f"Erro no envio de e-mail: {e}")  # Log para você ver no terminal se algo falhar
-        messages.error(request, "Não foi possível enviar o e-mail no momento. Tente mais tarde.")
-
+    # Fallback: Se o usuário acessar a URL diretamente pelo navegador (sem ser o JS)
     return redirect('apps.usuarios:perfil')
-
-# busca
-
-
-def busca_binaria_usuarios(lista, alvo):
-    baixo = 0
-    alto = len(lista) - 1
-
-    while baixo <= alto:
-        meio = (baixo + alto) // 2
-        # Comparamos o username (string)
-        chute = lista[meio].username.lower()
-
-        if chute == alvo.lower():
-            return [lista[meio]]  # Retorna o usuário em uma lista
-
-        if chute > alvo.lower():
-            alto = meio - 1
-        else:
-            baixo = meio + 1
-    return []
 
 
 @admin_required
 def lista_usuarios(request):
-    # 1. Pegamos todos e ordenamos (essencial para busca binária)
-    usuarios_todos = list(Usuario.objects.all().order_by('username'))
-
     termo_busca = request.GET.get('search')
 
-    if termo_busca:
-        # 2. Aplicamos o mecanismo de busca binária
-        usuarios_filtrados = busca_binaria_usuarios(usuarios_todos, termo_busca)
-    else:
-        usuarios_filtrados = usuarios_todos
+    # Lógica delegada ao Service
+    usuarios_filtrados = UsuarioService.buscar_usuarios_binario(termo_busca)
 
-    # Mantemos a paginação que você já usa
     paginator = Paginator(usuarios_filtrados, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    page_obj = paginator.get_page(request.GET.get('page'))
 
-    return render(request, "pages/lista_usuarios.html", {"page_obj": page_obj})
+    return render(request, "pages/lista.html", {"page_obj": page_obj})

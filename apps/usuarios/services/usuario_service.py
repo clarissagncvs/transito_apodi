@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.conf import settings
+from django.shortcuts import get_object_or_404
 
 # importa o modelo de usuário
 from apps.usuarios.models import Usuario
@@ -19,23 +20,28 @@ class UsuarioService:
     # método para criar usuário
     @staticmethod
     def criar_usuario(data: dict) -> Usuario:
-        password1 = data.pop("password1", None)
-        password2 = data.pop("password2", None)
+        # Tenta pegar password1 (do form) ou password (da sessão/teste)
+        password = data.pop("password1", data.pop("password", None))
+        password_confirm = data.pop("password2", password)  # Se não houver p2, assume igual
 
-        if not password1:
+        if not password:
             raise ValidationError("senha é obrigatória.")
 
-        if password1 != password2:
+        if password != password_confirm:
             raise ValidationError("as senhas não coincidem.")
 
-        data["is_active"] = False
+        # Se a View não mandou o status, o padrão é False
+        if "is_active" not in data:
+            data["is_active"] = False
 
         user = Usuario.objects.create_user(
-            password=password1,
+            password=password,
             **data
         )
 
-        UsuarioService.gerar_e_enviar_codigo(user)
+        # Só envia e-mail se o usuário for criado inativo
+        if not user.is_active:
+            UsuarioService.gerar_e_enviar_codigo(user)
 
         return user
 
@@ -139,20 +145,11 @@ class UsuarioService:
     # método para atualizar perfil
     @staticmethod
     def atualizar_perfil(usuario: Usuario, data: dict) -> Usuario:
-        # define os campos que podem ser alterados
-        campos_permitidos = ["first_name", "last_name", "email", "telefone", "foto"]
+        # Percorre os dados validados e aplica ao objeto
+        for campo, valor in data.items():
+            setattr(usuario, campo, valor)
 
-        # percorre os campos permitidos
-        for campo in campos_permitidos:
-            # verifica se o campo está nos dados enviados
-            if campo in data:
-                # atualiza o valor do campo
-                setattr(usuario, campo, data[campo])
-
-        # salva as alterações
         usuario.save()
-
-        # retorna o usuário atualizado
         return usuario
 
     # método para deletar usuário
@@ -188,3 +185,86 @@ class UsuarioService:
 
         # retorna queryset filtrado
         return qs
+
+#  métodos de ativação e solicitação
+    @staticmethod
+    def ativar_conta_por_codigo(usuario_id, codigo_digitado):
+        """Valida o código e ativa o usuário."""
+        usuario = get_object_or_404(Usuario, id=usuario_id)
+        agora = timezone.now()
+
+        if usuario.codigo_verificacao == codigo_digitado and usuario.codigo_expira_em > agora:
+            usuario.is_active = True
+            usuario.codigo_verificacao = None
+            usuario.save(update_fields=['is_active', 'codigo_verificacao'])
+            return usuario
+        raise ValidationError("Código inválido ou expirado.")
+
+    @staticmethod
+    def solicitar_upgrade_tipo(usuario, novo_tipo, absolute_uri):
+        """
+        Envia a solicitação DIRETAMENTE para o e-mail do sistema (configurado no .env).
+        """
+        # 1. Configura o assunto com o tipo escolhido (AGENTE ou ADMIN)
+        assunto = f"[{novo_tipo}] Solicitação de Mudança de Conta - {usuario.username}"
+
+        # 2. Monta a mensagem detalhada
+        mensagem = f"""
+        Nova solicitação de alteração de nível de acesso no sistema Trânsito Apodi.
+
+        DADOS DO SOLICITANTE:
+        ---------------------------------
+        Usuário: {usuario.username}
+        E-mail do usuário: {usuario.email}
+        Nível Atual: {usuario.get_tipo_display()}
+        MUDANÇA SOLICITADA PARA: {novo_tipo}  <--
+
+        AÇÃO NECESSÁRIA:
+        Para aprovar ou alterar o perfil deste usuário, acesse o link:
+        {absolute_uri}
+        """
+
+        # 3. Define o destinatário como o e-mail do próprio sistema (seu .env)
+        # O destinatário será o valor de DEFAULT_FROM_EMAIL
+        destinatarios = [settings.DEFAULT_FROM_EMAIL]
+
+        # 4. Disparo obrigatório
+        try:
+            send_mail(
+                subject=assunto,
+                message=mensagem,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=destinatarios,
+                fail_silently=False,  # Garante que erros apareçam no seu terminal
+            )
+            print(f"✅ E-mail enviado com sucesso para {settings.DEFAULT_FROM_EMAIL}")
+        except Exception as e:
+            print(f"❌ Falha ao enviar e-mail: {e}")
+            raise e
+#  Busca Binária
+
+    @staticmethod
+    def buscar_usuarios_binario(termo_busca):  # Renomeado para coincidir com o erro do teste
+        """Implementação da busca binária para encontrar um usuário específico."""
+        if not termo_busca:
+            return Usuario.objects.all().order_by('username')
+
+        # Pegamos todos ordenados para a busca binária funcionar
+        usuarios_lista = list(Usuario.objects.all().order_by('username'))
+
+        baixo = 0
+        alto = len(usuarios_lista) - 1
+        alvo = termo_busca.lower()
+
+        while baixo <= alto:
+            meio = (baixo + alto) // 2
+            chute = usuarios_lista[meio].username.lower()
+
+            if chute == alvo:
+                return [usuarios_lista[meio]]
+
+            if chute > alvo:
+                alto = meio - 1
+            else:
+                baixo = meio + 1
+        return []
