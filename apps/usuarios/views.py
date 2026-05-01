@@ -97,7 +97,7 @@ def registrar(request):
 
             print(f"Código para {dados['email']}: {codigo_verificacao}")
             return redirect('apps.usuarios:verificar_codigo')
-        
+
         # Se o form for INVÁLIDO, ele cai aqui (ainda no POST)
         return render(request, 'pages/cadastro.html', {'form': form})
 
