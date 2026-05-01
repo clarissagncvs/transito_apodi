@@ -6,7 +6,6 @@ import random
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
-from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
@@ -387,12 +386,12 @@ def configuracoes(request):
 @login_required
 @admin_required
 def editar_tipo_usuario(request, user_id, novo_tipo):
-# O user_id e novo_tipo vêm direto da URL
+    # O user_id e novo_tipo vêm direto da URL
     usuario_alvo = get_object_or_404(Usuario, pk=user_id)
 
     # Prepara os dados para o service do Trânsito Apodi
     dados_atualizacao = {'tipo': novo_tipo}
-    
+
     # O service atualiza o banco e as permissões (is_staff/is_admin)
     UsuarioService.atualizar_perfil(usuario_alvo, dados_atualizacao)
 
@@ -404,6 +403,8 @@ def editar_tipo_usuario(request, user_id, novo_tipo):
     return redirect("apps.usuarios:lista")
 
 # ── requisição de alteração de tipo ───────────────────────────────────────
+
+
 @login_required
 def solicitar_mudanca_tipo(request):
     url_edicao = request.build_absolute_uri(
