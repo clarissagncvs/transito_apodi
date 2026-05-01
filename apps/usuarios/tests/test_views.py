@@ -1,6 +1,5 @@
 import pytest
 from django.urls import reverse
-from django.utils import timezone
 from apps.usuarios.models import Usuario
 
 # ==============================================================================
