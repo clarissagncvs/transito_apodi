@@ -14,16 +14,14 @@ urlpatterns = [
     path("admin/", admin.site.urls, name="admin"),  # Rota para acessar o painel admin (/admin/)
     path("", usuarios_views.home, name="home"),
     path("usuarios/", include(("apps.usuarios.urls", "usuarios"), namespace="usuarios")),
-    path(
-        "", include("apps.vias.urls")
-    ),  # Rota principal do site (/) usando as URLs do app vias
-    path(
-        "ocorrencias/", include(("apps.ocorrencias.urls", "ocorrencias"), namespace="ocorrencias")
-    ),  # Rotas web relacionadas a ocorrências
+    path("", include("apps.vias.urls")),  # Rota principal do site (/) usando as URLs do app vias
+    path("ocorrencias/", include(("apps.ocorrencias.urls", "ocorrencias"), namespace="ocorrencias")),
     #    path('semaforos/', include('apps.semaforos.urls')),  # Rotas web relacionadas a semáforos
     path("", lambda request: HttpResponse("Página inicial")),
     path("usuarios/", include("apps.usuarios.urls")),  # Rotas web relacionadas a usuários
 
+    # rotas das apis (use o id de um objeto após a barra para acessá-lo e poder editar e excluir ele)
+    path('api/vias/mapa/', include('apps.vias.mapa_api_urls')),  # Endpoints da API REST para o mapa dentro do app vias
     path('api/vias/', include('apps.vias.api_urls')),  # Endpoints da API REST para vias
     path('api/ocorrencias/', include('apps.ocorrencias.api_urls')),  # Endpoints da API REST para ocorrências
     path('api/semaforos/', include('apps.semaforos.api_urls')),  # Endpoints da API REST para semáforos

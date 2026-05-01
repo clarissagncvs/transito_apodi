@@ -3,64 +3,589 @@
 
 {% block title %} Gerenciar Usuários {% endblock %}
 
+{% block extra_css %}
+    <!-- Link para o arquivo CSS específico desta página -->
+    <link rel="stylesheet" href="{% static 'css/usuarios/lista.css' %}">
+{% endblock %}
+
 {% block content %}
 <section class="first-section">
     <div class="conteudo-principal">
+        <h1>Gerenciar Usuários</h1>
+        <h2>{{ total }} usuário{{ total|pluralize }} encontrado{{ total|pluralize }}</h2>
+    </div>
 
-        <div class="text-section">
-            <h1>Gerenciamento de Usuários</h1>
-            <h2>Administre as permissões de acesso</h2>
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alerta alerta-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Filtros -->
+    <form method="GET" class="filtros">
+        <input
+            type="text"
+            name="q"
+            placeholder="Buscar por nome, usuário ou e-mail..."
+            value="{{ filtro_busca }}"
+            class="filtro-input"
+        >
+
+        <select name="tipo" class="filtro-select">
+            <option value="">Todos os tipos</option>
+            {% for valor, label in tipo_choices %}
+                <option value="{{ valor }}" {% if filtro_tipo == valor %}selected{% endif %}>
+                    {{ label }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <select name="ativo" class="filtro-select">
+            <option value="">Todos os status</option>
+            <option value="1" {% if filtro_ativo == "1" %}selected{% endif %}>Ativos</option>
+            <option value="0" {% if filtro_ativo == "0" %}selected{% endif %}>Inativos</option>
+        </select>
+
+        <button type="submit" class="btn-filtrar">
+            <i class="bi bi-search"></i> Filtrar
+        </button>
+
+        <a href="{% url 'apps.usuarios:lista' %}" class="btn-limpar">
+            <i class="bi bi-x-lg"></i> Limpar
+        </a>
+    </form>
+
+    <!-- Tabela -->
+    <div class="tabela-wrapper">
+        <table class="tabela-usuarios">
+            <thead>
+                <tr>
+                    <th>Usuário</th>
+                    <th>Nome completo</th>
+                    <th>E-mail</th>
+                    <th>Tipo</th>
+                    <th>Status</th>
+                    <th>Criado em</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in page_obj %}
+                <tr class="linha-usuario {% if not usuario.is_active %}linha-inativa{% endif %}">
+                    <td>
+                        <div class="usuario-info">
+                            <div class="avatar">
+                                {{ usuario.username|first|upper }}
+                            </div>
+                            <span class="username">{{ usuario.username }}</span>
+                        </div>
+                    </td>
+                    <td>{{ usuario.get_full_name|default:"—" }}</td>
+                    <td class="email-cell">{{ usuario.email|default:"—" }}</td>
+                    <td>
+                        <span class="badge badge-{{ usuario.tipo|lower }}">
+                            {{ usuario.get_tipo_display }}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge {% if usuario.is_active %}badge-ativo{% else %}badge-inativo{% endif %}">
+                            {% if usuario.is_active %}Ativo{% else %}Inativo{% endif %}
+                        </span>
+                    </td>
+                    <td class="data-cell">{{ usuario.criado_em|date:"d/m/Y" }}</td>
+                    <td>
+                        <div class="acoes">
+                            <!-- Alterar tipo -->
+                            <button
+                                class="btn-acao btn-tipo"
+                                title="Alterar tipo"
+                                onclick="abrirModalTipo(
+                                    '{{ usuario.pk }}',
+                                    '{{ usuario.username }}',
+                                    '{{ usuario.tipo }}'
+                                )"
+                            >
+                                <i class="bi bi-person-gear"></i>
+                            </button>
+
+                            <!-- Ativar/Desativar -->
+                            <form method="POST" action="{% url 'apps.usuarios:toggle' usuario.pk %}" style="display:inline">
+                                {% csrf_token %}
+                                <button
+                                    type="submit"
+                                    class="btn-acao {% if usuario.is_active %}btn-desativar{% else %}btn-ativar{% endif %}"
+                                    title="{% if usuario.is_active %}Desativar{% else %}Ativar{% endif %}"
+                                >
+                                    <i class="bi {% if usuario.is_active %}bi-toggle-on{% else %}bi-toggle-off{% endif %}"></i>
+                                </button>
+                            </form>
+
+                            <!-- Editar -->
+                            <a href="{% url 'apps.usuarios:editar' usuario.pk %}" class="btn-acao btn-editar" title="Editar">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+
+                            <!-- Deletar -->
+                            <a href="{% url 'apps.usuarios:deletar' usuario.pk %}" class="btn-acao btn-deletar" title="Excluir">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="vazio">
+                        <i class="bi bi-inbox"></i>
+                        <p>Nenhum usuário encontrado.</p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginação -->
+    {% if page_obj.has_other_pages %}
+    <div class="paginacao">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}&q={{ filtro_busca }}&tipo={{ filtro_tipo }}&ativo={{ filtro_ativo }}" class="pag-btn">
+                <i class="bi bi-chevron-left"></i>
+            </a>
+        {% endif %}
+
+        <span class="pag-info">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}&q={{ filtro_busca }}&tipo={{ filtro_tipo }}&ativo={{ filtro_ativo }}" class="pag-btn">
+                <i class="bi bi-chevron-right"></i>
+            </a>
+        {% endif %}
+    </div>
+    {% endif %}
+</section>
+
+<!-- ── MODAL ALTERAR TIPO ─────────────────────────── -->
+<div class="modal-overlay" id="modalOverlay" onclick="fecharModal()">
+    <div class="modal-card" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <i class="bi bi-person-gear modal-icone"></i>
+            <h3 class="modal-titulo">Alterar tipo de usuário</h3>
         </div>
 
-        <form class="ipt" method="GET" style="display: flex; gap: 10px; margin-bottom: 40px; max-width: 600px;">
-            <div class="input" style="flex: 1; margin-bottom: 0;">
-                <input type="text" name="search" placeholder="Procurar por nome ou e-mail..." 
-                       value="{{ request.GET.search|default:'' }}">
-            </div>
-            <button class="botao-submeter" type="submit" style="width: auto; margin: 0; padding: 0 25px; height: 45px;">
-                Buscar
-            </button>
-        </form>
+        <p class="modal-subtitulo">
+            Selecione o novo tipo para <strong id="modal-username"></strong>:
+        </p>
 
-        <div style="width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden; background-color: #ffffff; border: 1px solid #f0f0f0;">
-            <table style="width: 100%; border-collapse: collapse; text-align: left;">
-                <thead style="background-color: #f8f9fa; border-bottom: 2px solid #eeeeee;">
-                    <tr>
-                        <th style="padding: 20px; color: #004d00; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">Usuário</th>
-                        <th style="padding: 20px; color: #004d00; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">E-mail</th>
-                        <th style="padding: 20px; color: #004d00; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">Nível de Acesso</th>
-                        <th style="padding: 20px; color: #004d00; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; text-align: center;">Ação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for usuario in page_obj %}
-                    <tr style="border-bottom: 1px solid #f5f5f5;">
-                        <td style="padding: 20px; color: #444; font-size: 0.9rem;">{{ usuario.username }}</td>
-                        <td style="padding: 20px; color: #666; font-size: 0.9rem;">{{ usuario.email }}</td>
-                        <td style="padding: 20px;">
-                            {% if usuario.tipo == 'ADMIN' %}
-                                <span style="background-color: #f8d7da; color: #842029; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: bold;">Admin</span>
-                            {% elif usuario.tipo == 'AGENTE' %}
-                                <span style="background-color: #fff3cd; color: #664d03; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: bold;">Agente</span>
-                            {% else %}
-                                <span style="background-color: #cfe2f3; color: #084298; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: bold;">Cidadão</span>
-                            {% endif %}
-                        </td>
-                        <td style="padding: 20px; text-align: center;">
-                            <a href="{% url 'apps.usuarios:editar' usuario.id %}" class="botao-submeter"
-                               style="text-decoration: none; padding: 8px 15px; font-size: 0.8rem; display: inline-block; width: auto; margin: 0;">
-                                Alterar Tipo
-                            </a>
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="4" style="text-align: center; padding: 40px; color: #999;">Nenhum usuário encontrado.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="modal-opcoes" id="modal-opcoes">
+            <!-- preenchido via JS -->
+        </div>
+
+        <div class="modal-rodape">
+            <button class="btn-modal-cancelar" onclick="fecharModal()">
+                Cancelar
+            </button>
         </div>
     </div>
-</section>
+</div>
+
+<!-- form oculto que faz o POST de alteração de tipo -->
+<form id="formTipo" method="POST" action="" style="display:none">
+    {% csrf_token %}
+    <input type="hidden" name="novo_tipo" id="input-novo-tipo">
+</form>
+
+<style>
+/* ── Alertas ── */
+.alerta {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 1.4rem;
+    margin-bottom: 16px;
+}
+.alerta-success { background: #dcfce7; color: #15803d; }
+.alerta-danger  { background: #fee2e2; color: #991b1b; }
+.alerta-warning { background: #fef9c3; color: #854d0e; }
+.alerta-info    { background: #dbeafe; color: #1d4ed8; }
+
+/* ── Filtros ── */
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 24px;
+    align-items: center;
+}
+
+.filtro-input,
+.filtro-select {
+    height: 40px;
+    padding: 0 14px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1.4rem;
+    background: #fff;
+    color: #374151;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.filtro-input { flex: 1; min-width: 220px; }
+.filtro-select { min-width: 160px; }
+.filtro-input:focus,
+.filtro-select:focus { border-color: var(--verde-); }
+
+.btn-filtrar,
+.btn-limpar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 40px;
+    padding: 0 18px;
+    border-radius: 8px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+}
+.btn-filtrar {
+    background: var(--verde-);
+    color: #fff;
+    border: none;
+}
+.btn-filtrar:hover { background: var(--verde-escuro-); transform: translateY(-1px); }
+.btn-limpar {
+    background: #f3f4f6;
+    color: #374151;
+    border: 1.5px solid #d1d5db;
+}
+.btn-limpar:hover { background: #e5e7eb; }
+
+/* ── Tabela ── */
+.tabela-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1.5px solid #e5e7eb;
+    background: #fff;
+}
+
+.tabela-usuarios {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1.4rem;
+}
+
+.tabela-usuarios thead tr {
+    background: #f9fafb;
+    border-bottom: 1.5px solid #e5e7eb;
+}
+
+.tabela-usuarios th {
+    padding: 14px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.tabela-usuarios td {
+    padding: 14px 16px;
+    color: #374151;
+    border-bottom: 1px solid #f3f4f6;
+    vertical-align: middle;
+}
+
+.linha-usuario:hover td { background: #f9fafb; }
+.linha-inativa td { opacity: 0.55; }
+.linha-inativa:hover td { opacity: 0.75; }
+
+/* Avatar + username */
+.usuario-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--verde-);
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.username { font-weight: 600; }
+.email-cell { max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.data-cell { white-space: nowrap; color: #6b7280; }
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.badge-cidadao  { background: #dcfce7; color: #15803d; }
+.badge-agente   { background: #dbeafe; color: #1d4ed8; }
+.badge-admin    { background: #fef3c7; color: #92400e; }
+.badge-ativo    { background: #dcfce7; color: #166534; }
+.badge-inativo  { background: #f3f4f6; color: #6b7280; }
+
+/* Célula vazia */
+.vazio {
+    text-align: center;
+    padding: 48px !important;
+    color: #9ca3af;
+}
+.vazio i { font-size: 3rem; display: block; margin-bottom: 8px; }
+.vazio p { font-size: 1.4rem; margin: 0; }
+
+/* ── Ações ── */
+.acoes {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.btn-acao {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: 1.5px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    background: transparent;
+}
+.btn-acao:hover { transform: translateY(-1px); }
+
+.btn-tipo     { color: #7c3aed; border-color: #ede9fe; background: #f5f3ff; }
+.btn-tipo:hover { background: #ede9fe; }
+
+.btn-ativar   { color: #15803d; border-color: #dcfce7; background: #f0fdf4; }
+.btn-ativar:hover { background: #dcfce7; }
+
+.btn-desativar { color: #6b7280; border-color: #f3f4f6; background: #f9fafb; }
+.btn-desativar:hover { background: #f3f4f6; }
+
+.btn-editar   { color: #1d4ed8; border-color: #dbeafe; background: #eff6ff; }
+.btn-editar:hover { background: #dbeafe; }
+
+.btn-deletar  { color: #dc2626; border-color: #fee2e2; background: #fff5f5; }
+.btn-deletar:hover { background: #fee2e2; }
+
+/* ── Paginação ── */
+.paginacao {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 24px;
+}
+.pag-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1.5px solid #e5e7eb;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: var(--verde-);
+    text-decoration: none;
+    transition: background 0.2s;
+}
+.pag-btn:hover { background: #f0fdf4; }
+.pag-info { font-size: 1.4rem; color: #6b7280; }
+
+/* ── Modal ── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+.modal-overlay.aberto {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 32px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    transform: translateY(12px) scale(0.97);
+    transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), opacity 0.2s;
+    opacity: 0;
+}
+.modal-overlay.aberto .modal-card {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+.modal-icone {
+    font-size: 2.4rem;
+    color: #7c3aed;
+    background: #f5f3ff;
+    border-radius: 10px;
+    padding: 8px;
+    line-height: 1;
+}
+.modal-titulo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+}
+.modal-subtitulo {
+    font-size: 1.4rem;
+    color: #6b7280;
+    margin-bottom: 20px;
+}
+.modal-subtitulo strong { color: #111827; }
+
+/* Opções de tipo */
+.modal-opcoes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.opcao-tipo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 2px solid #e5e7eb;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    background: #fafafa;
+}
+.opcao-tipo:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+.opcao-tipo.selecionada {
+    border-color: currentColor;
+}
+
+.opcao-icone {
+    font-size: 2rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+.opcao-texto { flex: 1; }
+.opcao-nome {
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 2px;
+}
+.opcao-desc {
+    font-size: 1.2rem;
+    opacity: 0.7;
+}
+.opcao-check {
+    font-size: 1.8rem;
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+.opcao-tipo.selecionada .opcao-check { opacity: 1; }
+
+/* Cores por tipo */
+.opcao-cidadao {
+    color: #15803d;
+    border-color: #15803d;
+}
+.opcao-cidadao .opcao-icone { background: #dcfce7; }
+.opcao-cidadao:not(.selecionada) { color: #374151; border-color: #e5e7eb; }
+.opcao-cidadao:not(.selecionada):hover { border-color: #15803d; color: #15803d; }
+
+.opcao-agente {
+    color: #1d4ed8;
+    border-color: #1d4ed8;
+}
+.opcao-agente .opcao-icone { background: #dbeafe; }
+.opcao-agente:not(.selecionada) { color: #374151; border-color: #e5e7eb; }
+.opcao-agente:not(.selecionada):hover { border-color: #1d4ed8; color: #1d4ed8; }
+
+.opcao-admin {
+    color: #92400e;
+    border-color: #92400e;
+}
+.opcao-admin .opcao-icone { background: #fef3c7; }
+.opcao-admin:not(.selecionada) { color: #374151; border-color: #e5e7eb; }
+.opcao-admin:not(.selecionada):hover { border-color: #92400e; color: #92400e; }
+
+/* Rodapé do modal */
+.modal-rodape {
+    display: flex;
+    justify-content: flex-end;
+}
+.btn-modal-cancelar {
+    padding: 10px 22px;
+    border-radius: 8px;
+    border: 1.5px solid #e5e7eb;
+    background: #fff;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #6b7280;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.btn-modal-cancelar:hover { background: #f3f4f6; }
+
+/* Responsivo */
+@media (max-width: 920px) {
+    .email-cell { display: none; }
+    .data-cell  { display: none; }
+    .modal-card { margin: 16px; }
+}
+</style>
+
+
+{% block extra_js %}
+    <script src="{% static 'js/pages/lista.js' %}"></script>
+{% endblock %}
+
 {% endblock %}

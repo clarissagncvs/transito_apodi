@@ -1,7 +1,7 @@
 # api rest de semaforos
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views_api import SemaforoViewSet
+from .api_views import SemaforoViewSet
 
 # from .views_api import OcorrenciaViewSet
 
