@@ -12,6 +12,7 @@ class Ocorrencia(models.Model):
         SEMAFORO_DEFEITO = "SEMAFORO_DEFEITO", "Semáforo com Defeito"
         CONGESTIONAMENTO = "CONGESTIONAMENTO", "Congestionamento"
         OBRA = "OBRA", "Obra / Interdição"
+        EVENTO = "EVENTO", "Evento"
         OUTRO = "OUTRO", "Outro"
 
     class Status(models.TextChoices):
