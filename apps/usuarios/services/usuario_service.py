@@ -221,7 +221,7 @@ class UsuarioService:
 #  Busca Binária
 
     @staticmethod
-    def buscar_por_username_binario(termo_busca):
+    def buscar_usuarios_binario(termo_busca):  # Renomeado para coincidir com o erro do teste
         """Implementação da busca binária para encontrar um usuário específico."""
         if not termo_busca:
             return Usuario.objects.all().order_by('username')

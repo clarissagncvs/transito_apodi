@@ -17,7 +17,7 @@ urlpatterns = [
     path("configuracoes/", views.configuracoes, name="configuracoes"),
 
     # CRUD — somente admin
-    path("gerenciar/", views.usuario_lista, name="lista"),
+    path("gerenciar/", views.lista_usuarios, name="lista"),
     path("gerenciar/novo/", views.usuario_criar, name="criar"),
     path("gerenciar/<int:pk>/", views.usuario_detalhe, name="detalhe"),
     path("gerenciar/<int:pk>/editar/", views.usuario_editar, name="editar"),

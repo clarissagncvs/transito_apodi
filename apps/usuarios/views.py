@@ -109,22 +109,27 @@ def registrar(request):
 
 
 def verificar_codigo(request):
-    # Pega o ID do usuário que acabou de se cadastrar
     usuario_id = request.session.get('usuario_verificando_id')
-
     if not usuario_id:
         return redirect("apps.usuarios:registrar")
 
     if request.method == "POST":
         codigo_digitado = request.POST.get("codigo")
-        if request.method == "POST":
-            codigo_digitado = request.POST.get("codigo")
-            try:
-                UsuarioService.ativar_conta_por_codigo(usuario_id, codigo_digitado)
-                messages.success(request, "Conta ativada com sucesso! Faça login.")
-                return redirect("/usuarios/login/")
-            except ValidationError as e:
-                messages.error(request, str(e))
+        try:
+            # Ativa o usuário via Service
+            UsuarioService.ativar_conta_por_codigo(usuario_id, codigo_digitado)
+
+            # Limpa a sessão (necessário para o Teste de Fluxo passar)
+            if 'usuario_verificando_id' in request.session:
+                del request.session['usuario_verificando_id']
+
+            messages.success(request, "Conta ativada com sucesso! Faça login.")
+            return redirect("/usuarios/login/")  # O redirecionamento (302) que o teste espera
+
+        except ValidationError as e:
+            messages.error(request, str(e))
+            # Se cair aqui, a função continua e retorna 200 (render),
+            # fazendo o teste falhar, o que é CORRETO se o código for inválido.
 
     return render(request, "pages/verificador.html")
 
@@ -424,4 +429,4 @@ def lista_usuarios(request):
     paginator = Paginator(usuarios_filtrados, 10)
     page_obj = paginator.get_page(request.GET.get('page'))
 
-    return render(request, "pages/lista_usuarios.html", {"page_obj": page_obj})
+    return render(request, "pages/lista.html", {"page_obj": page_obj})
