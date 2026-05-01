@@ -7,99 +7,109 @@
     <title>Cadastre-se - Trânsito Apodi</title>
     <link rel="icon" type="image/x-icon" href="{% static 'img/icone.ico' %}">
     <link rel="stylesheet" href="{% static 'css/pages/cadastro.css' %}">
-    <!-- No head do seu base.html -->
+    <link rel="stylesheet" href="{% static 'css/global/global.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <style>
-        .error-message { color: #d9534f; font-size: 12px; display: block; margin-top: 5px; }
+        body {
+            background-image: url("{% static 'img/background.jpeg' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
     </style>
     <script src="{% static 'js/pages/cadastro.js' %}"></script>
 </head>
 
 <body>
-    <div class="site-description">
-        <h2 style="color: #ff8000; font-size: 60px;">
-            <strong>TRÂNSITO APODI</strong>
-        </h2>
-        <p>Consulte o tráfego, acidentes e obras da cidade de Apodi/RN</p>
-    </div>
-
-    <main class="sign-container">
-        <div class="retangulo">
-            <h1>Cadastrar</h1>
-
-            {% if messages %}
-                {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} small">
-                    {{ message }}
-                </div>
-                {% endfor %}
-            {% endif %}
-
-            {# Exibe erros que não são de campos específicos (ex: senhas diferentes) #}
-            {% if form.non_field_errors %}
-                <div class="alert alert-danger small">{{ form.non_field_errors.0 }}</div>
-            {% endif %}
-
-            <form method="POST" action="{% url 'apps.usuarios:cadastro' %}">
-                {% csrf_token %}
-
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input id="username" class="input-field" type="text" name="username" placeholder="Usuário" value="{{ form.username.value|default:'' }}" required>
-                    {% if form.username.errors %}<span class="error-message">{{ form.username.errors.0 }}</span>{% endif %}
-                </div>
-
-                <div class="form-group">
-                    <label for="first_name">Nome:</label>
-                    <input id="first_name" class="input-field" type="text" name="first_name" placeholder="Nome" value="{{ form.first_name.value|default:'' }}" required>
-                    {% if form.first_name.errors %}<span class="error-message">{{ form.first_name.errors.0 }}</span>{% endif %}
-                </div>
-
-                <div class="form-group">
-                    <label for="last_name">Sobrenome:</label>
-                    <input id="last_name" class="input-field" type="text" name="last_name" placeholder="Sobrenome" value="{{ form.last_name.value|default:'' }}" required>
-                    {% if form.last_name.errors %}<span class="error-message">{{ form.last_name.errors.0 }}</span>{% endif %}
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input id="email" class="input-field" type="email" name="email" placeholder="Email" value="{{ form.email.value|default:'' }}" required>
-                    {% if form.email.errors %}<span class="error-message">{{ form.email.errors.0 }}</span>{% endif %}
-                </div>
-
-                <div class="form-group">
-                    <label for="password1">Senha:</label>
-                    <div style="position: relative; display: flex; align-items: center;">
-                        <input id="password1" class="input-field" type="password" name="password1" placeholder="Senha" required>
-                        <i class="bi bi-eye-slash toggle-password" data-target="password1"></i>
-                    </div>
-                    <!-- Legenda do Semáforo -->
-                    <small id="password-strength-text" style="display: block; margin-top: 5px; font-weight: bold;"></small>
-                    {% if form.password1.errors %}<span class="error-message">{{ form.password1.errors.0 }}</span>{% endif %}
-                </div>
-
-                <div class="form-group">
-                    <label for="password2">Confirmar senha:</label>
-                    <div style="position: relative; display: flex; align-items: center;">
-                        <input id="password2" class="input-field" type="password" name="password2" placeholder="Confirmar senha" required>
-                        <i class="bi bi-eye-slash toggle-password" data-target="password2"></i>
-                    </div>
-                    {% if form.password2.errors %}<span class="error-message">{{ form.password2.errors.0 }}</span>{% endif %}
-                </div>
-
-                <div class="form-group">
-                    <button class="btn-primary" type="submit">
-                        Cadastrar-se
-                    </button>
-                </div>
-
-                <div class="form-links">
-                    <a href="{% url 'apps.usuarios:login' %}">
-                        Já possui conta? Entrar
-                    </a>
-                </div>
-            </form>
+    <div class="login-wrapper">
+        
+        <div class="login-left">
+            <div class="brand-row">
+                <img src="{% static 'img/logo-login.png' %}" alt="Logo" class="logo-img">
+                <div class="brand-name">Trânsito<br>Apodi</div>
+            </div>
+            <p class="site-description">Consulte o tráfego, acidentes e obras da cidade de Apodi-RN</p>
         </div>
-    </main>
+
+        <main class="sign-container">
+            <div class="retangulo">
+                <h1>Cadastrar</h1>
+
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">{{ form.non_field_errors.0 }}</div>
+                {% endif %}
+
+                <form method="POST" action="{% url 'apps.usuarios:cadastro' %}">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <img src="{% static 'img/icone-usuario-login.png' %}" alt="Usuário">
+                            <input id="username" class="input-field" type="text" name="username" placeholder="Usuário" value="{{ form.username.value|default:'' }}" required>
+                        </div>
+                        {% if form.username.errors %}<span class="error-message">{{ form.username.errors.0 }}</span>{% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <img src="{% static 'img/icone-usuario-login.png' %}" alt="Nome">
+                            <input id="first_name" class="input-field" type="text" name="first_name" placeholder="Nome" value="{{ form.first_name.value|default:'' }}" required>
+                        </div>
+                        {% if form.first_name.errors %}<span class="error-message">{{ form.first_name.errors.0 }}</span>{% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <img src="{% static 'img/icone-usuario-login.png' %}" alt="Sobrenome">
+                            <input id="last_name" class="input-field" type="text" name="last_name" placeholder="Sobrenome" value="{{ form.last_name.value|default:'' }}" required>
+                        </div>
+                        {% if form.last_name.errors %}<span class="error-message">{{ form.last_name.errors.0 }}</span>{% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <img src="{% static 'img/icone-email.png' %}" alt="Email">
+                            <input id="email" class="input-field" type="email" name="email" placeholder="Email" value="{{ form.email.value|default:'' }}" required>
+                        </div>
+                        {% if form.email.errors %}<span class="error-message">{{ form.email.errors.0 }}</span>{% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <img src="{% static 'img/icone-senha.png' %}" alt="Senha">
+                            <input id="password1" class="input-field" type="password" name="password1" placeholder="Senha" required>
+                            <i class="bi bi-eye-slash toggle-password" data-target="password1"></i>
+                        </div>
+                        <small id="password-strength-text"></small>
+                        {% if form.password1.errors %}<span class="error-message">{{ form.password1.errors.0 }}</span>{% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <img src="{% static 'img/icone-senha.png' %}" alt="Senha">
+                            <input id="password2" class="input-field" type="password" name="password2" placeholder="Confirmar senha" required>
+                            <i class="bi bi-eye-slash toggle-password" data-target="password2"></i>
+                        </div>
+                        {% if form.password2.errors %}<span class="error-message">{{ form.password2.errors.0 }}</span>{% endif %}
+                    </div>
+
+                    <button class="btn-primary" type="submit">Cadastrar-se</button>
+
+                    <div class="form-links">
+                        <a href="{% url 'apps.usuarios:login' %}">Já possui conta? Entrar</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
 </body>
 </html>
