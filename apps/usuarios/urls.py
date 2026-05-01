@@ -24,4 +24,5 @@ urlpatterns = [
     path("gerenciar/<int:pk>/deletar/", views.usuario_deletar, name="deletar"),
     path("gerenciar/<int:pk>/toggle/", views.usuario_toggle_ativo, name="toggle"),
     path('solicitar-mudanca/', views.solicitar_mudanca_tipo, name='solicitar_mudanca'),
+    path('atualizar-tipo/<int:user_id>/<str:novo_tipo>/', views.editar_tipo_usuario, name='atualizar_tipo'),
 ]

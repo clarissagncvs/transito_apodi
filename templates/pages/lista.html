@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %} Gerenciar Usuários {% endblock %}
+
+{% block extra_css %}
+    <!-- Link para o arquivo CSS específico desta página -->
+    <link rel="stylesheet" href="{% static 'css/usuarios/lista.css' %}">
+{% endblock %}
 
 {% block content %}
 <section class="first-section">
@@ -577,76 +583,9 @@
 }
 </style>
 
-<script>
-const TIPOS = {
-    CIDADAO: {
-        label: 'Cidadão',
-        desc: 'Acesso básico — apenas registra ocorrências',
-        icone: 'bi-person',
-        classe: 'opcao-cidadao'
-    },
-    AGENTE: {
-        label: 'Agente de Trânsito',
-        desc: 'Gerencia ocorrências e semáforos',
-        icone: 'bi-shield-check',
-        classe: 'opcao-agente'
-    },
-    ADMIN: {
-        label: 'Administrador',
-        desc: 'Acesso total ao sistema',
-        icone: 'bi-star',
-        classe: 'opcao-admin'
-    }
-};
 
-let pkAtual = null;
-
-function abrirModalTipo(pk, username, tipoAtual) {
-    pkAtual = pk;
-
-    document.getElementById('modal-username').textContent = username;
-
-    const container = document.getElementById('modal-opcoes');
-    container.innerHTML = '';
-
-    Object.entries(TIPOS).forEach(([valor, cfg]) => {
-        const selecionada = valor === tipoAtual ? 'selecionada' : '';
-        const div = document.createElement('div');
-        div.className = `opcao-tipo ${cfg.classe} ${selecionada}`;
-        div.innerHTML = `
-            <div class="opcao-icone"><i class="bi ${cfg.icone}"></i></div>
-            <div class="opcao-texto">
-                <span class="opcao-nome">${cfg.label}</span>
-                <span class="opcao-desc">${cfg.desc}</span>
-            </div>
-            <i class="bi bi-check2-circle opcao-check"></i>
-        `;
-        div.addEventListener('click', () => confirmarTipo(pk, valor, cfg.label));
-        container.appendChild(div);
-    });
-
-    document.getElementById('modalOverlay').classList.add('aberto');
-}
-
-function confirmarTipo(pk, novoTipo, novoLabel) {
-    document.querySelectorAll('.opcao-tipo').forEach(el => el.classList.remove('selecionada'));
-    event.currentTarget.classList.add('selecionada');
-
-    setTimeout(() => {
-        const form = document.getElementById('formTipo');
-        form.action = `/usuarios/gerenciar/${pk}/tipo/`;
-        document.getElementById('input-novo-tipo').value = novoTipo;
-        form.submit();
-    }, 300);
-}
-
-function fecharModal() {
-    document.getElementById('modalOverlay').classList.remove('aberto');
-}
-
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') fecharModal();
-});
-</script>
+{% block extra_js %}
+    <script src="{% static 'js/pages/lista.js' %}"></script>
+{% endblock %}
 
 {% endblock %}
