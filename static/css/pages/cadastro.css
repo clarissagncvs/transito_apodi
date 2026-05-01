@@ -30,7 +30,7 @@ h1{
 }
 
 .input-field{
-    border: 4px solid #e8e8e8;
+    border: 3px solid transparent;
     border-radius: 10px;
     outline: none;
     background-color: #e8e8e8;
@@ -39,6 +39,12 @@ h1{
     color: #054c05;
     font-size: 17px;
     padding: 7px;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.input-field:focus {
+    outline: none !important;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2); 
 }
 
 label{
@@ -83,4 +89,39 @@ a{
 
 .btn-primary:hover{
     background-color: #f9f9f9;
+}
+
+/* Container para alinhar o ícone */
+.password-wrapper {
+    position: relative;
+    width: 270px; /* Mesma largura do seu input-field */
+}
+
+/* O ícone do olhinho */
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #054c05; /* Cor combinando com seu placeholder */
+    font-size: 18px;
+    z-index: 2;
+}
+
+.toggle-password:hover {
+    color: #ff8000; /* Cor laranja de destaque do seu projeto */
+}
+
+/* Ajuste no seu input-field para dar espaço ao ícone */
+.input-field {
+    padding-right: 40px !important; /* Abre espaço na direita para o olho */
+}
+
+/* Estilo para o texto do semáforo */
+.strength-text {
+    display: block;
+    margin-top: 5px;
+    font-weight: bold;
+    font-size: 14px;
 }

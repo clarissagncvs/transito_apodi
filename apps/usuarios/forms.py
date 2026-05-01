@@ -3,6 +3,7 @@ import re
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
+from django.contrib.auth.password_validation import validate_password
 
 from .models import Usuario
 
@@ -76,6 +77,21 @@ class RegistroForm(UserCreationForm):
             if not re.match(padrao, telefone):
                 raise ValidationError("Formato inválido. Tente novamente.")
         return telefone
+
+    def clean(self):
+        cleaned_data = super().clean()
+        p1 = cleaned_data.get("password1")
+        user = self.instance  # Opcional: ajuda o validador de similaridade
+
+        if p1:
+            try:
+                # Valida contra as regras do settings.py
+                validate_password(p1, user)
+            except ValidationError as e:
+                # Adiciona o erro especificamente ao campo de senha
+                self.add_error('password1', e)
+
+        return cleaned_data
 
 
 # form simples para login
