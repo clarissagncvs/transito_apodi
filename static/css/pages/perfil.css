@@ -1,4 +1,4 @@
-/*lembrar de comentar melhor isso aqui*/
+/* lembrar de comentar melhor isso aqui */
 html {
     font-family: 'Roboto', sans-serif;
 }
@@ -120,7 +120,7 @@ html {
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
 }
 
-/*mudança para editar usuario e email*/
+/* mudança para editar usuario e email */
 .input-perfil, .input-email {
     width: 100%;
     padding: 10px;
@@ -167,4 +167,3 @@ html {
     transform: translateY(-4px);
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
 }
-
