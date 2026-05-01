@@ -61,27 +61,38 @@ class TestUsuarioViews:
         assert response.status_code == 302
 
     def test_verificacao_codigo_fluxo(self, client, db):
-        """Testa ativação via UsuarioService (chamado pela view)"""
-        user = Usuario.objects.create_user(
-            username="new_user",
-            codigo_verificacao="123456",
-            codigo_expira_em=timezone.now() + timezone.timedelta(hours=1),
-            is_active=False
-        )
+        """Testa a criação do usuário no banco APÓS a confirmação do código"""
+
+        # 1. Preparamos a sessão com os dados crus (Exatamente como a View espera)
         session = client.session
-        session['usuario_verificando_id'] = user.id
+        session['usuario_verificando_id'] = True
+        session['dados_registro_pendente'] = {
+            'username': 'usuario_teste',
+            'email': 'teste@email.com',
+            'password': 'SenhaDificil123',
+            'codigo': '123456'  # Código como STRING
+        }
         session.save()
 
+        # 2. Fazemos o POST para a URL correta
         url = reverse("apps.usuarios:verificar_codigo")
+        # Enviamos o código como string
         response = client.post(url, {"codigo": "123456"})
+
+        # 3. Se retornar 200 aqui, o print abaixo vai nos dizer o porquê no terminal
+        if response.status_code == 200:
+            msgs = [m.message for m in response.context['messages']]
+            print(f"\n--- MENSAGEM DE ERRO DA VIEW: {msgs} ---")
+
+        # 4. Verificações finais
         assert response.status_code == 302
+        assert response.url == "/usuarios/login/"
 
-        user.refresh_from_db()
-        assert user.is_active is True
-        # Verifica se limpou a sessão após sucesso
-        assert 'usuario_verificando_id' not in client.session
-
-# ==============================================================================
+        # Verifica se o usuário nasceu no banco de dados
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        assert User.objects.filter(username='usuario_teste').exists()
+    # ==============================================================================
 # NOVOS: TESTES DE EDIÇÃO DE PERFIL (NOME E E-MAIL)
 # ==============================================================================
 

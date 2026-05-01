@@ -1,5 +1,6 @@
 # 1. padrão Python
 from functools import wraps
+import random
 
 # 2. Django / terceiros
 from django.shortcuts import render, redirect, get_object_or_404
@@ -7,7 +8,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
-from django.core.exceptions import PermissionDenied, ValidationError
+from django.core.exceptions import PermissionDenied
 from django.urls import reverse
 
 # 3. locais
@@ -31,7 +32,6 @@ def home(request):
 
 
 # ── autenticação ──────────────────────────────────────────────
-
 
 # view de login
 def login_view(request):
@@ -79,57 +79,59 @@ def logout_view(request):
 
 # view de registro
 def registrar(request):
-    if request.user.is_authenticated:
-        return redirect("home")
-
-    if request.method == "POST":
-
-        form = RegistroForm(request.POST, request.FILES)
-
+    if request.method == 'POST':
+        form = RegistroForm(request.POST)
         if form.is_valid():
-            # Pegamos os dados validados do formulário
-            dados_usuario = form.cleaned_data
+            dados = form.cleaned_data
+            codigo_verificacao = str(random.randint(100000, 999999))
 
-            # Chamamos o Service (Ele cria o usuário inativo e envia o e-mail)
-            user = UsuarioService.criar_usuario(dados_usuario)
+            # Armazenamos os dados para persistir após a verificação
+            request.session['dados_registro_pendente'] = {
+                'username': dados['username'],
+                'email': dados['email'],
+                'password': dados['password'],  # O form.cleaned_data geralmente traz a senha limpa
+                'codigo': codigo_verificacao
+            }
 
-            messages.success(request, f"Código enviado para {user.email}!")
+            request.session['usuario_verificando_id'] = True
 
-            # Guardamos o ID do usuário na sessão para saber quem está verificando o código
-            request.session['usuario_verificando_id'] = user.id
-
-            return redirect("apps.usuarios:verificar_codigo")
-        else:
-            # Se cair aqui, o formulário volta com os erros (ex: email duplicado)
-            messages.error(request, "Erro no cadastro. Verifique os dados.")
-    else:
-        form = RegistroForm()
-
-    return render(request, "pages/cadastro.html", {"form": form})
+            # Simulação de envio de e-mail
+            print(f"Código para {dados['email']}: {codigo_verificacao}")
+            print(f"Código: {request.session['dados_registro_pendente']['codigo']}")
+            return redirect('apps.usuarios:verificar_codigo')
+        return render(request, 'usuarios/cadastro.html', {'form': RegistroForm()})
 
 
 def verificar_codigo(request):
-    usuario_id = request.session.get('usuario_verificando_id')
-    if not usuario_id:
+    if not request.session.get('usuario_verificando_id'):
         return redirect("apps.usuarios:registrar")
 
     if request.method == "POST":
-        codigo_digitado = request.POST.get("codigo")
-        try:
-            # Ativa o usuário via Service
-            UsuarioService.ativar_conta_por_codigo(usuario_id, codigo_digitado)
+        # .strip() remove espaços acidentais e str() garante a tipagem
+        codigo_digitado = str(request.POST.get("codigo", "")).strip()
+        dados = request.session.get('dados_registro_pendente')
 
-            # Limpa a sessão (necessário para o Teste de Fluxo passar)
-            if 'usuario_verificando_id' in request.session:
-                del request.session['usuario_verificando_id']
+        if dados and codigo_digitado == str(dados.get('codigo')):
+            try:
+                UsuarioService.criar_usuario({
+                    'username': dados['username'],
+                    'email': dados['email'],
+                    'password': dados['password'],
+                    'is_active': True
+                })
 
-            messages.success(request, "Conta ativada com sucesso! Faça login.")
-            return redirect("/usuarios/login/")  # O redirecionamento (302) que o teste espera
+                # Limpeza segura
+                request.session.pop('usuario_verificando_id', None)
+                request.session.pop('dados_registro_pendente', None)
 
-        except ValidationError as e:
-            messages.error(request, str(e))
-            # Se cair aqui, a função continua e retorna 200 (render),
-            # fazendo o teste falhar, o que é CORRETO se o código for inválido.
+                messages.success(request, "Conta criada com sucesso!")
+                return redirect("/usuarios/login/")  # O esperado 302
+
+            except Exception as e:
+                messages.error(request, f"Erro no Service: {e}")
+        else:
+            # Se cair aqui, a View retorna 200 e o teste falha
+            messages.error(request, "Código inválido.")
 
     return render(request, "pages/verificador.html")
 
