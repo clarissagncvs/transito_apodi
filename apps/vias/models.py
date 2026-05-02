@@ -44,5 +44,5 @@ class Via(models.Model):
         ordering = ["nome"]
 
 
-def __str__(self):
-    return f"{self.get_tipo_display()} {self.nome}"
+    def __str__(self):
+        return f"{self.get_tipo_display()} {self.nome}"
