@@ -43,6 +43,5 @@ class Via(models.Model):
         verbose_name_plural = "vias"
         ordering = ["nome"]
 
-
     def __str__(self):
         return f"{self.get_tipo_display()} {self.nome}"
