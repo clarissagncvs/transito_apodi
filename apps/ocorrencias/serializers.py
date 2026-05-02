@@ -5,4 +5,17 @@ from .models import Ocorrencia
 class OcorrenciaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ocorrencia
-        fields = '__all__'
+        fields = [
+            "id",
+            "tipo",
+            "descricao",
+            "status",
+            "via",
+            "semaforo",
+            "latitude",
+            "longitude",
+            "usuario",
+            "criado_em",
+            "atualizado_em"
+        ]
+        read_only_fields = ["criado_em", "atualizado_em"]

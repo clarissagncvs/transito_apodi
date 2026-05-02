@@ -5,4 +5,16 @@ from .models import Via
 class ViaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Via
-        fields = '__all__'
+        fields = [
+            "id",
+            "tipo",
+            "nome",
+            "bairro",
+            "latitude_inicial",
+            "longitude_inicial",
+            "latitude_final",
+            "longitude_final",
+            "criado_em",
+            "atualizado_em",
+        ]
+        read_only_fields = ["criado_em", "atualizado_em"]
