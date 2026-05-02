@@ -120,14 +120,8 @@ html {
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
 }
 
-<<<<<<< HEAD
 /* mudança para editar usuario e email */
 .input-perfil, .input-email {
-=======
-/*mudança para editar usuario e email*/
-.input-perfil,
-.input-email {
->>>>>>> 46ffc3df99bbcc571e2de43bdf9ee93d47482770
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -174,8 +168,4 @@ html {
     color: white;
     transform: translateY(-4px);
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 46ffc3df99bbcc571e2de43bdf9ee93d47482770

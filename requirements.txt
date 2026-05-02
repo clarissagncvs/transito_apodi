@@ -13,7 +13,7 @@ django-ratelimit==4.1.0
 djangorestframework==3.15.2
 djangorestframework-simplejwt==5.3.1
 flake8==7.3.0
-gunicorn==25.3.0
+gunicorn==23.0.0
 iniconfig==2.3.0
 isort==5.13.2
 mccabe==0.7.0
