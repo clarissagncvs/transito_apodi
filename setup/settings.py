@@ -39,7 +39,8 @@ INSTALLED_APPS = [
 
 # ── 4. middleware (ordem importa) ─────────────
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",      # sempre primeiro
+    "django.middleware.security.SecurityMiddleware", 
+    'whitenoise.middleware.WhiteNoiseMiddleware'     # sempre primeiro
     "corsheaders.middleware.CorsMiddleware",              # antes do CommonMiddleware
     "django.middleware.common.CommonMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -120,6 +121,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # ── 12. e-mail ────────────────────────────────
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
