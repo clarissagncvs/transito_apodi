@@ -39,8 +39,8 @@ INSTALLED_APPS = [
 
 # ── 4. middleware (ordem importa) ─────────────
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware", 
-    'whitenoise.middleware.WhiteNoiseMiddleware'     # sempre primeiro
+    "django.middleware.security.SecurityMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # sempre primeiro
     "corsheaders.middleware.CorsMiddleware",              # antes do CommonMiddleware
     "django.middleware.common.CommonMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
