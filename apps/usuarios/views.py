@@ -89,7 +89,7 @@ def registrar(request):
             request.session['dados_registro_pendente'] = {
                 'username': dados['username'],
                 'email': dados['email'],
-                'password': dados['password'],
+                'password': dados['password1'],
                 'codigo': codigo_verificacao
             }
 
