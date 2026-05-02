@@ -68,7 +68,7 @@ class OcorrenciaAdmin(admin.ModelAdmin):
             "ABERTA": ("#fef2f2", "#dc2626"),
             "EM_ANDAMENTO": ("#fffbeb", "#d97706"),
             "RESOLVIDA": ("#f0fdf4", "#16a34a"),
-            "ENCERRADA": ("#f9fafb", "#4b5563"),
+            "ENCERRADA": ("#f9fafb", "#000000"),
         }
         bg, txt = cores.get(obj.status, ("#f3f4f6", "#374151"))
         return format_html(
