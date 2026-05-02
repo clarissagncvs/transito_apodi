@@ -12,7 +12,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = str(os.getenv("SECRET_KEY"))
 DEBUG = os.getenv("DEBUG") == "True"
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['transitoapodi-production.up.railway.app', "*", 'localhost','127.0.0.1']
+CSRF_TRUSTED_ORIGINS = [
+    'https://transitoapodi-production.up.railway.app',
+    'https://*.127.0.0.1'
+]
 
 
 # ── 3. apps instalados ────────────────────────
