@@ -62,3 +62,12 @@ function atualizarDashboard() {
 //execução e intervalo
 atualizarDashboard(); //roda ao abrir a página
 setInterval(atualizarDashboard, 15000); //atualiza a cada 15 segundos
+
+/*responsividade*/
+setTimeout(() => {
+  map.invalidateSize();
+}, 200);
+
+window.addEventListener("resize", () => {
+  map.invalidateSize();
+});
