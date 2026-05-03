@@ -6,6 +6,8 @@ from .models import Semaforo
 @admin.register(Semaforo)
 class SemaforoAdmin(admin.ModelAdmin):
 
+    readonly_fields = ("criado_em", "atualizado_em")
+
     # Otimização de consulta para a Via relacionada
     list_select_related = ["via"]
 
@@ -13,7 +15,7 @@ class SemaforoAdmin(admin.ModelAdmin):
         "codigo",
         "via",
         "badge_status",
-        "status",  # Campo original para edição rápida
+        "status",
         "ativo",
         "atualizado_em",
     ]
