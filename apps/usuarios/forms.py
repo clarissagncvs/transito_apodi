@@ -30,7 +30,6 @@ class RegistroForm(UserCreationForm):
             "first_name",
             "last_name",
             "email",
-            "telefone",
             "password1",
             "password2",
         ]
@@ -43,9 +42,6 @@ class RegistroForm(UserCreationForm):
             "first_name": forms.TextInput(attrs={"class": CSS, "placeholder": "Nome"}),
             "last_name": forms.TextInput(
                 attrs={"class": CSS, "placeholder": "Sobrenome"}
-            ),
-            "telefone": forms.TextInput(
-                attrs={"class": CSS, "placeholder": "(XX) 9XXXX-XXXX"}
             ),
         }
 
@@ -70,13 +66,6 @@ class RegistroForm(UserCreationForm):
             raise ValidationError("Este e-mail já foi cadastrado por algum usuário.")
         return email
 
-    def clean_telefone(self):
-        telefone = self.cleaned_data.get('telefone')
-        if telefone:
-            padrao = r'^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$'
-            if not re.match(padrao, telefone):
-                raise ValidationError("Formato inválido. Tente novamente.")
-        return telefone
 
     def clean(self):
         cleaned_data = super().clean()
@@ -116,16 +105,13 @@ class PerfilForm(forms.ModelForm):
 
     class Meta:
         model = Usuario
-
-        # campos permitidos para o usuário comum
-        fields = ["first_name", "last_name", "email", "telefone", "foto"]
+        fields = ["first_name", "last_name", "email"]
 
         # customização visual
         widgets = {
             "first_name": forms.TextInput(attrs={"class": CSS}),
             "last_name": forms.TextInput(attrs={"class": CSS}),
             "email": forms.EmailInput(attrs={"class": CSS}),
-            "telefone": forms.TextInput(attrs={"class": CSS}),
         }
 
 
@@ -136,16 +122,14 @@ class UsuarioAdminForm(forms.ModelForm):
     class Meta:
         model = Usuario
 
-        # campos disponíveis para o admin
+        # Removido o campo "foto" daqui também
         fields = [
             "username",
             "first_name",
             "last_name",
             "email",
-            "telefone",
             "tipo",
             "is_active",
-            "foto",
         ]
 
         # customização visual dos campos
@@ -154,7 +138,6 @@ class UsuarioAdminForm(forms.ModelForm):
             "first_name": forms.TextInput(attrs={"class": CSS}),
             "last_name": forms.TextInput(attrs={"class": CSS}),
             "email": forms.EmailInput(attrs={"class": CSS}),
-            "telefone": forms.TextInput(attrs={"class": CSS}),
             "tipo": forms.Select(attrs={"class": CSS_SEL}),
             "is_active": forms.CheckboxInput(attrs={"class": "form-check-input"}),
         }
@@ -162,8 +145,6 @@ class UsuarioAdminForm(forms.ModelForm):
 # mudei aqui (aiane)
 
 # Formulário para editar APENAS o nome (username) na pagina editar-usuario
-
-
 class UsuarioUpdateNomeForm(forms.ModelForm):
     class Meta:
         model = Usuario
@@ -173,8 +154,6 @@ class UsuarioUpdateNomeForm(forms.ModelForm):
         }
 
 # Formulário para editar APENAS o e-mail na pagina editar-email
-
-
 class UsuarioUpdateEmailForm(forms.ModelForm):
     class Meta:
         model = Usuario
@@ -183,15 +162,13 @@ class UsuarioUpdateEmailForm(forms.ModelForm):
             "email": forms.EmailInput(attrs={"class": CSS, "placeholder": "Novo e-mail"}),
         }
 
-# Reutiliza a validação de email
-
-
-def clean_email(self):
-    email = self.cleaned_data.get('email')
-    # Verifica se o e-mail já existe, mas ignora o e-mail do próprio usuário atual
-    if Usuario.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
-        raise ValidationError("Este e-mail já está em uso por outra conta.")
-    return email
+    # Reutiliza a validação de email (AGORA ESTÁ DENTRO DA CLASSE, INDENTAÇÃO CORRIGIDA)
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        # Verifica se o e-mail já existe, mas ignora o e-mail do próprio usuário atual
+        if Usuario.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
+            raise ValidationError("Este e-mail já está em uso por outra conta.")
+        return email
 
 
 class UsuarioUpdateTipoForm(forms.ModelForm):
