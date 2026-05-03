@@ -66,7 +66,6 @@ class RegistroForm(UserCreationForm):
             raise ValidationError("Este e-mail já foi cadastrado por algum usuário.")
         return email
 
-
     def clean(self):
         cleaned_data = super().clean()
         p1 = cleaned_data.get("password1")
@@ -145,6 +144,8 @@ class UsuarioAdminForm(forms.ModelForm):
 # mudei aqui (aiane)
 
 # Formulário para editar APENAS o nome (username) na pagina editar-usuario
+
+
 class UsuarioUpdateNomeForm(forms.ModelForm):
     class Meta:
         model = Usuario
@@ -154,6 +155,8 @@ class UsuarioUpdateNomeForm(forms.ModelForm):
         }
 
 # Formulário para editar APENAS o e-mail na pagina editar-email
+
+
 class UsuarioUpdateEmailForm(forms.ModelForm):
     class Meta:
         model = Usuario
