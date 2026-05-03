@@ -1,14 +1,14 @@
 //iniciando o mapa com o id do elemento div para informar onde o mapa será 'ilustrado', depois seleciona a latitude e a longitude de Apodi com o zoom, respectivamente
 var map = L.map('map').setView([-5.66417, -37.79889], 17);
 
-//camada do OpenStreetMap
+//adiciona a camada do OpenStreetMap 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 17,
     attribution: '© OpenStreetMap'
 }).addTo(map);
 
 //criação dos containers para limpeza automática
-//o layerGroup é o que permite apagar as ocorrências fechadas
+//o layerGroup é o que permite o "sumiço" das ocorrências fechadas
 const camadaVias = L.layerGroup().addTo(map);
 const camadaOcorrencias = L.layerGroup().addTo(map);
 
@@ -30,8 +30,8 @@ function atualizarDashboard() {
                 }).addTo(camadaVias);
             }
 
-            //desenar ocorrências
-            //limpar tudo para que as fechadas desapareçam
+            //desenhar ocorrências
+            //aqui limpamos tudo para que as fechadas desapareçam
             camadaOcorrencias.clearLayers();
 
             if (data.ocorrencias) {

@@ -6,3 +6,6 @@ from .serializers import OcorrenciaSerializer
 class OcorrenciaViewSet(ModelViewSet):
     queryset = Ocorrencia.objects.all().order_by("id")
     serializer_class = OcorrenciaSerializer
+    
+    def perform_create(self, serializer):
+        serializer.save(usuario=self.request.user)
