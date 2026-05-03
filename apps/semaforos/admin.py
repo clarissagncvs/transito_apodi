@@ -15,7 +15,7 @@ class SemaforoAdmin(admin.ModelAdmin):
         "codigo",
         "via",
         "badge_status",
-        "status", 
+        "status",
         "ativo",
         "atualizado_em",
     ]
