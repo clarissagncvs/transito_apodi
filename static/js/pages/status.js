@@ -12,6 +12,9 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 const camadaVias = L.layerGroup().addTo(map);
 const camadaOcorrencias = L.layerGroup().addTo(map);
 
+//variável global que guarda os dados
+let dadosGlobais = null;
+
 //função que busca e desenha tudo
 function atualizarDashboard() {
     fetch('/api/vias/mapa/')
@@ -20,6 +23,7 @@ function atualizarDashboard() {
             return response.json();
         })
         .then(data => {
+            dadosGlobais = data;
             console.log("Sincronizando dados de Apodi...");
 
             //desenhar vias
@@ -55,6 +59,8 @@ function atualizarDashboard() {
                     }
                 });
             }
+
+            renderizarOcorrencias();
         })
         .catch(err => console.error("Falha ao atualizar mapa:", err));
 }
@@ -63,6 +69,39 @@ function atualizarDashboard() {
 atualizarDashboard(); //roda ao abrir a página
 setInterval(atualizarDashboard, 15000); //atualiza a cada 15 segundos
 
+<<<<<<< HEAD
+//retorno de ocorrências
+function renderizarOcorrencias() {
+    if (!dadosGlobais || !dadosGlobais.ocorrencias) return;
+
+    const lista = document.getElementById("lista-status");
+    if (!lista) return;
+
+    lista.innerHTML = "";
+
+    dadosGlobais.ocorrencias.forEach(item => {
+        const div = document.createElement("div");
+        div.classList.add("ocorrencia");
+
+        div.innerHTML = `
+            <div class="tipo">${item.tipo}</div>
+            <div class="endereco">${item.endereco}</div>
+            <div class="horario">
+            ${item.horario
+                ? new Date(item.horario).toLocaleTimeString("pt-BR", {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                })
+                : "Sem horário"
+            }
+            </div>
+        `;
+
+        lista.appendChild(div);
+    });
+}
+
+=======
 /*responsividade*/
 setTimeout(() => {
   map.invalidateSize();
@@ -71,3 +110,4 @@ setTimeout(() => {
 window.addEventListener("resize", () => {
   map.invalidateSize();
 });
+>>>>>>> master
