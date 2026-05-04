@@ -3,6 +3,7 @@ import re
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
+from django.contrib.auth.password_validation import validate_password
 
 from .models import Usuario
 
@@ -77,6 +78,21 @@ class RegistroForm(UserCreationForm):
                 raise ValidationError("Formato inválido. Tente novamente.")
         return telefone
 
+    def clean(self):
+        cleaned_data = super().clean()
+        p1 = cleaned_data.get("password1")
+        user = self.instance  # Opcional: ajuda o validador de similaridade
+
+        if p1:
+            try:
+                # Valida contra as regras do settings.py
+                validate_password(p1, user)
+            except ValidationError as e:
+                # Adiciona o erro especificamente ao campo de senha
+                self.add_error('password1', e)
+
+        return cleaned_data
+
 
 # form simples para login
 class LoginForm(forms.Form):
@@ -142,3 +158,43 @@ class UsuarioAdminForm(forms.ModelForm):
             "tipo": forms.Select(attrs={"class": CSS_SEL}),
             "is_active": forms.CheckboxInput(attrs={"class": "form-check-input"}),
         }
+
+# mudei aqui (aiane)
+
+# Formulário para editar APENAS o nome (username) na pagina editar-usuario
+
+
+class UsuarioUpdateNomeForm(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = ["username"]
+        widgets = {
+            "username": forms.TextInput(attrs={"class": CSS, "placeholder": "Novo nome de usuário"}),
+        }
+
+# Formulário para editar APENAS o e-mail na pagina editar-email
+
+
+class UsuarioUpdateEmailForm(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = ["email"]
+        widgets = {
+            "email": forms.EmailInput(attrs={"class": CSS, "placeholder": "Novo e-mail"}),
+        }
+
+# Reutiliza a validação de email
+
+
+def clean_email(self):
+    email = self.cleaned_data.get('email')
+    # Verifica se o e-mail já existe, mas ignora o e-mail do próprio usuário atual
+    if Usuario.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
+        raise ValidationError("Este e-mail já está em uso por outra conta.")
+    return email
+
+
+class UsuarioUpdateTipoForm(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = ['tipo']

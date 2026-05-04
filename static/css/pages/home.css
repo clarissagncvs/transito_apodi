@@ -1,152 +1,316 @@
-/* first-section */
+/* Configurações Gerais */
+html {
+    font-family: 'Roboto', sans-serif;
+}
 
-.first-section .conteudo-principal {
+.saudacao {
+    font-size: 1.8rem;
+    color: var(--verde-);
+    margin-bottom: 8px;
+    font-weight: 500;
+    padding-top: 80px;
+}
+
+.first-section {
+    padding-left: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.conteudo-principal {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
+    margin-bottom: 40px;
+    align-items: flex-start;
+     margin-left: -100px
 }
 
-.first-section .button-section {
+.text-section h1 {
+    font-size: 4.2rem;
+    color: var(--verde-escuro-);
+    
+}
+
+.text-section h2 {
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: #666;
+}
+
+.button-section-fixed {
+    position: fixed;
+    top: 20px;
+    left: 240px;
+    right: 20px;
+    z-index: 1;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    gap: 8px;
+    background-color: #ffdab9;
+    color: #8b4513;
+    padding: 10px 20px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    border-radius: 10px;
 }
 
-.first-section .button-section>i {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
+.button-section-fixed:hover {
+    background-color: #ffcba4;
 }
 
-/* botões */
-
-.btn {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 20px;
-    width: 100%;
-    max-width: 1100px;
+@media (max-width: 920px) {
+    .button-section-fixed {
+    max-width: calc(100vw - 70px - 40px);}
+}
+.button-section-fixed:hover {
+    background-color: #ffcba4;
 }
 
-.btn .button {
-    width: 300px;
-    height: 250px;
+.btn-grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 25px;
+    max-width: 700px;
+    
+}
+
+.card-button {
+    background-color: var(--branco-entradas-);
+    border-radius: 12px;
+    padding: 30px;
+    text-decoration: none;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: flex-start;
-    padding: 20px;
-    background-color: var(--branco-entradas-);
-    color: var(--laranja-);
-    border-radius: 7px;
-    text-decoration: none;
-    transition: transform 0.2s, background 0.2s;
-    text-align: left;
-    box-shadow: 2px 2px 5px 1px rgba(0, 0, 3, 0.3);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eee;
+    width: 400px;
 }
 
-.btn .button:hover {
+.card-button:hover {
     transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     background-color: var(--branco-navbar-);
 }
 
-.button i {
-    display: inline-flex;
-    align-self: flex-start;
-    font-size: 4rem;
-    margin-bottom: 20px;
-    border: 16px solid var(--laranja-claro-);
-    border-radius: 50px;
+.icon-wrapper {
     background-color: var(--laranja-claro-);
-}
-
-.button dt {
-    width: 100%;
+    width: 70px;
+    height: 70px;
     display: flex;
-    justify-content: flex-start;
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin-bottom: 10px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-bottom: 20px;
 }
 
-.button dd {
-    margin: 0;
-    font-size: 1.8rem;
-    font-weight: 500;
+.icon-wrapper i {
+    font-size: 3.5rem;
     color: var(--laranja-);
 }
 
-/* responsividade */
-@media (max-width: 920px) {
+.card-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--verde-escuro-);
+    margin-bottom: 10px;
+}
 
-    header,
-    .first-section {
-        width: calc(100% - 70px);
-        margin-left: 80px;
+.card-desc {
+    font-size: 1.6rem;
+    color: var(--verde-escuro-);
+    line-height: 1.4;
+    margin: 0;
+}
+.card-avisos {
+    cursor: default;
+}
+
+.card-avisos:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    background-color: var(--branco-navbar-);
+}
+
+.avisos-lista {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+}
+
+.aviso-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.aviso-item:last-child {
+    border-bottom: none;
+}
+
+.aviso-icone {
+    background-color: var(--laranja-claro-);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.aviso-icone i {
+    font-size: 1.6rem;
+    color: var(--laranja-);
+}
+
+.aviso-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.aviso-texto strong {
+    font-size: 1.4rem;
+    color: #333;
+}
+
+.aviso-texto span {
+    font-size: 1.3rem;
+    color: #666;
+}
+
+.card-button--tall {
+    grid-column: 3;
+    grid-row: 1 / 3;  /* ← garante que ocupa as 2 linhas */
+    justify-content: center;
+}
+
+
+/* Responsividade */
+
+@media (max-width: 900px) {
+    .conteudo-principal {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 650px) {
+    .btn-grid-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .card-button {
+        align-items: center;
+        text-align: center;
+    }
+}
+
+/* Responsividade bem mais ou menos */
+
+@media (max-width: 1200px) {
+    .card-button {
+        width: auto;
     }
 
-    .first-section h1 {
+    .btn-grid-container {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 100%;
+    }
+
+    .conteudo-principal {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 900px) {
+    .first-section {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .conteudo-principal {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        margin-left: 0;
+    }
+
+    .btn-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .card-button--tall {
+        grid-column: 1 / -1; 
+        grid-row: auto;
+    }
+
+    .button-section-fixed {
+        transform: none;
+        font-size: 1.1rem;
+        padding: 8px 14px;
+    }
+
+    .text-section h1 {
         font-size: 3rem;
     }
 
-    .btn .button {
-        width: 200px;
-        height: 220px;
-        margin: 10px;
+    .text-section h2 {
+        font-size: 1.6rem;
     }
-
-    .btn .button i {
-        display: none;
-    }
-
-    .btn .button dt {
-        padding-bottom: 9px;
-    }
-
 }
 
 @media (max-width: 600px) {
-    .header {
-        width: calc(100% - 80px);
-        margin-left: 80px;
+    .first-section {
+        padding-left: 16px;
+        padding-right: 16px;
     }
 
-    .first-section h1 {
-        font-size: 2.8rem;
+    .btn-grid-container {
+        grid-template-columns: 1fr;
     }
 
-    .first-section h2 {
-        font-size: 1.8rem;
-        margin-bottom: 20px;
-    }
-
-    .btn {
-        flex-direction: column;
+    .card-button {
         align-items: center;
-        gap: 5px;
+        text-align: center;
+        width: 100%;
     }
 
-    .btn .button {
-        width: 250px;
-        height: 200px;
-        margin: 0 0 16px 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        box-sizing: border-box;
+    .card-button--tall {
+        grid-column: 1;
+        grid-row: auto;
     }
 
-    .btn .button>dt {
-        font-size: 2rem;
+    .text-section h1 {
+        font-size: 2.4rem;
     }
 
-    .btn .button>dd {
-        font-size: 1.8rem;
-        display: flex;
-        justify-content: flex-start;
-        align-items: flex-start;
+    .text-section h2 {
+        font-size: 1.4rem;
+    }
+
+    .saudacao {
+        font-size: 1.5rem;
+        padding-top: 40px;
+    }
+
+    .button-section-fixed {
+        font-size: 1rem;
+        white-space: normal; /* ← quebra o texto em telas pequenas */
+        text-align: center;
     }
 }

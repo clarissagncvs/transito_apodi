@@ -1,3 +1,7 @@
+html {
+    font-family: 'Roboto', sans-serif;
+}
+
 /*cabeçalho*/
 header {
     width: calc(100% - 280px);

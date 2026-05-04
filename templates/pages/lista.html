@@ -1,6 +1,204 @@
-<h1>Lista de Usuários</h1>
-<ul>
-    {% for usuario in usuarios %}
-        <li>{{ usuario.username }}</li>
-    {% endfor %}
-</ul>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Gerenciar Usuários {% endblock %}
+
+{% block extra_css %}
+    <!-- Link para o arquivo CSS específico desta página -->
+    <link rel="stylesheet" href="{% static 'css/pages/lista.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="first-section">
+    <div class="conteudo-principal">
+        <h1>Gerenciar Usuários</h1>
+        <h2>{{ total }} usuário{{ total|pluralize }} encontrado{{ total|pluralize }}</h2>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alerta alerta-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Filtros -->
+    <form method="GET" class="filtros">
+        <input
+            type="text"
+            name="q"
+            placeholder="Buscar por nome, usuário ou e-mail..."
+            value="{{ filtro_busca }}"
+            class="filtro-input"
+        >
+
+        <select name="tipo" class="filtro-select">
+            <option value="">Todos os tipos</option>
+            {% for valor, label in tipo_choices %}
+                <option value="{{ valor }}" {% if filtro_tipo == valor %}selected{% endif %}>
+                    {{ label }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <select name="ativo" class="filtro-select">
+            <option value="">Todos os status</option>
+            <option value="1" {% if filtro_ativo == "1" %}selected{% endif %}>Ativos</option>
+            <option value="0" {% if filtro_ativo == "0" %}selected{% endif %}>Inativos</option>
+        </select>
+
+        <button type="submit" class="btn-filtrar">
+            <i class="bi bi-search"></i> Filtrar
+        </button>
+
+        <a href="{% url 'apps.usuarios:lista' %}" class="btn-limpar">
+            <i class="bi bi-x-lg"></i> Limpar
+        </a>
+    </form>
+
+    <!-- Tabela -->
+    <div class="tabela-wrapper">
+        <table class="tabela-usuarios">
+            <thead>
+                <tr>
+                    <th>Usuário</th>
+                    <th>Nome completo</th>
+                    <th>E-mail</th>
+                    <th>Tipo</th>
+                    <th>Status</th>
+                    <th>Criado em</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in page_obj %}
+                <tr class="linha-usuario {% if not usuario.is_active %}linha-inativa{% endif %}">
+                    <td>
+                        <div class="usuario-info">
+                            <div class="avatar">
+                                {{ usuario.username|first|upper }}
+                            </div>
+                            <span class="username">{{ usuario.username }}</span>
+                        </div>
+                    </td>
+                    <td>{{ usuario.get_full_name|default:"—" }}</td>
+                    <td class="email-cell">{{ usuario.email|default:"—" }}</td>
+                    <td>
+                        <span class="badge badge-{{ usuario.tipo|lower }}">
+                            {{ usuario.get_tipo_display }}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge {% if usuario.is_active %}badge-ativo{% else %}badge-inativo{% endif %}">
+                            {% if usuario.is_active %}Ativo{% else %}Inativo{% endif %}
+                        </span>
+                    </td>
+                    <td class="data-cell">{{ usuario.criado_em|date:"d/m/Y" }}</td>
+                    <td>
+                        <div class="acoes">
+                            <!-- Alterar tipo -->
+                            <button
+                                class="btn-acao btn-tipo"
+                                title="Alterar tipo"
+                                onclick="abrirModalTipo(
+                                    '{{ usuario.pk }}',
+                                    '{{ usuario.username }}',
+                                    '{{ usuario.tipo }}'
+                                )"
+                            >
+                                <i class="bi bi-person-gear"></i>
+                            </button>
+
+                            <!-- Ativar/Desativar -->
+                            <form method="POST" action="{% url 'apps.usuarios:toggle' usuario.pk %}" style="display:inline">
+                                {% csrf_token %}
+                                <button
+                                    type="submit"
+                                    class="btn-acao {% if usuario.is_active %}btn-desativar{% else %}btn-ativar{% endif %}"
+                                    title="{% if usuario.is_active %}Desativar{% else %}Ativar{% endif %}"
+                                >
+                                    <i class="bi {% if usuario.is_active %}bi-toggle-on{% else %}bi-toggle-off{% endif %}"></i>
+                                </button>
+                            </form>
+
+                            <!-- Editar -->
+                            <a href="{% url 'apps.usuarios:editar' usuario.pk %}" class="btn-acao btn-editar" title="Editar">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+
+                            <!-- Deletar -->
+                            <a href="{% url 'apps.usuarios:deletar' usuario.pk %}" class="btn-acao btn-deletar" title="Excluir">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="vazio">
+                        <i class="bi bi-inbox"></i>
+                        <p>Nenhum usuário encontrado.</p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginação -->
+    {% if page_obj.has_other_pages %}
+    <div class="paginacao">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}&q={{ filtro_busca }}&tipo={{ filtro_tipo }}&ativo={{ filtro_ativo }}" class="pag-btn">
+                <i class="bi bi-chevron-left"></i>
+            </a>
+        {% endif %}
+
+        <span class="pag-info">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}&q={{ filtro_busca }}&tipo={{ filtro_tipo }}&ativo={{ filtro_ativo }}" class="pag-btn">
+                <i class="bi bi-chevron-right"></i>
+            </a>
+        {% endif %}
+    </div>
+    {% endif %}
+</section>
+
+<!-- ── MODAL ALTERAR TIPO ─────────────────────────── -->
+<div class="modal-overlay" id="modalOverlay" onclick="fecharModal()">
+    <div class="modal-card" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <i class="bi bi-person-gear modal-icone"></i>
+            <h3 class="modal-titulo">Alterar tipo de usuário</h3>
+        </div>
+
+        <p class="modal-subtitulo">
+            Selecione o novo tipo para <strong id="modal-username"></strong>:
+        </p>
+
+        <div class="modal-opcoes" id="modal-opcoes">
+            <!-- preenchido via JS -->
+        </div>
+
+        <div class="modal-rodape">
+            <button class="btn-modal-cancelar" onclick="fecharModal()">
+                Cancelar
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- form oculto que faz o POST de alteração de tipo -->
+<form id="formTipo" method="POST" action="" style="display:none">
+    {% csrf_token %}
+    <input type="hidden" name="novo_tipo" id="input-novo-tipo">
+</form>
+{% block extra_js %}
+    <script src="{% static 'js/pages/lista.js' %}"></script>
+{% endblock %}
+
+{% endblock %}

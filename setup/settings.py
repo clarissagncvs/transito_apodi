@@ -8,11 +8,15 @@ import os
 # ── 2. ambiente ───────────────────────────────
 load_dotenv()
 
-BASE_DIR   = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = str(os.getenv("SECRET_KEY"))
-DEBUG      = os.getenv("DEBUG") == "True"
+DEBUG = os.getenv("DEBUG") == "True"
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['transitoapodi-production.up.railway.app', "*", 'localhost', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = [
+    'https://transitoapodi-production.up.railway.app',
+    'https://*.127.0.0.1'
+]
 
 
 # ── 3. apps instalados ────────────────────────
@@ -39,20 +43,22 @@ INSTALLED_APPS = [
 
 # ── 4. middleware (ordem importa) ─────────────
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",      # sempre primeiro
+    "django.middleware.security.SecurityMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # sempre primeiro
     "corsheaders.middleware.CorsMiddleware",              # antes do CommonMiddleware
     "django.middleware.common.CommonMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    'apps.usuarios.middleware.IPLimitMiddleware',
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
 
 # ── 5. urls e wsgi ────────────────────────────
-ROOT_URLCONF       = "setup.urls"
-WSGI_APPLICATION   = "setup.wsgi.application"
+ROOT_URLCONF = "setup.urls"
+WSGI_APPLICATION = "setup.wsgi.application"
 
 
 # ── 6. templates ──────────────────────────────
@@ -81,7 +87,16 @@ DATABASES = {
 }
 
 
-# ── 8. autenticação ───────────────────────────
+# ── 8. cache ─────────────────────────
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'fluxo-trafego-cache',
+    }
+}
+
+
+# ── 9. autenticação ───────────────────────────
 AUTH_USER_MODEL = "usuarios.Usuario"
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -91,36 +106,37 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-LOGIN_URL           = "/usuarios/login/"
-LOGIN_REDIRECT_URL  = "/"
+LOGIN_URL = "/usuarios/login/"
+LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/usuarios/login/"
 
 
-# ── 9. internacionalização ────────────────────
+# ── 10. internacionalização ────────────────────
 LANGUAGE_CODE = "pt-br"
-TIME_ZONE     = "America/Fortaleza"
-USE_I18N      = True
-USE_TZ        = True
+TIME_ZONE = "America/Fortaleza"
+USE_I18N = True
+USE_TZ = True
 
 
-# ── 10. arquivos estáticos e mídia ────────────
-STATIC_URL       = "/static/"
+# ── 11. arquivos estáticos e mídia ────────────
+STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT      = BASE_DIR / "staticfiles"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
-MEDIA_URL  = "/media/"
+MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# ── 11. e-mail ────────────────────────────────
-EMAIL_BACKEND       = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST          = "smtp.gmail.com"
-EMAIL_PORT          = 587
-EMAIL_USE_TLS       = True
-EMAIL_HOST_USER     = os.getenv("EMAIL_HOST_USER")
+# ── 12. e-mail ────────────────────────────────
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL  = f'Trânsito Apodi <{os.getenv("EMAIL_HOST_USER")}>'
+DEFAULT_FROM_EMAIL = f'Trânsito Apodi <{os.getenv("EMAIL_HOST_USER")}>'
 
-# ── 12. django rest framework ─────────────────
+# ── 13. django rest framework ─────────────────
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
@@ -140,8 +156,14 @@ REST_FRAMEWORK = {
     ),
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+}
 
-# ── 13. JWT ───────────────────────────────────
+# ── 14. JWT ───────────────────────────────────
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME":  timedelta(hours=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
@@ -149,11 +171,11 @@ SIMPLE_JWT = {
 }
 
 
-# ── 14. cors ──────────────────────────────────
+# ── 15. cors ──────────────────────────────────
 CORS_ALLOW_ALL_ORIGINS = True   # apenas em desenvolvimento
 
 
-# ── 15. mensagens ─────────────────────────────
+# ── 16. mensagens ─────────────────────────────
 MESSAGE_TAGS = {
     messages_constants.DEBUG:   "secondary",
     messages_constants.INFO:    "info",
@@ -163,5 +185,5 @@ MESSAGE_TAGS = {
 }
 
 
-# ── 16. chave padrão de auto campo ────────────
+# ── 17. chave padrão de auto campo ────────────
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

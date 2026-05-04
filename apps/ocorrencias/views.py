@@ -127,3 +127,9 @@ def atualizar_status(request, pk):
 #O agente verá o novo status imediatamente
     return redirect('ocorrencias:detalhe', pk=pk)
 
+#cria uma página simples de status
+@login_required
+def status(request):
+    print(request.user)           # mostra quem está logado
+    print(request.user.is_authenticated)  # True ou False
+    return render(request, "pages/status.html")

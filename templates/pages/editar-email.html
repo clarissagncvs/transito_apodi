@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %} {% block title %} Perfil {% endblock %}
+
+{% block content %}
+<body>
+
+    <section class="first-section">
+        <div class="perfil-card">
+            <div class="foto-usuario">
+                <img src="{% static 'img/icone-usuario.png' %}" alt="Foto de Perfil" class="profile-img">
+            </div>
+            <h1>Altere seu perfil</h1>
+            <div class="informacoes-usuario">
+                <span class="nome">E-mail atual:</span>
+                <span class="email-usuario">{{ user.email }}</span>
+
+                <span class="email">Novo E-mail:</span>
+                <input type="email" id="email" name="email" class="input-email" placeholder="Insira seu novo e-mail" onfocus="this.placeholder = ''" 
+                onblur="this.placeholder = 'Insira seu novo e-mail'">
+            </div>
+        </div>
+
+        <div class="botao-alteracao">
+                <button class="btn btn-primary2">Alterar E-mail</button>
+        </div>
+    </section>
+    
+</body>
+{% endblock %}

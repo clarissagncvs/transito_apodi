@@ -1,53 +1,87 @@
 {% extends 'base.html' %}
-
-{% block title %} Inicío {% endblock %}
+{% load static %}
+{% block title %} Início {% endblock %}
 
 {% block content %}
+    <a href="{% url 'ocorrencias:lista' %}" class="button-section-fixed">
+        <img src="{% static 'img/icone-botao.png' %}" alt="botao" width="20">
+        <span>Ocorrências Ativas na Cidade de Apodi-RN</span>
+    </a>
+
 <section class="first-section">
     <div class="conteudo-principal">
-        <div class="text-section">
+        <div class="text-section"> 
+             <p class="saudacao">Olá, {{ request.user.first_name|default:request.user.username }}! Bem-vindo(a)</p>
             <h1>Serviços de Trânsito</h1>
             <h2>consulte o tráfego, acidentes e obras da cidade de Apodi-RN</h2>
         </div>
-        <div class="button-section"></div>
-            <a href="#" class="botao-header">
-                <i class="bi bi-exclamation-triangle"></i>
-                <span>Ocorrências Ativas</span>
-            </a>
-        </div> 
 
-        <div class="btn">
-            <dl>
-                <a href="{% url 'ocorrencias:lista' %}" class="button">
-                    <i class="bi bi-megaphone"></i>
-                    <dt>Registrar Ocorrência</dt>
-                    <dd>registre aqui acidentes, obras, congestionamentos de tráfego e etc.</dd>
-                </a>
-            </dl>
-            <dl>
-                <a href="#" class="button">
-                    <i class="bi bi-stoplights"></i>
-                    <dt>Status do Tráfego</dt>
-                    <dd>status de ocorrências ativas e finalizadas</dd>
-                </a>
-            </dl>
-            <dl>
-                <a href="#" class="button">
-                    <i class="bi bi-person"></i>
-                    <dt>Perfil</dt>
-                    <dd>acesse seus dados</dd>
-                </a>
-            </dl>
-            <dl>
-                <a href="#" class="button">
-                    <i class="bi bi-gear"></i>
-                    <dt>Configurações</dt>
-                    <dd>acessibilidade e exclusão de conta</dd>
-                </a>
-            </dl>
+        <div class="btn-grid-container">
+            <a href="{% url 'ocorrencias:lista' %}" class="card-button">
+                <div class="icon-wrapper"><i class="bi bi-megaphone"></i></div>
+                <span class="card-title">Registrar Ocorrência</span>
+                <p class="card-desc">registre aqui acidentes, obras, congestionamentos de tráfego e etc.</p>
+            </a>
+
+            <a href="{% url 'ocorrencias:status' %}" class="card-button">
+                <div class="icon-wrapper"><i class="bi bi-stoplights"></i></div>
+                <span class="card-title">Status do Tráfego</span>
+                <p class="card-desc">status de ocorrências ativas e finalizadas</p>
+            </a>
+
+            <a href="{% url 'apps.usuarios:perfil' %}" class="card-button">
+                <div class="icon-wrapper"><i class="bi bi-person"></i></div>
+                <span class="card-title">Perfil</span>
+                <p class="card-desc">acesse seus dados</p>
+            </a>
+
+            <a href="{% url 'apps.usuarios:configuracoes' %}" class="card-button">
+                <div class="icon-wrapper"><i class="bi bi-gear"></i></div>
+                <span class="card-title">Configurações</span>
+                <p class="card-desc">acessibilidade e exclusão de conta</p>   
+            </a>
+              <div class="card-button card-button--tall card-avisos">
+                <div class="icon-wrapper"><i class="bi bi-telephone-fill"></i></div>
+                <span class="card-title">Telefones Úteis</span>
+                <ul class="avisos-lista">
+                    <li class="aviso-item">
+                        <div class="aviso-icone"><i class="bi bi-shield-fill"></i></div>
+                        <div class="aviso-texto">
+                            <strong>Polícia Militar</strong>
+                            <span>190</span>
+                        </div>
+                    </li>
+                    <li class="aviso-item">
+                        <div class="aviso-icone"><i class="bi bi-fire"></i></div>
+                        <div class="aviso-texto">
+                            <strong>Bombeiros</strong>
+                            <span>193</span>
+                        </div>
+                    </li>
+                    <li class="aviso-item">
+                        <div class="aviso-icone"><i class="bi bi-heart-pulse-fill"></i></div>
+                        <div class="aviso-texto">
+                            <strong>SAMU</strong>
+                            <span>192</span>
+                        </div>
+                    </li>
+                    <li class="aviso-item">
+                        <div class="aviso-icone"><i class="bi bi-car-front-fill"></i></div>
+                        <div class="aviso-texto">
+                            <strong>DETRAN</strong>
+                            <span>(84) 3232-0000</span>
+                        </div>
+                    </li>
+                    <li class="aviso-item">
+                        <div class="aviso-icone"><i class="bi bi-building"></i></div>
+                        <div class="aviso-texto">
+                            <strong>Prefeitura</strong>
+                            <span>(84) 3333-3609</span>
+            </div>
+        </li>
+    </ul>
+</div>
         </div>
     </div>
-
 </section>
-
 {% endblock %}
