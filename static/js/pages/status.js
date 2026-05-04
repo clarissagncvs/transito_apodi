@@ -59,7 +59,7 @@ function atualizarDashboard() {
                     }
                 });
             }
-            
+
             renderizarOcorrencias();
         })
         .catch(err => console.error("Falha ao atualizar mapa:", err));
@@ -74,6 +74,8 @@ function renderizarOcorrencias() {
     if (!dadosGlobais || !dadosGlobais.ocorrencias) return;
 
     const lista = document.getElementById("lista-status");
+    if (!lista) return;
+
     lista.innerHTML = "";
 
     dadosGlobais.ocorrencias.forEach(item => {
@@ -83,12 +85,18 @@ function renderizarOcorrencias() {
         div.innerHTML = `
             <div class="tipo">${item.tipo}</div>
             <div class="endereco">${item.endereco}</div>
-            <div class="horario">${new Date(item.horario).toLocaleTimeString("pt-BR", {
-                hour: "2-digit",
-                minute: "2-digit"
-            })}</div>
+            <div class="horario">
+            ${item.horario
+                ? new Date(item.horario).toLocaleTimeString("pt-BR", {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                })
+                : "Sem horário"
+            }
+            </div>
         `;
 
         lista.appendChild(div);
     });
 }
+

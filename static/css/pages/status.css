@@ -18,7 +18,7 @@ html {
 .first-section .mapa {
     margin: 20px;
     border-radius: 16px;
-    box-shadow: 0px 7px 16px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 /*pop-ups das ocorrências*/
@@ -29,4 +29,57 @@ html {
 .custom-popup hr {
     border: 0;
     border-top: 1px dashed #ccc;
+}
+
+/*estilizando ocorrências*/
+
+.lista-ocorrencias {
+  width: 90%;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.lista-ocorrencias h2 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: var(--verde-);
+  font-size: 20px;
+}
+
+.lista {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+/*card*/
+.ocorrencia {
+  background: var(--branco-entradas-);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  border-left: 5px solid var(--branco-entradas-);
+}
+
+.ocorrencia:hover {
+  transform: scale(1.02);
+}
+
+/*campos*/
+
+.tipo {
+  font-weight: bold;
+  color: var(--verde-);
+  font-size: 16px;
+}
+
+.endereco {
+  color: var(--verde-escuro-);
+  margin-top: 4px;
+}
+
+.horario {
+  font-size: 12px;
+  color: var(--verde-escuro-);
+  margin-top: 6px;
 }
