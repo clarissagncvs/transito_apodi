@@ -98,4 +98,32 @@ def detalhe(request, pk):
     }
     return render(request, 'ocorrencias/detalhe.html', contexto)
 
+#permite que agetes e admins mudem o status de uma ocorrencia
+@login_required #bloqueia usuarios não logados
+def atualizar_status(request, pk):
+#se não é agente nem admin, redireciona sem fazer nada
+#cidadão comum não pode alterar status das ocorrencias
+    if not (request.user.is_agente or request.user.is_admin_transito):
+        return redirect('ocorrencias:lista')
+#busca a ocorrencia pelo id da URL(ou 404 se não existir)
+    oc = get_object_or_404(Ocorrencia, pk = pk)
+
+#processa apenas se for envio de formulario
+#acessa a URL diretamente
+    if request.method == 'POST':
+#Pegao valor do campo status
+#Se o campo não existir no POST, retorna None
+        novo_status = request.POST.get('status')
+
+#Só aceita valores conhecidos
+        if novo_status in Ocorrencia.Status.values:
+            oc.status = novo_status
+
+#Para não fazer update em todos os campos da ocorrencia
+#atualiza apenas esses dois
+            oc.save(update_fields=['status', 'atualizado em'])
+            
+#Após processar, volta para a página de detalhe da mesma ocorrência
+#O agente verá o novo status imediatamente
+    return redirect('ocorrencias:detalhe', pk=pk)
 
