@@ -1,5 +1,4 @@
 # Importa a função render, usada para retornar templates HTML
-from django.shortcuts import render
 from django.db.models import Q
 from .models import Ocorrencia, Alerta
 from django.shortcuts import render, redirect, get_object_or_404
@@ -8,14 +7,16 @@ from django.contrib.auth.decorators import login_required
 
 # Importa HttpResponse, usado para retornar respostas simples (texto puro, por exemplo)
 # View responsável por exibir a lista de ocorrências
+
+
 def lista(request):
     # busca todas as ocorrencias do banco de dados
     ocorrencias = Ocorrencia.objects.select_related('via', 'usuario').all()
-    
-    tipo_filtro   = request.GET.get('tipo', '')
+
+    tipo_filtro = request.GET.get('tipo', '')
     status_filtro = request.GET.get('status', '')
-    busca         = request.GET.get('busca', '')
-   
+    busca = request.GET.get('busca', '')
+
     if tipo_filtro:
         ocorrencias = ocorrencias.filter(tipo=tipo_filtro)
 
@@ -30,17 +31,18 @@ def lista(request):
 
     # dicionario python que envia dados ao HTML
     contexto = {
-        'ocorrencias': ocorrencias, # lista de ocorrecias filtradas
+        'ocorrencias': ocorrencias,  # lista de ocorrecias filtradas
         'tipos': Ocorrencia.Tipo.choices,
-        'status.opcoes': Ocorrencia.Status.choices, 
-        'tipo_filtro': status_filtro, # filtro atual
-        'status_filtro': tipo_filtro, 
+        'status.opcoes': Ocorrencia.Status.choices,
+        'tipo_filtro': status_filtro,  # filtro atual
+        'status_filtro': tipo_filtro,
         'busca': busca,
     }
     # Renderiza (carrega) o template HTML localizado em:
     # templates/ocorrencia/ocorrencias.html
     # e retorna como resposta para o navegador
     return render(request, "pages/ocorrencias.html")
+
 
 @login_required
 def nova(request):
@@ -65,7 +67,7 @@ def nova(request):
             mensagem = f'{oc.get_tipo_display()} em {oc.via}'
             # Cria e salva o alerta no banco
             Alerta.objects.create(
-                ocorrencia=oc, # liga o alerta à ocorrência
+                ocorrencia=oc,  # liga o alerta à ocorrência
                 nivel=nivel,
                 mensagem=mensagem,
             )
@@ -73,9 +75,10 @@ def nova(request):
         return redirect('ocorrencias:lista')
     # exibe um formulário em branco pro usuáio preencher
     else:
-        form = OcorrenciaForm() # formulario vazio
+        form = OcorrenciaForm()  # formulario vazio
 
     return render(request, 'pages/ocorrencias.html', {'ocorrencias': form})
+
 
 def detalhe(request, pk):
     # Tenta buscar Ocorrencia WHERE id = pk
@@ -99,7 +102,9 @@ def detalhe(request, pk):
     return render(request, 'ocorrencias/detalhe.html', contexto)
 
 # permite que agetes e admins mudem o status de uma ocorrencia
-@login_required # bloqueia usuarios não logados
+
+
+@login_required  # bloqueia usuarios não logados
 def atualizar_status(request, pk):
     # se não é agente nem admin, redireciona sem fazer nada
     # cidadão comum não pode alterar status das ocorrencias
@@ -122,11 +127,13 @@ def atualizar_status(request, pk):
             # Para não fazer update em todos os campos da ocorrencia
             # atualiza apenas esses dois
             oc.save(update_fields=['status', 'atualizado em'])
-            
+
     # Após processar, volta para a página de detalhe da mesma ocorrência
     # O agente verá o novo status imediatamente
     return redirect('ocorrencias:detalhe', pk=pk)
 # cria uma página simples de status
+
+
 @login_required
 def status(request):
     print(request.user)   # mostra quem está logado
