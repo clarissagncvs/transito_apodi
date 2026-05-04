@@ -3,7 +3,6 @@ from django.conf import settings
 from apps.vias.models import Via
 from apps.semaforos.models import Semaforo
 
-
 class Ocorrencia(models.Model):
     """Registro de ocorrência de trânsito reportada por cidadão ou agente."""
 
