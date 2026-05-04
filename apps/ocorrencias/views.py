@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from django.db.models import Q
 from .models import Ocorrencia, Alerta
-
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import OcorrenciaForm
 from django.contrib.auth.decorators import login_required
 
@@ -76,3 +76,26 @@ def nova(request):
         form = OcorrenciaForm() #formulario vazio
 
     return render(request, 'pages/ocorrencias.html', {'ocorrencias': form})
+
+def detalhe(request, pk):
+#Tenta buscar Ocorrencia WHERE id = pk
+#Se encontrar: retorna o objeto
+#se não: retorna a página 404 automaticamente
+#select_related: traz os dados de via e usuario juntos
+    ocorrencia = get_object_or_404(
+        Ocorrencia.objects.select_related('via', 'usuario'),
+        pk=pk
+    )
+
+#busca todos os alertas vinculados a essa ocorrencia
+    alertas = ocorrencia.alertas.all()
+
+    contexto = {
+        'ocorrencia': ocorrencia,
+        'alertas': alertas,
+    #status para o template montar as atualizações de status pro agente
+        'status_opcoes': Ocorrencia.Status.choices,
+    }
+    return render(request, 'ocorrencias/detalhe.html', contexto)
+
+
