@@ -10,7 +10,6 @@ from django.contrib.auth.decorators import login_required
 
 
 def lista(request):
-    # busca todas as ocorrencias do banco de dados
     ocorrencias = Ocorrencia.objects.select_related('via', 'usuario').all()
 
     tipo_filtro = request.GET.get('tipo', '')
@@ -19,29 +18,23 @@ def lista(request):
 
     if tipo_filtro:
         ocorrencias = ocorrencias.filter(tipo=tipo_filtro)
-
     if status_filtro:
         ocorrencias = ocorrencias.filter(status=status_filtro)
-
     if busca:
         ocorrencias = ocorrencias.filter(
-            Q(descricao__icontains=busca) |
-            Q(via__nome__icontains=busca)
+            Q(descricao__icontains=busca) | Q(via__nome__icontains=busca)
         )
 
-    # dicionario python que envia dados ao HTML
     contexto = {
-        'ocorrencias': ocorrencias,  # lista de ocorrecias filtradas
+        'ocorrencias': ocorrencias,
         'tipos': Ocorrencia.Tipo.choices,
-        'status.opcoes': Ocorrencia.Status.choices,
-        'tipo_filtro': status_filtro,  # filtro atual
-        'status_filtro': tipo_filtro,
+        'status_opcoes': Ocorrencia.Status.choices,
+        'tipo_filtro': tipo_filtro,
+        'status_filtro': status_filtro,
         'busca': busca,
     }
-    # Renderiza (carrega) o template HTML localizado em:
-    # templates/ocorrencia/ocorrencias.html
-    # e retorna como resposta para o navegador
-    return render(request, "pages/ocorrencias.html")
+
+    return render(request, "pages/ocorrencias.html", contexto)
 
 
 @login_required
@@ -77,7 +70,7 @@ def nova(request):
     else:
         form = OcorrenciaForm()  # formulario vazio
 
-    return render(request, 'pages/ocorrencias.html', {'ocorrencias': form})
+    return render(request, 'pages/ocorrencia.html', {'form': form})
 
 
 def detalhe(request, pk):
@@ -126,7 +119,7 @@ def atualizar_status(request, pk):
 
             # Para não fazer update em todos os campos da ocorrencia
             # atualiza apenas esses dois
-            oc.save(update_fields=['status', 'atualizado em'])
+            oc.save(update_fields=['status', 'atualizado_em'])
 
     # Após processar, volta para a página de detalhe da mesma ocorrência
     # O agente verá o novo status imediatamente
