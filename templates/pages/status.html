@@ -1,4 +1,7 @@
+{% extends 'base.html' %}
 {% load static %}
+{% block title %} Status {% endblock %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -8,16 +11,21 @@
     <title>Status</title>
     <!-- arquivo css leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <link rel="stylesheet" href="{% static 'css/pages/status.css' %}">
+<<<<<<< HEAD
     <link rel="stylesheet" href="{% static 'css/partials/index.css' %}">
+=======
+
+>>>>>>> master
 </head>
 
 <body>
     <section class="first-section">
-        <div id="map" class="mapa"></div>
+        <div class="map-container">
+            <div id="map" class="map"></div>
+        </div>
     </section>
-
     <!-- arquivo javascript do leaflet -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
@@ -30,5 +38,7 @@
     </section>
 
 </body>
+
+{% endblock %}
 
 </html>

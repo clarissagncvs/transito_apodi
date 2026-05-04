@@ -69,6 +69,7 @@ function atualizarDashboard() {
 atualizarDashboard(); //roda ao abrir a página
 setInterval(atualizarDashboard, 15000); //atualiza a cada 15 segundos
 
+<<<<<<< HEAD
 //retorno de ocorrências
 function renderizarOcorrencias() {
     if (!dadosGlobais || !dadosGlobais.ocorrencias) return;
@@ -100,3 +101,13 @@ function renderizarOcorrencias() {
     });
 }
 
+=======
+/*responsividade*/
+setTimeout(() => {
+  map.invalidateSize();
+}, 200);
+
+window.addEventListener("resize", () => {
+  map.invalidateSize();
+});
+>>>>>>> master
