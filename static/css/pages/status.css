@@ -1,25 +1,79 @@
-html,
-body {
+/*container*/
+.container {
+    width: 90%;
+    max-width: 900px;
     margin: 0;
-    padding: 0;
-    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
 }
 
-/* estilização do mapa através do id map*/
-.map-container {
-    width: 900px;
-    margin: 20px auto;
+.conteudo-header,
+.map-container,
+.status,
+.lista-ocorrencias {
+    width: 100%;
 }
+
+/*header*/
+.conteudo-header {
+    margin-left: -16px;
+    width: 100%;
+}
+
+.conteudo-header,
+.status {
+    width: 100%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.conteudo-header h1 {
+    margin: 0;
+    padding: 0;
+    color: var(--verde-);
+    font-size: 2.5rem;
+    display: block;
+    align-self: flex-start;
+}
+
+.conteudo-header,
+.status h2 {
+    color: var(--verde-);
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+/*estilização do mapa através do id map*/
 
 #map {
     width: 100%;
-    height: 600px;
+    height: 60vh;
 }
 
 .map-container .map {
-    margin: 20px auto;
-    border-radius: 16px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0px 5px 16px rgba(0, 0, 0, 0.2);
+}
+
+.lista-ocorrencias {
+    min-height: 60px;
+}
+
+.sem-ocorrencias {
+    display: block;
+    text-align: center;
+    color: var(--verde-);
+    padding: 20px;
+    font-size: 1rem;
+}
+
+.lista-ocorrencias h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--verde-);
 }
 
 /*pop-ups das ocorrências*/
@@ -31,4 +85,65 @@ body {
 .custom-popup hr {
     border: 0;
     border-top: 1px dashed #ccc;
+}
+
+/*status de ocorrencias atiivas e finalizadas*/
+.status {
+    height: auto;
+}
+
+.status h2 {
+    font-weight: 500;
+    padding: 16px 0 0 0;
+}
+
+.status h3 {
+    color: var(--verde-);
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+/*responsividade mapa*/
+@media (max-width: 768px) {
+
+    .conteudo-header,
+    .map-container,
+    .lista-ocorrencias {
+        width: 95%;
+        margin: 0 auto;
+    }
+
+    .map-container {
+        width: 95%;
+    }
+
+    #map {
+        height: 70vh;
+    }
+
+    .lista-ocorrencias {
+        width: 95%;
+        margin: 16px auto;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .conteudo-header h2 {
+        padding-bottom: 20px;
+    }
+
+    .map-container {
+        margin: 0 auto;
+    }
+
+    #map {
+        margin-top: 100px;
+        min-height: 70vh;
+    }
+
+    .lista-ocorrencias h2 {
+        font-size: 1.1rem;
+    }
 }

@@ -23,6 +23,7 @@ function atualizarDashboard() {
             return response.json();
         })
         .then(data => {
+            console.log("DADOS RECEBIDOS:", data);
             dadosGlobais = data;
             console.log("Sincronizando dados de Apodi...");
 
@@ -40,8 +41,8 @@ function atualizarDashboard() {
 
             if (data.ocorrencias) {
                 data.ocorrencias.forEach(item => {
-                    //só desenha se o status for 'aberto'
-                    if (item.status === 'aberto') {
+                    //só desenha se o status for 'ABERTA'
+                    if (item.status === 'ABERTA' || item.status === 'EM_ANDAMENTO') {
                         const marker = L.marker([item.latitude, item.longitude]);
 
                         const popupConteudo = `
@@ -71,12 +72,19 @@ setInterval(atualizarDashboard, 15000); //atualiza a cada 15 segundos
 
 //retorno de ocorrências
 function renderizarOcorrencias() {
+    console.log("renderizarOcorrencias foi chamada");
     if (!dadosGlobais || !dadosGlobais.ocorrencias) return;
 
     const lista = document.getElementById("lista-status");
     if (!lista) return;
 
     lista.innerHTML = "";
+
+    //retorno caso não exista ocorrências
+    if (!dadosGlobais.ocorrencias || dadosGlobais.ocorrencias.length === 0) {
+        lista.innerHTML = "<p class='sem-ocorrencias'>Sem ocorrências no momento</p>";
+        return;
+    }
 
     dadosGlobais.ocorrencias.forEach(item => {
         const div = document.createElement("div");
@@ -100,3 +108,13 @@ function renderizarOcorrencias() {
     });
 }
 
+/*responsividade*/
+window.addEventListener("load", () => {
+    setTimeout(() => {
+        map.invalidateSize();
+    }, 500);
+});
+
+window.addEventListener("resize", () => {
+    map.invalidateSize();
+});

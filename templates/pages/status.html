@@ -1,29 +1,41 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %} Status {% endblock %}
-{% block content %}
- <!--importar links html para o base.html-->
+<!--importar links html para o base.html-->
 {% block extra_head %}
-    <!-- arquivo css leaflet -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <link rel="stylesheet" href="{% static 'css/pages/status.css' %}">
-    {% endblock %}
+<!-- arquivo css leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<link rel="stylesheet" href="{% static 'css/pages/status.css' %}">
+{% endblock %}
 
-    <section class="first-section">
+{% block content %}
+
+<section class="first-section">
+    <div class="container">
+
+        <header class="conteudo-header">
+            <h1>Status de Ocorrências</h1>
+            <h2>Verifique ocorrências ativas e finalizadas</h2>
+        </header>
+
         <div class="map-container">
             <div id="map" class="map"></div>
         </div>
-    </section>
 
-    <section class="lista-ocorrencias">
-        <h2>Status das Ocorrências</h2>
-        
-        <div id="lista-status" class="lista"></div>
-    </section>
-    <!-- arquivo javascript do leaflet -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="{% static 'js/pages/status.js' %}"></script>
+        <!-- arquivo javascript do leaflet -->
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+        <script src="{% static 'js/pages/status.js' %}"></script>
+
+        <div class="status">
+            <h2>Ocorrências ativas e finalizadas</h2>
+            <h3>Aqui ficarão registradas ocorrências ativas e finalizadas</h3>
+            <div class="lista-ocorrencias">
+                <div id="lista-status" class="lista"></div>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% endblock %}
