@@ -37,7 +37,6 @@ class TestUsuarioForms:
         assert form.is_valid() is False
         assert "Este e-mail já foi cadastrado" in form.errors["email"][0]
 
-
     def test_login_form_campos_obrigatorios(self):
         """Verifica se o form de login exige os campos"""
         form = LoginForm(data={})
