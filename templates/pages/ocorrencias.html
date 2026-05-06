@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %} Ocorrências {% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<link rel="stylesheet" href="{% static 'css/pages/status.css' %}">
+{% endblock %}
 
 {% block content %}
 <section class="first-section">
@@ -8,6 +15,12 @@
         <h1>Registrar Ocorrência</h1>
         <h2>Faça registros de ocorrências</h2>
 
+        
+        <div class="map-container">
+            <h2>Onde está sua ocorrência?</h2>
+            <div id="map" class="map"></div>
+        </div>
+        
         <form class="ipt" method="POST" action="">
             {% csrf_token %}
 
@@ -20,43 +33,35 @@
             <span>
                 <label for="{{ form.tipo.id_for_label }}">{{ form.tipo.label }}</label>
             </span>
-            <div class="input">
-                {{ form.tipo }}
-            </div>
+            <div class="input">{{ form.tipo }}</div>
 
             <span>
                 <label for="{{ form.via.id_for_label }}">{{ form.via.label }}</label>
             </span>
-            <div class="input">
-                {{ form.via }}
-            </div>
+            <div class="input">{{ form.via }}</div>
 
             <span>
                 <label for="{{ form.descricao.id_for_label }}">{{ form.descricao.label }}</label>
             </span>
-            <div class="input">
-                {{ form.descricao }}
-            </div>
+            <div class="input">{{ form.descricao }}</div>
 
             <span>
                 <label for="{{ form.semaforo.id_for_label }}">Semáforo relacionado</label>
             </span>
-            <div class="input">
-                {{ form.semaforo }}
-            </div>
+            <div class="input">{{ form.semaforo }}</div>
 
             <span>
                 <label for="{{ form.horario_incidente.id_for_label }}">Insira aqui o horário do ocorrido</label>
             </span>
-            <div class="input">
-                {{ form.horario_incidente }}
-            </div>
+            <div class="input">{{ form.horario_incidente }}</div>
 
-            <button class="botao-submeter" type="submit">
-                Registrar
-            </button>
-
+            <button class="botao-submeter" type="submit">Registrar</button>
         </form>
+
+        <!-- Scripts do Leaflet -->
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+        <script src="{% static 'js/pages/status.js' %}"></script>
     </div>
 </section>
 {% endblock %}
