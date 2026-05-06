@@ -11,54 +11,47 @@
         <form class="ipt" method="POST">
             {% csrf_token %}
 
+            {% if form.errors %}
+                <div style="color: red; margin-bottom: 20px;">
+                    Por favor, corrija os erros abaixo.
+                </div>
+            {% endif %}
+
             <span>
-                <label for="ocorrencia">Tipo de ocorrência</label>
+                <label for="{{ form.tipo.id_for_label }}">{{ form.tipo.label }}</label>
             </span>
-
             <div class="input">
-                <input list="ocorrencias" id="ocorrencia" name="ocorrencia"
-                    placeholder="Qual problema você deseja registrar?">
-
-                <datalist id="ocorrencias">
-                    <option value="Acidente">
-                    <option value="Obra">
-                    <option value="Congestionamento">
-                    <option value="Evento">
-                    <option value="Outro">
-                </datalist>
+                {{ form.tipo }}
             </div>
 
             <span>
-                <label for="endereco">Endereço</label>
+                <label for="{{ form.via.id_for_label }}">{{ form.via.label }}</label>
             </span>
-
             <div class="input">
-                <input type="text" id="endereco" name="endereco" placeholder="Insira aqui o endereço">
+                {{ form.via }}
             </div>
 
             <span>
-                <label for="descrição">Descrição</label>
+                <label for="{{ form.descricao.id_for_label }}">{{ form.descricao.label }}</label>
             </span>
-            
-             <div class="input">
-                <input type="text" id="descrição" name="descrição" placeholder="Insira aqui sua descrição">
+            <div class="input">
+                {{ form.descricao }}
             </div>
 
             <span>
                 <label for="hora">Insira aqui o horário</label>
             </span>
-
+            <span>
+            <label for="{{ form.horario_incidente.id_for_label }}">Horário do ocorrido</label>
+            </span>
             <div class="input">
-                <input type="time" id="hora" name="hora">
+                 {{ form.horario_incidente }}
             </div>
-
             <button class="botao-submeter" type="submit">
                 Registrar
             </button>
 
         </form>
-
     </div>
 </section>
-
 {% endblock %}

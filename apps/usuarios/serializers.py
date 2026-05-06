@@ -17,7 +17,6 @@ class UsuarioSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "email",
-            "telefone",
             "tipo",
             "tipo_display",
             "is_active",
@@ -42,7 +41,6 @@ class UsuarioCreateSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "email",
-            "telefone",
             "password",
             "password2",
         ]

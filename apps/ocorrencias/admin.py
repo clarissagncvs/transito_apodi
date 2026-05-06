@@ -33,7 +33,7 @@ class OcorrenciaAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ("Informações do Incidente", {
-            "fields": ("tipo", "status", "descricao", "usuario")
+            "fields": ("tipo", "status", "descricao", "usuario", "horario_incidente")
         }),
         ("Localização Detalhada", {
             "fields": ("via", "semaforo", "latitude", "longitude"),
@@ -42,6 +42,7 @@ class OcorrenciaAdmin(admin.ModelAdmin):
             "fields": ("criado_em", "atualizado_em"),
             "classes": ("collapse",)
         }),
+
     )
 
     # Badge para o Tipo (Acidente, Obra, etc)

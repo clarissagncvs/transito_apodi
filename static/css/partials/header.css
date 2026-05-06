@@ -4,7 +4,7 @@ html {
 
 /*cabeçalho*/
 header {
-    width: calc(100% - 280px);
+    width: calc(100% - 250px);
     margin-left: 250px
 }
 

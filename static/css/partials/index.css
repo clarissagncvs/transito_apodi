@@ -1,7 +1,14 @@
+/*importa fonte, variáveis e normalizações globais*/
 @import '../global/global.css';
+/*importa a estilização única de cada página*/
 @import '../pages/pages.css';
 
+
+/*importa cabeçalho*/
 @import './header.css';
+/*importa sidebar*/
 @import './sidebar.css';
+/*importa first-section*/
 @import './first-section.css';
+/*importa rodapé*/
 @import './footer.css';

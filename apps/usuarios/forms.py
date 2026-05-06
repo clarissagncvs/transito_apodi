@@ -1,5 +1,3 @@
-import re
-
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
@@ -121,7 +119,6 @@ class UsuarioAdminForm(forms.ModelForm):
     class Meta:
         model = Usuario
 
-        # Removido o campo "foto" daqui também
         fields = [
             "username",
             "first_name",

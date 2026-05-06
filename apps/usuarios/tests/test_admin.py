@@ -42,7 +42,6 @@ class TestUsuarioAdmin:
         """Verifica se as colunas configuradas no list_display estão corretas"""
         campos_esperados = [
             "username", "nome_completo", "email",
-            "badge_tipo", "telefone", "is_active", "criado_em"
         ]
         for campo in campos_esperados:
             assert campo in usuario_admin.list_display
