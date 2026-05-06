@@ -121,7 +121,6 @@ class UsuarioAdminForm(forms.ModelForm):
     class Meta:
         model = Usuario
 
-        # Removido o campo "foto" daqui também
         fields = [
             "username",
             "first_name",

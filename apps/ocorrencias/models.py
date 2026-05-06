@@ -52,6 +52,13 @@ class Ocorrencia(models.Model):
         verbose_name="Semáforo relacionado"
     )
 
+    # hora da ocorrencia
+    horario_incidente = models.TimeField(
+        verbose_name="Horário do ocorrido",
+        null=True,
+        blank=True
+    )
+
     # Coordenadas (DecimalField é melhor para GPS)
     latitude = models.DecimalField(
         max_digits=9, decimal_places=6, null=True, blank=True
