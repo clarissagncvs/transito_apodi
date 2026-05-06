@@ -8,7 +8,7 @@
         <h1>Registrar Ocorrência</h1>
         <h2>Faça registros de ocorrências</h2>
 
-        <form class="ipt" method="POST">
+        <form class="ipt" method="POST" action="">
             {% csrf_token %}
 
             {% if form.errors %}
@@ -39,14 +39,19 @@
             </div>
 
             <span>
-                <label for="hora">Insira aqui o horário</label>
-            </span>
-            <span>
-            <label for="{{ form.horario_incidente.id_for_label }}">Horário do ocorrido</label>
+                <label for="{{ form.semaforo.id_for_label }}">Semáforo relacionado</label>
             </span>
             <div class="input">
-                 {{ form.horario_incidente }}
+                {{ form.semaforo }}
             </div>
+
+            <span>
+                <label for="{{ form.horario_incidente.id_for_label }}">Insira aqui o horário do ocorrido</label>
+            </span>
+            <div class="input">
+                {{ form.horario_incidente }}
+            </div>
+
             <button class="botao-submeter" type="submit">
                 Registrar
             </button>
