@@ -18,7 +18,6 @@ urlpatterns = [
     path("ocorrencias/", include(("apps.ocorrencias.urls", "ocorrencias"), namespace="ocorrencias")),
     #    path('semaforos/', include('apps.semaforos.urls')),  # Rotas web relacionadas a semáforos
     path("", lambda request: HttpResponse("Página inicial")),
-    path("usuarios/", include("apps.usuarios.urls")),  # Rotas web relacionadas a usuários
 
     # rotas das apis (use o id de um objeto após a barra para acessá-lo e poder editar e excluir ele)
     path('api/vias/mapa/', include('apps.vias.mapa_api_urls')),  # Endpoints da API REST para o mapa dentro do app vias

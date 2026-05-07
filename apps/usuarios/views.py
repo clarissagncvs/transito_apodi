@@ -27,9 +27,14 @@ from .forms import (
 
 @login_required
 def home(request):
-    print(request.user)           # mostra quem está logado
-    print(request.user.is_authenticated)  # True ou False
-    return render(request, "pages/home.html")
+    usuario = request.user
+
+    if usuario.is_admin_transito:
+        return render(request, "pages/home-admin.html")
+    elif usuario.is_agente:
+        return render(request, "pages/home-agente.html")
+    else:
+        return render(request, "pages/home.html")
 
 
 # ── autenticação ──────────────────────────────────────────────
