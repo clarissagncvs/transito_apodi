@@ -8,10 +8,9 @@
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 <link rel="stylesheet" href="{% static 'css/pages/status.css' %}">
 {% endblock %}
-
 {% block content %}
 <section class="first-section">
-    <div class="conteudo-principal">
+    <div class="conteudo-principal-ocorrencias">
         <h1>Registrar Ocorrência</h1>
         <h2>Faça registros de ocorrências</h2>
 
@@ -23,33 +22,38 @@
         
         <form class="ipt" method="POST" action="">
             {% csrf_token %}
-
+            {{ form.latitude }}
+            {{ form.longitude }}
             {% if form.errors %}
-                <div style="color: red; margin-bottom: 20px;">
-                    Por favor, corrija os erros abaixo.
-                </div>
-            {% endif %}
+        <div style="color: red; margin-bottom: 16px;">
+        Por favor, corrija os erros abaixo.
+        {{ form.errors }}
+         </div>
+    {% endif %}
+
+            <span>
+                <label>Onde está sua ocorrência?</label>
+            </span>
+            <div class="input">
+                <div id="map" class="map"></div>
+            </div>
 
             <span>
                 <label for="{{ form.tipo.id_for_label }}">{{ form.tipo.label }}</label>
             </span>
             <div class="input">{{ form.tipo }}</div>
-
             <span>
                 <label for="{{ form.via.id_for_label }}">{{ form.via.label }}</label>
             </span>
             <div class="input">{{ form.via }}</div>
-
             <span>
                 <label for="{{ form.descricao.id_for_label }}">{{ form.descricao.label }}</label>
             </span>
             <div class="input">{{ form.descricao }}</div>
-
             <span>
                 <label for="{{ form.semaforo.id_for_label }}">Semáforo relacionado</label>
             </span>
             <div class="input">{{ form.semaforo }}</div>
-
             <span>
                 <label for="{{ form.horario_incidente.id_for_label }}">Insira aqui o horário do ocorrido</label>
             </span>
