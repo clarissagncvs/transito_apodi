@@ -12,6 +12,54 @@ let dadosGlobais = null;
 
 let pinUsuario = null;
 
+function criarIconeStatus(item) {
+
+    let classe = "pin-ativa";
+    let simbolo = "!";
+
+
+    if (
+        item.tipo &&
+        item.tipo.toUpperCase() === "ACIDENTE"
+    ) {
+        classe = "pin-emergencia";
+        simbolo = "!";
+    }
+
+
+    else if (item.status === "EM_ANDAMENTO") {
+        classe = "pin-andamento";
+        simbolo = "⏳";
+    }
+
+
+    else if (
+        item.status === "RESOLVIDA" ||
+        item.status === "ENCERRADA"
+    ) {
+        classe = "pin-finalizada";
+        simbolo = "✓";
+    }
+
+
+    else if (item.status === "ABERTA") {
+        classe = "pin-ativa";
+        simbolo = "!";
+    }
+
+    return L.divIcon({
+        className: "",
+        html: `
+            <div class="pin-status ${classe}">
+                <span>${simbolo}</span>
+            </div>
+        `,
+        iconSize: [42, 42],
+        iconAnchor: [21, 42],
+        popupAnchor: [0, -42]
+    });
+}
+
 const iconePin = L.divIcon({
     html: `<div style="
         width: 20px; height: 20px;
@@ -29,7 +77,7 @@ const iconePin = L.divIcon({
 const ehPaginaRegistro = document.querySelector('form.ipt');
 
 if (ehPaginaRegistro) {
-    map.on('click', function(e) {
+    map.on('click', function (e) {
         const lat = e.latlng.lat;
         const lng = e.latlng.lng;
 
@@ -73,10 +121,20 @@ function atualizarDashboard() {
 
             if (data.ocorrencias) {
                 data.ocorrencias.forEach(item => {
-                    if (item.status === 'ABERTA' || item.status === 'EM_ANDAMENTO') {
+                    if (
+                        item.status === 'ABERTA' ||
+                        item.status === 'EM_ANDAMENTO' ||
+                        item.status === 'RESOLVIDA' ||
+                        item.status === 'ENCERRADA'
+                    ) {
                         if (item.latitude == null || item.longitude == null) return;
 
-                        const marker = L.marker([item.latitude, item.longitude]);
+                        const marker = L.marker(
+                            [item.latitude, item.longitude],
+                            {
+                                icon: criarIconeStatus(item)
+                            }
+                        );
 
                         const popupConteudo = `
                             <div class="custom-popup">
