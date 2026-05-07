@@ -12,6 +12,7 @@ class OcorrenciaSerializer(serializers.ModelSerializer):
             "status",
             "via",
             "semaforo",
+            "horario_incidente",
             "latitude",
             "longitude",
             "usuario",
