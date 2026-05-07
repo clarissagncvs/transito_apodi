@@ -122,8 +122,8 @@ html {
     margin-bottom: 30px; /* Espaço entre o texto e o card */
 }
 
-/* Pequeno ajuste no conteúdo principal para evitar conflito de fontes */
-.conteudo-principal {
+
+.conteudo-principal-ocorrencias {
     width: calc(100% - 350px); /* Ajuste dinâmico */
     max-width: 1200px;         
     margin-left: 290px;        
