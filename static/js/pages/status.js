@@ -1,21 +1,56 @@
-//iniciando o mapa com o id do elemento div para informar onde o mapa será 'ilustrado', depois seleciona a latitude e a longitude de Apodi com o zoom, respectivamente
 var map = L.map('map').setView([-5.66417, -37.79889], 17);
 
-//camada do OpenStreetMap
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 17,
     attribution: '© OpenStreetMap'
 }).addTo(map);
 
-//criação dos containers para limpeza automática
-//o layerGroup é o que permite apagar as ocorrências fechadas
 const camadaVias = L.layerGroup().addTo(map);
 const camadaOcorrencias = L.layerGroup().addTo(map);
 
-//variável global que guarda os dados
 let dadosGlobais = null;
 
-//função que busca e desenha tudo
+let pinUsuario = null;
+
+const iconePin = L.divIcon({
+    html: `<div style="
+        width: 20px; height: 20px;
+        background: #e63946;
+        border: 3px solid #fff;
+        border-radius: 50% 50% 50% 0;
+        transform: rotate(-45deg);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    "></div>`,
+    iconSize: [20, 20],
+    iconAnchor: [10, 20],
+    className: ''
+});
+
+const ehPaginaRegistro = document.querySelector('form.ipt');
+
+if (ehPaginaRegistro) {
+    map.on('click', function(e) {
+        const lat = e.latlng.lat;
+        const lng = e.latlng.lng;
+
+        if (pinUsuario) {
+            map.removeLayer(pinUsuario);
+        }
+
+        pinUsuario = L.marker([lat, lng], { icon: iconePin })
+            .addTo(map)
+            .bindPopup(`
+                <strong>Local selecionado</strong><br>
+                Lat: ${lat.toFixed(6)}<br>
+                Lng: ${lng.toFixed(6)}
+            `)
+            .openPopup();
+
+        document.getElementById('id_latitude').value = lat;
+        document.getElementById('id_longitude').value = lng;
+    });
+}
+
 function atualizarDashboard() {
     fetch('/api/vias/mapa/')
         .then(response => {
@@ -27,7 +62,6 @@ function atualizarDashboard() {
             dadosGlobais = data;
             console.log("Sincronizando dados de Apodi...");
 
-            //desenhar vias
             camadaVias.clearLayers();
             if (data.vias && data.vias.length > 0) {
                 L.geoJSON(data.vias, {
@@ -35,14 +69,13 @@ function atualizarDashboard() {
                 }).addTo(camadaVias);
             }
 
-            //desenar ocorrências
-            //limpar tudo para que as fechadas desapareçam
             camadaOcorrencias.clearLayers();
 
             if (data.ocorrencias) {
                 data.ocorrencias.forEach(item => {
-                    //só desenha se o status for 'ABERTA'
                     if (item.status === 'ABERTA' || item.status === 'EM_ANDAMENTO') {
+                        if (item.latitude == null || item.longitude == null) return;
+
                         const marker = L.marker([item.latitude, item.longitude]);
 
                         const popupConteudo = `
@@ -66,11 +99,11 @@ function atualizarDashboard() {
         .catch(err => console.error("Falha ao atualizar mapa:", err));
 }
 
-//execução e intervalo
-atualizarDashboard(); //roda ao abrir a página
-setInterval(atualizarDashboard, 15000); //atualiza a cada 15 segundos
+if (!ehPaginaRegistro) {
+    atualizarDashboard();
+    setInterval(atualizarDashboard, 15000);
+}
 
-//retorno de ocorrências
 function renderizarOcorrencias() {
     console.log("renderizarOcorrencias foi chamada");
     if (!dadosGlobais || !dadosGlobais.ocorrencias) return;
@@ -80,7 +113,6 @@ function renderizarOcorrencias() {
 
     lista.innerHTML = "";
 
-    //retorno caso não exista ocorrências
     if (!dadosGlobais.ocorrencias || dadosGlobais.ocorrencias.length === 0) {
         lista.innerHTML = "<p class='sem-ocorrencias'>Sem ocorrências no momento</p>";
         return;
@@ -108,11 +140,8 @@ function renderizarOcorrencias() {
     });
 }
 
-/*responsividade*/
 window.addEventListener("load", () => {
-    setTimeout(() => {
-        map.invalidateSize();
-    }, 500);
+    setTimeout(() => map.invalidateSize(), 500);
 });
 
 window.addEventListener("resize", () => {
