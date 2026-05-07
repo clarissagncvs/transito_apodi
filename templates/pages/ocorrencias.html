@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block title %} Ocorrências {% endblock %}
-
 {% block extra_head %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
@@ -13,12 +11,6 @@
     <div class="conteudo-principal-ocorrencias">
         <h1>Registrar Ocorrência</h1>
         <h2>Faça registros de ocorrências</h2>
-
-        
-        <div class="map-container">
-            <h2>Onde está sua ocorrência?</h2>
-            <div id="map" class="map"></div>
-        </div>
         
         <form class="ipt" method="POST" action="">
             {% csrf_token %}
@@ -58,11 +50,9 @@
                 <label for="{{ form.horario_incidente.id_for_label }}">Insira aqui o horário do ocorrido</label>
             </span>
             <div class="input">{{ form.horario_incidente }}</div>
-
             <button class="botao-submeter" type="submit">Registrar</button>
         </form>
 
-        <!-- Scripts do Leaflet -->
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
         <script src="{% static 'js/pages/status.js' %}"></script>
