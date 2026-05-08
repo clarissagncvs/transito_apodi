@@ -26,7 +26,7 @@ body {
     max-width: 1000px;
     background: rgba(255, 255, 255, 0.7);
     border-radius: 26px;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
     padding: 40px 60px;
 }
 
@@ -50,10 +50,14 @@ body {
     max-width: 340px;
 }
 
-.brand-row { display: flex; align-items: center; gap: 10px; }
+.brand-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
 .logo-img {
-     max-width: 190px; 
+    max-width: 190px;
 }
 
 .brand-name {
@@ -88,18 +92,18 @@ body {
     align-items: center;
     background: #e8e8e8;
     border-radius: 10px;
-    position: relative; 
+    position: relative;
     height: 44px;
-    padding: 0; 
+    padding: 0;
     overflow: visible;
 }
 
 .input-wrapper img {
     position: relative;
     z-index: 3;
-    margin-left: 12px; 
+    margin-left: 12px;
     pointer-events: none;
-    width: 22px; 
+    width: 22px;
     width: 30px;
     height: 30px;
 }
@@ -110,11 +114,11 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    margin: 0 !important; 
-    border: 2.5px solid #e8e8e8; 
+    margin: 0 !important;
+    border: 2.5px solid #e8e8e8;
     border-radius: 10px;
     background: transparent;
-    padding: 0 40px 0 45px; 
+    padding: 0 40px 0 45px;
     font-size: 14px;
     font-weight: 700;
     color: var(--verde-escuro-);
@@ -178,4 +182,129 @@ body {
 
 .form-links a:hover {
     text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+
+    body {
+        padding: 20px;
+    }
+
+    .login-wrapper {
+        flex-direction: column;
+        gap: 24px;
+        width: 100%;
+        max-width: 420px;
+        padding: 28px 22px;
+    }
+
+    .login-left {
+        max-width: 100%;
+    }
+
+    .brand-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .logo-img {
+        max-width: 110px;
+    }
+
+    .brand-name {
+        font-size: 32px;
+        line-height: 1.1;
+    }
+
+    .site-description {
+        width: 100%;
+        font-size: 16px;
+        text-align: center;
+        align-self: center;
+    }
+
+    .retangulo {
+        width: 280px;
+        padding: 18px 14px;
+    }
+
+    .sign-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .input-wrapper {
+        height: 40px;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .login-wrapper {
+        width: 100%;
+        max-width: 340px;
+        gap: 18px;
+        padding: 20px 14px;
+    }
+
+    .brand-row {
+        gap: 6px;
+    }
+
+    .logo-img {
+        max-width: 90px;
+    }
+
+    .brand-name {
+        font-size: 26px;
+    }
+
+    .site-description {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .retangulo {
+        width: 280px;
+        padding: 18px 14px;
+    }
+
+    .retangulo h1 {
+        font-size: 24px;
+    }
+
+    .input-field {
+        font-size: 13px;
+    }
+
+    .btn-primary {
+        font-size: 15px;
+    }
+
+    .toggle-password {
+        font-size: 20px;
+    }
+
+    .sign-container {
+        width: auto;
+    }
+
+    .form-group {
+        margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+        height: 38px;
+    }
+
+    .input-wrapper img {
+        width: 22px;
+        height: 22px;
+    }
+
 }
