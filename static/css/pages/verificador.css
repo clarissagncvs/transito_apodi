@@ -1,0 +1,142 @@
+/*configurações gerais*/
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body.page-verificador {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--branco-padrao-);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/*container principal*/
+.main-container {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+/*container do ícone*/
+.icon-container {
+    margin-bottom: 12px;
+}
+.bi-shield-lock-fill {
+    font-size: 70px;
+    color: var(--laranja-);
+    display: inline-block;
+    filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+/*estilização do card*/
+.card-verificacao {
+    max-width: 400px;
+    width: 100%;
+    background-color: var(--branco-padrao-);
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.card-verificacao:hover {
+    transform: translateY(-5px);
+    background-color: var(--branco-entradas-);
+    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/*títulos e textos*/
+.titulo { 
+    margin-bottom: 10px;
+    color: var(--verde-claro-);
+    font-size: 20px; 
+}
+.subtitulo { 
+    font-size: 14px; 
+    color: var(--verde-); 
+    margin-bottom: 25px; 
+}
+
+/*input do código*/
+.input-codigo {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    letter-spacing: 8px;
+    text-align: center;
+    border: 2px solid var(--laranja-);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s;
+}
+
+.input-codigo:focus {
+    border-color: var(--verde-claro-);
+}
+
+/*botões*/
+.btn-principal, .btn-reenviar {
+    background-color: var(--verde-claro-);
+    color: var(--branco-entradas-);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-principal:hover, .btn-reenviar:hover {
+    background-color: var(--verde-) !important;
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/*link voltar*/
+.link-container {
+    margin-top: 15px;
+}
+
+.link-voltar { 
+    color: #6b7280; 
+    text-decoration: none; 
+    font-size: 13px; 
+}
+
+.link-voltar:hover{ 
+    text-decoration: underline; 
+}
+
+/*seção de reenvio*/
+.reenviar-section {
+    margin-top: 25px;
+    border-top: 1px solid var(--branco-padrao-);
+    padding-top: 20px;
+}
+.texto-ajuda {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 10px;
+}
+
+/*alertas do django*/
+.alert {
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+.alert-error, .alert-danger { background-color: #f8d7da; color: #721c24; }
+.alert-success { background-color: #d4edda; color: #155724; }
