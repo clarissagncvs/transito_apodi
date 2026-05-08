@@ -25,13 +25,20 @@
                     <span class="txt-apodi">apodi</span>
                 </div>
             </div>
-
             <a href="{% url 'home' %}" class="sidebar-button">
                 <span>
                     <i class="bi bi-house-door-fill"></i>
                     <span>Início</span>
                 </span>
             </a>
+            {% if request.user.is_admin_transito %}
+            <a href="{% url 'apps.usuarios:lista' %}" class="sidebar-button">
+                <span>
+                    <i class="bi bi-people-fill"></i>
+                    <span>Lista de Usuários</span>
+                </span>
+            </a>
+            {% endif %}
             <a href="{% url 'apps.usuarios:perfil' %}" class="sidebar-button">
                 <span>
                     <i class="bi bi-person-fill"></i>
