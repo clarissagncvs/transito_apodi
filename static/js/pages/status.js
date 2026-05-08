@@ -163,10 +163,11 @@ if (!ehPaginaRegistro) {
 }
 
 function renderizarOcorrencias() {
-    console.log("renderizarOcorrencias foi chamada");
+
     if (!dadosGlobais || !dadosGlobais.ocorrencias) return;
 
     const lista = document.getElementById("lista-status");
+
     if (!lista) return;
 
     lista.innerHTML = "";
@@ -176,26 +177,134 @@ function renderizarOcorrencias() {
         return;
     }
 
-    dadosGlobais.ocorrencias.forEach(item => {
-        const div = document.createElement("div");
-        div.classList.add("ocorrencia");
+    const ocorrenciasAbertas = dadosGlobais.ocorrencias.filter(item =>
 
-        div.innerHTML = `
-            <div class="tipo">${item.tipo}</div>
-            <div class="endereco">${item.endereco}</div>
-            <div class="horario">
-            ${item.horario
+        item.status === "ABERTA" ||
+        item.status === "EM_ANDAMENTO"
+    );
+
+    const ocorrenciasFechadas = dadosGlobais.ocorrencias.filter(item =>
+
+        item.status === "FECHADA"
+    );
+
+    lista.innerHTML += `
+        <div class="grupo-ocorrencias">
+            <h2 class="titulo-status abertas">
+                Ocorrências Ativas
+            </h2>
+        </div>
+    `;
+
+    if (ocorrenciasAbertas.length === 0) {
+
+        lista.innerHTML += `
+            <p class="sem-ocorrencias">
+                Nenhuma ocorrência ativa
+            </p>
+        `;
+
+    } else {
+
+        ocorrenciasAbertas.forEach(item => {
+
+            const horarioFormatado = item.horario
                 ? new Date(item.horario).toLocaleTimeString("pt-BR", {
                     hour: "2-digit",
                     minute: "2-digit"
                 })
-                : "Sem horário"
-            }
-            </div>
+                : "Sem horário";
+
+            lista.innerHTML += `
+                <div class="ocorrencia aberta">
+
+                    <div class="ocorrencia-topo">
+
+                        <span class="tipo">
+                            ${item.tipo}
+                        </span>
+
+                        <span class="badge aberta">
+                            ${item.status}
+                        </span>
+
+                    </div>
+
+                    <div class="endereco">
+                        ${item.endereco}
+                    </div>
+
+                    <div class="descricao">
+                        ${item.descricao || "Sem descrição"}
+                    </div>
+
+                    <div class="horario">
+                        ${horarioFormatado}
+                    </div>
+
+                </div>
+            `;
+        });
+    }
+
+    lista.innerHTML += `
+        <div class="grupo-ocorrencias">
+            <h2 class="titulo-status fechadas">
+                Ocorrências Finalizadas
+            </h2>
+        </div>
+    `;
+
+    if (ocorrenciasFechadas.length === 0) {
+
+        lista.innerHTML += `
+            <p class="sem-ocorrencias">
+                Nenhuma ocorrência finalizada
+            </p>
         `;
 
-        lista.appendChild(div);
-    });
+    } else {
+
+        ocorrenciasFechadas.forEach(item => {
+
+            const horarioFormatado = item.horario
+                ? new Date(item.horario).toLocaleTimeString("pt-BR", {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                })
+                : "Sem horário";
+
+            lista.innerHTML += `
+                <div class="ocorrencia fechada">
+
+                    <div class="ocorrencia-topo">
+
+                        <span class="tipo">
+                            ${item.tipo}
+                        </span>
+
+                        <span class="badge fechada">
+                            ${item.status}
+                        </span>
+
+                    </div>
+
+                    <div class="endereco">
+                        ${item.endereco}
+                    </div>
+
+                    <div class="descricao">
+                        ${item.descricao || "Sem descrição"}
+                    </div>
+
+                    <div class="horario">
+                        ${horarioFormatado}
+                    </div>
+
+                </div>
+            `;
+        });
+    }
 }
 
 window.addEventListener("load", () => {

@@ -1,4 +1,4 @@
-/*container*/
+/*container geral*/
 .container {
     width: 90%;
     max-width: 900px;
@@ -16,7 +16,7 @@
 
 /*header*/
 .conteudo-header {
-    margin-left: -16px;
+    margin-left: -14px;
     width: 100%;
 }
 
