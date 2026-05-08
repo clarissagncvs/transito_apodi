@@ -1,3 +1,166 @@
 html {
     font-family: 'Roboto', sans-serif;
 }
+
+
+
+/* Parte do card */
+.card {
+    background-color: #f4f4f4;
+    max-width: 600px;
+    min-height: 200px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.container-config .card:hover {
+    transform: translateY(-5px);
+    background-color: var(--branco-padrao-);
+    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.container-config { /* Espaçamento entre cards */
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* Parte do Título principal e subtítulos */
+.first-section .titulo-principal {
+    font-size: 4.2rem;
+    color: var(--verde-);
+}
+
+.container-config { /* Colocando espaçamento entre h1 e #config */
+    display: flex;
+    flex-direction: column; 
+    gap: 30px;
+}
+
+.container-config .titulo-c {
+    font-size: 2.7rem;
+    color: var(--verde-);
+    font-weight: bold;
+
+}
+
+/* Parte dos icones */
+.tema-config .icon-wrapper {
+    margin-bottom: 20px;
+    margin-top: auto;
+}
+
+
+/* Inicio do container*/
+/* Parte de tema */
+
+.container-config .titulo-c {
+    margin-bottom: 4px;
+}
+
+h3{
+    font-size: 1.7rem;
+    color: #ff8000;
+    margin-top: 0px;
+}
+
+.tema-config div {
+    display: flex;
+    gap: 50px;
+    margin-top: 28px;
+}
+
+.btn-dm {
+    background-color: #ffe6ce;
+    height: 3.6rem;
+    width: 60%;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-dm:hover {
+    background-color: #ffead7;
+    transform: translateY(-2px);
+}
+
+.btn-lm {
+    background-color: #ffe6ce;
+    height: 3.6rem;
+    width: 60%;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-lm:hover {
+    background-color: #ffead7;
+    transform: translateY(-2px);
+}
+
+
+
+/* Parte das notificações */
+.notif-btn {
+    text-decoration: none;
+}
+
+/* Parte de alterar senha */
+.ipt-psswd input {
+    background-color: #ffe6ce;
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+}
+
+.ipt-psswd input:focus {
+    border-bottom: 2px solid #ffe6ce;
+}
+
+.ipt-psswd label {
+    color: #ff8000;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.ipt-psswd {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+}
+
+.btn-config-save {
+    background-color: #075e07;
+    color: #ffffff;
+    font-size: 17px;
+    width: 150px;
+    height: 45px;
+    border-radius: 8px;
+    margin-top: 2.5rem;
+}
+
+.btn-config-save:hover {
+    background-color: #0b830b;
+    cursor: pointer;
+}
+
+
+
+/* Parte do botão de exclusão de conta */
+#end-account {
+    background-color: red;
+    color: #ffffff;
+    font-size: 17px;
+    width: 150px;
+    height: 50px;
+    border-radius: 8px;
+}
+
+#end-account:hover {
+    background-color: rgb(255, 61, 61);
+    cursor: pointer;
+    transform: translateY(-5px);
+}
