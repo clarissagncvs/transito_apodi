@@ -87,6 +87,7 @@
     border-top: 1px dashed #ccc;
 }
 
+/*personalização dos pins*/
 /*status de ocorrencias atiivas e finalizadas*/
 .status {
     height: auto;
@@ -101,6 +102,64 @@
     color: var(--verde-);
     font-size: 2rem;
     font-weight: 500;
+}
+
+.pin-status {
+    width: 42px;
+    height: 42px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.pin-status span {
+    transform: rotate(45deg);
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+.pin-emergencia {
+    background: #e63946;
+    animation: pulsar 1.2s infinite;
+}
+
+.pin-ativa {
+    background: #ff6b00;
+}
+
+.pin-andamento {
+    background: #ffd43b;
+}
+
+.pin-andamento span {
+    color: #333;
+}
+
+.pin-finalizada {
+    background: #2ecc71;
+}
+
+/*animação dos pins*/
+@keyframes pulsar {
+
+    0% {
+        transform: rotate(-45deg) scale(1);
+        box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7);
+    }
+
+    70% {
+        transform: rotate(-45deg) scale(1.08);
+        box-shadow: 0 0 0 18px rgba(230, 57, 70, 0);
+    }
+
+    100% {
+        transform: rotate(-45deg) scale(1);
+    }
 }
 
 /*responsividade mapa*/
