@@ -5,7 +5,7 @@ html {
 
 .saudacao {
     font-size: 1.8rem;
-    color: var(--verde-);
+    color: var(--verde-claro-);
     margin-bottom: 8px;
     font-weight: 500;
     padding-top: 80px;
@@ -27,14 +27,14 @@ html {
 
 .text-section h1 {
     font-size: 4.2rem;
-    color: var(--verde-escuro-);
+    color: var(--verde-claro-);
     
 }
 
 .text-section h2 {
     font-size: 1.8rem;
     font-weight: 400;
-    color: var(--texto-secundario-);
+    color: var(--verde-claro-);
 }
 
 .button-section-fixed {
@@ -47,7 +47,7 @@ html {
     align-items: center;
     gap: 8px;
     background-color: var(--laranja-claro-);
-    color: var(--texto-principal-);
+    color: var(--marrom-);
     padding: 10px 20px;
     font-size: 1.3rem;
     font-weight: 600;
@@ -58,7 +58,7 @@ html {
 }
 
 .button-section-fixed:hover {
-    background-color: var(--laranja-);
+    background-color: var(--hover-ocorrencia-);
 }
 
 @media (max-width: 920px) {
@@ -66,7 +66,7 @@ html {
     max-width: calc(100vw - 70px - 40px);}
 }
 .button-section-fixed:hover {
-    background-color: var(--laranja-);
+    background-color: var(--hover-ocorrencia-);
 }
 
 .btn-grid-container {
@@ -87,14 +87,14 @@ html {
     align-items: flex-start;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border: 1px solid var(--borda-);
+    border: 1px solid var(--verde-claro-);
     width: 400px;
 }
 
 .card-button:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    background-color: var(--branco-navbar-);
+    background-color: var(--verde-);
 }
 
 .icon-wrapper {
@@ -116,13 +116,13 @@ html {
 .card-title {
     font-size: 2.2rem;
     font-weight: 700;
-    color: var(--verde-escuro-);
+    color: var(--verde-claro-);
     margin-bottom: 10px;
 }
 
 .card-desc {
     font-size: 1.6rem;
-    color: var(--verde-escuro-);
+    color: var(--verde-claro-);
     line-height: 1.4;
     margin: 0;
 }
@@ -133,7 +133,7 @@ html {
 .card-avisos:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    background-color: var(--branco-navbar-);
+    background-color: var(--verde-);
 }
 
 .avisos-lista {
@@ -151,7 +151,7 @@ html {
     align-items: center;
     gap: 12px;
     padding: 10px 0;
-    border-bottom: 1px solid var(--borda-);
+    border-bottom: 1px solid var(--verde-claro-);
 }
 
 .aviso-item:last-child {
@@ -159,7 +159,7 @@ html {
 }
 
 .aviso-icone {
-    background-color: var(--laranja-claro-);
+    background-color: var(--laranja-);
     width: 38px;
     height: 38px;
     border-radius: 50%;
@@ -171,7 +171,7 @@ html {
 
 .aviso-icone i {
     font-size: 1.6rem;
-    color: var(--laranja-);
+    color: var(--verde-claro-);
 }
 
 .aviso-texto {
@@ -182,12 +182,12 @@ html {
 
 .aviso-texto strong {
     font-size: 1.4rem;
-    color: var(--texto-principal-);
+    color: var(--verde-claro-);
 }
 
 .aviso-texto span {
     font-size: 1.3rem;
-    color: var(--texto-secundario-);
+    color: var(--verde-claro-);
 }
 
 .card-button--tall {
@@ -197,7 +197,7 @@ html {
 }
 
 
-/* Responsividade */
+/*Responsividade*/
 
 @media (max-width: 900px) {
     .conteudo-principal {
@@ -218,7 +218,7 @@ html {
     }
 }
 
-/* Responsividade bem mais ou menos */
+/*responsividade*/
 
 @media (max-width: 1200px) {
     .card-button {

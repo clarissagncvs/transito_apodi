@@ -66,7 +66,7 @@ body {
 .site-description {
     font-size: 20px;
     font-weight: 100;
-    color: #3a5c39;
+    color: var(--verde-claro-);
     text-align: center;
     width: 280px;
     line-height: 1.5;
@@ -141,7 +141,7 @@ body {
 }
 
 .input-field::placeholder {
-    color: #3a5c39;
+    color: var(--verde-claro-);
     font-weight: 700;
 }
 

@@ -137,7 +137,7 @@
 }
 
 .pin-andamento span {
-    color: #333;
+    color: var(--verde-claro-);
 }
 
 .pin-finalizada {

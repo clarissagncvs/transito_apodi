@@ -27,7 +27,7 @@
     border-radius: 8px;
     font-size: 1.4rem;
     background: #fff;
-    color: #374151;
+    color: var(--verde-claro-);
     outline: none;
     transition: border-color 0.2s;
 }
@@ -58,7 +58,7 @@
 .btn-filtrar:hover { background: var(--verde-escuro-); transform: translateY(-1px); }
 .btn-limpar {
     background: #f3f4f6;
-    color: #374151;
+    color: var(--verde-claro-);
     border: 1.5px solid #d1d5db;
 }
 .btn-limpar:hover { background: #e5e7eb; }
@@ -88,7 +88,7 @@
     text-align: left;
     font-weight: 600;
     font-size: 1.3rem;
-    color: #6b7280;
+    color: var(--verde-claro-);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     white-space: nowrap;
@@ -96,7 +96,7 @@
 
 .tabela-usuarios td {
     padding: 14px 16px;
-    color: #374151;
+    color: var(--verde-claro-);
     border-bottom: 1px solid #f3f4f6;
     vertical-align: middle;
 }
@@ -126,7 +126,7 @@
 }
 .username { font-weight: 600; }
 .email-cell { max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.data-cell { white-space: nowrap; color: #6b7280; }
+.data-cell { white-space: nowrap; color: var(--verde-claro-); }
 
 /* Badges */
 .badge {
@@ -141,13 +141,13 @@
 .badge-agente   { background: #dbeafe; color: #1d4ed8; }
 .badge-admin    { background: #fef3c7; color: #92400e; }
 .badge-ativo    { background: #dcfce7; color: #166534; }
-.badge-inativo  { background: #f3f4f6; color: #6b7280; }
+.badge-inativo  { background: #f3f4f6; color: var(--verde-claro-); }
 
 /* Célula vazia */
 .vazio {
     text-align: center;
     padding: 48px !important;
-    color: #9ca3af;
+    color: var(--verde-claro-);
 }
 .vazio i { font-size: 3rem; display: block; margin-bottom: 8px; }
 .vazio p { font-size: 1.4rem; margin: 0; }
@@ -181,7 +181,7 @@
 .btn-ativar   { color: #15803d; border-color: #dcfce7; background: #f0fdf4; }
 .btn-ativar:hover { background: #dcfce7; }
 
-.btn-desativar { color: #6b7280; border-color: #f3f4f6; background: #f9fafb; }
+.btn-desativar { color: var(--verde-claro-); border-color: #f3f4f6; background: #f9fafb; }
 .btn-desativar:hover { background: #f3f4f6; }
 
 .btn-editar   { color: #1d4ed8; border-color: #dbeafe; background: #eff6ff; }
@@ -213,7 +213,7 @@
     transition: background 0.2s;
 }
 .pag-btn:hover { background: #f0fdf4; }
-.pag-info { font-size: 1.4rem; color: #6b7280; }
+.pag-info { font-size: 1.4rem; color: var(--verde-claro-); }
 
 /* ── Modal ── */
 .modal-overlay {
@@ -266,15 +266,15 @@
 .modal-titulo {
     font-size: 1.8rem;
     font-weight: 700;
-    color: #111827;
+    color: var(--verde-claro-);
     margin: 0;
 }
 .modal-subtitulo {
     font-size: 1.4rem;
-    color: #6b7280;
+    color: var(--verde-claro-);
     margin-bottom: 20px;
 }
-.modal-subtitulo strong { color: #111827; }
+.modal-subtitulo strong { color: var(--verde-claro-); }
 
 /* Opções de tipo */
 .modal-opcoes {
@@ -337,7 +337,7 @@
     border-color: #15803d;
 }
 .opcao-cidadao .opcao-icone { background: #dcfce7; }
-.opcao-cidadao:not(.selecionada) { color: #374151; border-color: #e5e7eb; }
+.opcao-cidadao:not(.selecionada) { color: var(--verde-claro-); border-color: #e5e7eb; }
 .opcao-cidadao:not(.selecionada):hover { border-color: #15803d; color: #15803d; }
 
 .opcao-agente {
@@ -345,7 +345,7 @@
     border-color: #1d4ed8;
 }
 .opcao-agente .opcao-icone { background: #dbeafe; }
-.opcao-agente:not(.selecionada) { color: #374151; border-color: #e5e7eb; }
+.opcao-agente:not(.selecionada) { color: var(--verde-claro-); border-color: #e5e7eb; }
 .opcao-agente:not(.selecionada):hover { border-color: #1d4ed8; color: #1d4ed8; }
 
 .opcao-admin {
@@ -353,7 +353,7 @@
     border-color: #92400e;
 }
 .opcao-admin .opcao-icone { background: #fef3c7; }
-.opcao-admin:not(.selecionada) { color: #374151; border-color: #e5e7eb; }
+.opcao-admin:not(.selecionada) { color: var(--verde-claro-); border-color: #e5e7eb; }
 .opcao-admin:not(.selecionada):hover { border-color: #92400e; color: #92400e; }
 
 /* Rodapé do modal */
@@ -368,7 +368,7 @@
     background: #fff;
     font-size: 1.4rem;
     font-weight: 600;
-    color: #6b7280;
+    color: var(--verde-claro-);
     cursor: pointer;
     transition: background 0.2s;
 }
