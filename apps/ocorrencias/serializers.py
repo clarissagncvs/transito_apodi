@@ -23,5 +23,5 @@ class OcorrenciaSerializer(serializers.ModelSerializer):
             "criado_em",
             "atualizado_em"
         ]
-        
+
     read_only_fields = ["criado_em", "atualizado_em"]
