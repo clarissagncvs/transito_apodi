@@ -170,3 +170,70 @@ html {
     transform: translateY(-4px);
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
 }
+
+@media (max-width: 480px) {
+    .botao-alteracao-perfil {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+        padding: 15px 70px;
+    }
+
+    .btn-primary, .btn-primary2:active {
+    transform: scale(0.96);
+    }                               /* Traz efeitos ao interagir com o botão */
+
+    .btn-primary, .btn-primary2:focus-visible {
+        outline: 2px solid var(--verde-);
+    }
+
+}
+
+
+@media (max-width: 768px) {
+
+    .perfil-card .informacoes-usuario {
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    .first-section {
+        max-width: 650px;
+        width: calc(100% - 650px);
+    }
+
+    .input-perfil,
+    .input-email {
+        width: 100%;
+    }
+
+
+    .botao-alteracao-perfil {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+
+
+    .btn-primary,
+    .btn-primary2 {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .btn-primary, .btn-primary2:active {
+    transform: scale(0.96);
+    }
+
+    .btn-primary, .btn-primary2:focus-visible {
+        outline: 2px solid var(--verde-);
+    }
+
+    .perfil-card {
+        max-width: 100%;
+        margin: 0 15px;
+    }
+}
+
+

@@ -5,8 +5,8 @@ html {
 /* first-section */
 .first-section {
     margin-left: 280px;
-    width: calc(100% - 250px);
-    margin-right: 20px;
+    width: calc(100% - 280px);
+    margin-right: 0;
     min-height: 80vh;
     height: auto;
     display: flex;
@@ -42,7 +42,7 @@ html {
 
     header,
     .first-section {
-        width: calc(100% - 70px);
+        width: calc(100% - 80px);
         margin-left: 80px;
     }
 

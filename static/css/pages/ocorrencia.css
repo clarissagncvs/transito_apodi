@@ -2,6 +2,7 @@ html {
     font-family: 'Roboto', sans-serif;
 }
 
+
 /*cabeçalho*/
 .header {
     width: calc(100% - 250px);
@@ -225,4 +226,52 @@ html {
 
 .botao-submeter:hover {
     background: #c96d10;
+}
+
+
+@media (max-width: 768px) {
+   
+    .conteudo-principal-ocorrencias {
+        width: 100%;
+        margin: 0;
+        padding: 10px;
+        max-width: 100%;
+        
+    }
+
+    .first-section {
+        padding: 10px 30px;
+    }
+
+    .ipt {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    .ipt span label {
+        font-size: 2rem;
+        }
+
+    .ipt .input input,
+    .ipt .input textarea,
+    .ipt .input select {
+        font-size: 2rem !important;
+        padding: 12px !important;
+    }
+
+    .map {
+        height: 250px;
+    }
+
+    .botao-submeter {
+        min-width: 180px;
+    }
+
+    .botao-submeter:active {
+        transform: scale(0.96);
+    }
+
+    .botao-submeter:focus {
+        outline: 2px solid #ee8216;
+    }
 }
