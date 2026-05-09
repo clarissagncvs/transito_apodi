@@ -2,14 +2,22 @@ html {
     font-family: 'Roboto', sans-serif;
 }
 
-/* Parte do card */
+/* Transição suave ao trocar de tema */
+body, .card, .btn-dm, .btn-lm, .ipt-psswd input,
+.ipt-psswd label, h3,
+.container-config .titulo-c, .first-section .titulo-principal {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
 .card {
-    background-color: #f4f4f4;
+    background-color: var(--superficie-card-);
+    color: var(--texto-principal-);
     max-width: 600px;
     min-height: 200px;
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 1px solid var(--borda-);
 }
 
 .container-config .card:hover {
@@ -18,47 +26,32 @@ html {
     box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-.container-config { /* Espaçamento entre cards */
+.container-config {
     display: flex;
     flex-direction: column;
     gap: 25px;
 }
 
-/* Parte do Título principal e subtítulos */
 .first-section .titulo-principal {
     font-size: 3.5rem;
     color: var(--verde-);
-}
-
-.container-config { /* Colocando espaçamento entre h1 e #config */
-    display: flex;
-    flex-direction: column; 
-    gap: 25px;
 }
 
 .container-config .titulo-c {
     font-size: 2.2rem;
     color: var(--verde-);
     font-weight: bold;
-
+    margin-bottom: 4px;
 }
 
-/* Parte dos icones */
 .tema-config .icon-wrapper {
     margin-bottom: 16px;
     margin-top: auto;
 }
 
-/* Inicio do container*/
-/* Parte de tema */
-
-.container-config .titulo-c {
-    margin-bottom: 4px;
-}
-
-h3{
+h3 {
     font-size: 1.7rem;
-    color: #ff8000;
+    color: var(--laranja-);
     margin-top: 0px;
 }
 
@@ -68,42 +61,41 @@ h3{
     margin-top: 20px;
 }
 
-.btn-dm {
-    background-color: #ffe6ce;
+/* Botões de tema */
+.btn-dm,
+.btn-lm {
+    background-color: var(--laranja-claro-);
+    color: var(--texto-principal-);
     height: 3.6rem;
     width: 60%;
     font-weight: bold;
     border-radius: 7px;
     cursor: pointer;
+    border: 2px solid transparent;
+    font-size: 1rem;
 }
 
-.btn-dm:hover {
-    background-color: #ffead7;
-    transform: translateY(-2px);
-}
-
-.btn-lm {
-    background-color: #ffe6ce;
-    height: 3.6rem;
-    width: 60%;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
+.btn-dm:hover,
 .btn-lm:hover {
-    background-color: #ffead7;
     transform: translateY(-2px);
+    border-color: var(--laranja-);
 }
 
-/* Parte das notificações */
+/* Botão ativo — mostra qual tema está ligado */
+.btn-dm.ativo,
+.btn-lm.ativo {
+    background-color: var(--laranja-);
+    color: #ffffff;
+    border-color: var(--laranja-);
+}
+
 .notif-btn {
     text-decoration: none;
 }
 
-/* Parte de alterar senha */
 .ipt-psswd input {
-    background-color: #ffe6ce;
+    background-color: var(--laranja-claro-);
+    color: var(--texto-principal-);
     width: 100%;
     padding: 10px;
     border-radius: 5px;
@@ -112,12 +104,12 @@ h3{
 }
 
 .ipt-psswd input:focus {
-    border-bottom: 2px solid #ffe6ce;
+    border-bottom: 2px solid var(--laranja-);
 }
 
 .ipt-psswd label {
     margin-top: 10px;
-    color: #ff8000;
+    color: var(--laranja-);
     font-size: 16px;
     font-weight: bold;
 }
@@ -129,7 +121,7 @@ h3{
 }
 
 .btn-config-save {
-    background-color: #075e07;
+    background-color: var(--verde-);
     color: #ffffff;
     font-size: 17px;
     width: 150px;
@@ -139,11 +131,10 @@ h3{
 }
 
 .btn-config-save:hover {
-    background-color: #0b830b;
+    background-color: var(--verde-claro-);
     cursor: pointer;
 }
 
-/* Parte do botão de exclusão de conta */
 #end-account {
     background-color: red;
     color: #ffffff;
