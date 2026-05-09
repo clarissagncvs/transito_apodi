@@ -25,8 +25,8 @@
 /*quando o js colocar data-theme="dark" no html, essas variáveis sobrescrevem as de cima */
 [data-theme="dark"] {
     --branco-padrao-: #091413;
-    --branco-entradas-: #035429;
-    --verde-: #035429;
+    --branco-entradas-: #0d1f1d;
+    --verde-: #b0e4cc;
     --verde-claro-: #b0e4cc;
     --verde-escuro-: #091413;
     --laranja-: #ffa239;

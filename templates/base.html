@@ -12,6 +12,15 @@
     {% block extra_css %}{% endblock %}
 
     {% block extra_head %}{% endblock %}
+
+    <!-- Aplica o tema antes de renderizar — evita flash -->
+    <script>
+        (function() {
+            var tema = localStorage.getItem('tema') || 'light';
+            document.documentElement.setAttribute('data-theme', tema);
+        })();
+    </script>
+</head>
 </head>
 
 <body>
