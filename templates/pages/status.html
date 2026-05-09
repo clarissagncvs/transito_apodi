@@ -13,10 +13,33 @@
 
 <section class="first-section">
     <div class="container">
+        {% if request.user.is_agente or request.user.is_admin_transito %}
+        <div id="modalStatusOverlay" class="modal-overlay">
+            <div class="modal-box">
+                <h3>Alterar status da ocorrência</h3>
+                <form id="form-status">
+                    {% csrf_token %}
+                    <input type="hidden" id="modal-oc-id">
+                    <select id="modal-status-select" class="modal-select">
+                        <option value="ABERTA">Aberta</option>
+                        <option value="EM_ANDAMENTO">Em andamento</option>
+                        <option value="RESOLVIDA">Resolvida</option>
+                        <option value="ENCERRADA">Encerrada</option>
+                    </select>
+                    <div class="modal-botoes">
+                        <button type="button" onclick="fecharModalStatus()">Cancelar</button>
+                        <button type="submit">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
 
         <header class="conteudo-header">
+            <br>
             <h1>Status de Ocorrências</h1>
             <h2>Verifique ocorrências ativas e finalizadas</h2>
+            <br><br>
         </header>
 
         <div class="map-container">
@@ -25,12 +48,16 @@
 
         <!-- arquivo javascript do leaflet -->
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="">
+        </script>
+        <script>
+            const tipoUsuario = "{{ request.user.tipo }}";
+        </script>
         <script src="{% static 'js/pages/status.js' %}"></script>
 
         <div class="status">
+            <br><br><br>
             <h2>Ocorrências ativas e finalizadas</h2>
-            <h3>Aqui ficarão registradas ocorrências ativas e finalizadas</h3>
             <div class="lista-ocorrencias">
                 <div id="lista-status" class="lista"></div>
             </div>

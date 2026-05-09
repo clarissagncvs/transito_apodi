@@ -46,6 +46,83 @@
     font-weight: 500;
 }
 
+.lista { display: flex; flex-direction: column; gap: 0; }
+
+.titulo-status {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: var(--verde-);
+    margin: 20px 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.titulo-status::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.titulo-status.abertas::before { background: #e63946; }
+.titulo-status.fechadas::before { background: var(--verde-); }
+
+.tabela-ocorrencias {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 8px;
+}
+
+.tabela-ocorrencias thead tr {
+    border-bottom: 2px solid #e8e8e8;
+}
+
+.tabela-ocorrencias th {
+    font-size: 1.3rem;
+    padding: 10px 14px;
+    font-weight: 500;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    text-align: left;
+}
+
+.tabela-ocorrencias td {
+    font-size: 1.5rem; 
+    padding: 14px;
+    color: #333;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+}
+
+.tabela-ocorrencias tbody tr {
+    transition: background 0.15s;
+}
+
+.tabela-ocorrencias tbody tr:hover {
+    background: #f7faf7;
+}
+
+.badge {
+    font-size: 1.3rem;
+    padding: 4px 12px;
+    font-weight: 500;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    display: inline-block;
+}
+.badge.aberta       { background: #fdecea; color: #a32d2d; }
+.badge.em_andamento { background: #fef3cd; color: #7a4f00; }
+.badge.fechada      { background: #e8f5e9; color: #2d6a2d; }
+
+.sem-ocorrencias {
+    font-size: 1.8rem;
+    color: #aaa;
+    padding: 16px 12px;
+}
+
 /*estilização do mapa através do id map*/
 
 #map {
@@ -60,14 +137,6 @@
 
 .lista-ocorrencias {
     min-height: 60px;
-}
-
-.sem-ocorrencias {
-    display: block;
-    text-align: center;
-    color: var(--verde-);
-    padding: 20px;
-    font-size: 1rem;
 }
 
 .lista-ocorrencias h2 {
@@ -85,6 +154,79 @@
 .custom-popup hr {
     border: 0;
     border-top: 1px dashed #ccc;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed; 
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+.modal-overlay.aberto { display: flex; }
+
+.modal-box {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.modal-box h3 {
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--verde-);
+    margin: 0;
+}
+
+.modal-select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 1.4rem;
+}
+
+.modal-botoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal-botoes button {
+    padding: 8px 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 1.3rem;
+    cursor: pointer;
+    background: #fff;
+}
+
+.modal-botoes button[type="submit"] {
+    background: var(--verde-);
+    color: #fff;
+    border: none;
+}
+
+.btn-status {
+    font-size: 1.2rem;
+    padding: 4px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--verde-);
+    color: var(--verde-);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-status:hover {
+    background: var(--verde-);
+    color: #fff;
 }
 
 /*personalização dos pins*/

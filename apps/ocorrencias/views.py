@@ -3,6 +3,23 @@ from .models import Ocorrencia
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import OcorrenciaForm
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+
+@login_required
+def atualizar_status(request, pk):
+    if not (request.user.is_agente or request.user.is_admin_transito):
+        return JsonResponse({'erro': 'sem permissão'}, status=403)
+
+    oc = get_object_or_404(Ocorrencia, pk=pk)
+
+    if request.method == 'POST':
+        novo_status = request.POST.get('status')
+        if novo_status in Ocorrencia.Status.values:
+            oc.status = novo_status
+            oc.save(update_fields=['status', 'atualizado_em'])
+            return JsonResponse({'ok': True})
+
+    return JsonResponse({'erro': 'método inválido'}, status=400)
 
 
 @login_required
