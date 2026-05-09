@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="{% static 'css/pages/cadastro.css' %}">
     <link rel="stylesheet" href="{% static 'css/global/global.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{% static 'css/global/global.css' %}">
 
     <style>
         body {
@@ -22,7 +24,7 @@
 
 <body>
     <div class="login-wrapper">
-        
+
         <div class="login-left">
             <div class="brand-row">
                 <img src="{% static 'img/logo-login.png' %}" alt="Logo" class="logo-img">
@@ -36,15 +38,15 @@
                 <h1>Cadastrar</h1>
 
                 {% if messages %}
-                    {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
-                        {{ message }}
-                    </div>
-                    {% endfor %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
                 {% endif %}
 
                 {% if form.non_field_errors %}
-                    <div class="alert alert-danger">{{ form.non_field_errors.0 }}</div>
+                <div class="alert alert-danger">{{ form.non_field_errors.0 }}</div>
                 {% endif %}
 
                 <form method="POST" action="{% url 'apps.usuarios:cadastro' %}">
@@ -53,52 +55,64 @@
                     <div class="form-group">
                         <div class="input-wrapper">
                             <img src="{% static 'img/icone-usuario-login.png' %}" alt="Usuário">
-                            <input id="username" class="input-field" type="text" name="username" placeholder="Usuário" value="{{ form.username.value|default:'' }}" required>
+                            <input id="username" class="input-field" type="text" name="username" placeholder="Usuário"
+                                value="{{ form.username.value|default:'' }}" required>
                         </div>
-                        {% if form.username.errors %}<span class="error-message">{{ form.username.errors.0 }}</span>{% endif %}
+                        {% if form.username.errors %}<span class="error-message">{{ form.username.errors.0 }}</span>{%
+                        endif %}
                     </div>
 
                     <div class="form-group">
                         <div class="input-wrapper">
                             <img src="{% static 'img/icone-usuario-login.png' %}" alt="Nome">
-                            <input id="first_name" class="input-field" type="text" name="first_name" placeholder="Nome" value="{{ form.first_name.value|default:'' }}" required>
+                            <input id="first_name" class="input-field" type="text" name="first_name" placeholder="Nome"
+                                value="{{ form.first_name.value|default:'' }}" required>
                         </div>
-                        {% if form.first_name.errors %}<span class="error-message">{{ form.first_name.errors.0 }}</span>{% endif %}
+                        {% if form.first_name.errors %}<span class="error-message">{{ form.first_name.errors.0
+                            }}</span>{% endif %}
                     </div>
 
                     <div class="form-group">
                         <div class="input-wrapper">
                             <img src="{% static 'img/icone-usuario-login.png' %}" alt="Sobrenome">
-                            <input id="last_name" class="input-field" type="text" name="last_name" placeholder="Sobrenome" value="{{ form.last_name.value|default:'' }}" required>
+                            <input id="last_name" class="input-field" type="text" name="last_name"
+                                placeholder="Sobrenome" value="{{ form.last_name.value|default:'' }}" required>
                         </div>
-                        {% if form.last_name.errors %}<span class="error-message">{{ form.last_name.errors.0 }}</span>{% endif %}
+                        {% if form.last_name.errors %}<span class="error-message">{{ form.last_name.errors.0 }}</span>{%
+                        endif %}
                     </div>
 
                     <div class="form-group">
                         <div class="input-wrapper">
                             <img src="{% static 'img/icone-email.png' %}" alt="Email">
-                            <input id="email" class="input-field" type="email" name="email" placeholder="Email" value="{{ form.email.value|default:'' }}" required>
+                            <input id="email" class="input-field" type="email" name="email" placeholder="Email"
+                                value="{{ form.email.value|default:'' }}" required>
                         </div>
-                        {% if form.email.errors %}<span class="error-message">{{ form.email.errors.0 }}</span>{% endif %}
+                        {% if form.email.errors %}<span class="error-message">{{ form.email.errors.0 }}</span>{% endif
+                        %}
                     </div>
 
                     <div class="form-group">
                         <div class="input-wrapper">
                             <img src="{% static 'img/icone-senha.png' %}" alt="Senha">
-                            <input id="password1" class="input-field" type="password" name="password1" placeholder="Senha" required>
+                            <input id="password1" class="input-field" type="password" name="password1"
+                                placeholder="Senha" required>
                             <i class="bi bi-eye-slash toggle-password" data-target="password1"></i>
                         </div>
                         <small id="password-strength-text"></small>
-                        {% if form.password1.errors %}<span class="error-message">{{ form.password1.errors.0 }}</span>{% endif %}
+                        {% if form.password1.errors %}<span class="error-message">{{ form.password1.errors.0 }}</span>{%
+                        endif %}
                     </div>
 
                     <div class="form-group">
                         <div class="input-wrapper">
                             <img src="{% static 'img/icone-senha.png' %}" alt="Senha">
-                            <input id="password2" class="input-field" type="password" name="password2" placeholder="Confirmar senha" required>
+                            <input id="password2" class="input-field" type="password" name="password2"
+                                placeholder="Confirmar senha" required>
                             <i class="bi bi-eye-slash toggle-password" data-target="password2"></i>
                         </div>
-                        {% if form.password2.errors %}<span class="error-message">{{ form.password2.errors.0 }}</span>{% endif %}
+                        {% if form.password2.errors %}<span class="error-message">{{ form.password2.errors.0 }}</span>{%
+                        endif %}
                     </div>
 
                     <button class="btn-primary" type="submit">Cadastrar-se</button>
@@ -110,7 +124,9 @@
             </div>
         </main>
     </div>
-    
+
     <script src="{% static 'js/pages/cadastro.js' %}"></script>
+    <script src="{% static 'js/tema.js' %}"></script>
 </body>
+
 </html>

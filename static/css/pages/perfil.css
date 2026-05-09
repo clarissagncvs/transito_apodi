@@ -130,12 +130,12 @@ html {
     border-radius: 5px;
     font-size: 16px;
     background-color: var(--laranja-claro-);
-    color: #333;
+    color: var(--verde-claro-);
 }
 
 .input-perfil,
 .input-email::placeholder {
-    color: #999;
+    color: var(--verde-claro-);
     opacity: 1;
 }
 

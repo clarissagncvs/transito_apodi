@@ -110,7 +110,7 @@ body.page-verificador {
 }
 
 .link-voltar { 
-    color: #6b7280; 
+    color: var(--verde-claro-); 
     text-decoration: none; 
     font-size: 13px; 
 }
@@ -127,7 +127,7 @@ body.page-verificador {
 }
 .texto-ajuda {
     font-size: 13px;
-    color: #6b7280;
+    color: var(--verde-claro-);
     margin-bottom: 10px;
 }
 

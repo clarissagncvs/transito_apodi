@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,94 +10,98 @@
     <link rel="stylesheet" href="{% static 'css/pages/login.css' %}">
     <link rel="stylesheet" href="{% static 'css/global/global.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{% static 'css/global/global.css' %}">
 
     <style>
-    body {
-        background-image: url("{% static 'img/background.jpeg' %}");
-        background-size: cover;
-        background-position: center;
-    }
+        body {
+            background-image: url("{% static 'img/background.jpeg' %}");
+            background-size: cover;
+            background-position: center;
+        }
     </style>
-    
+
 </head>
- 
+
 <body>
- 
+
     <div class="login-wrapper">
-        
+
         <div class="login-left">
             <div class="brand-row">
-                 <img src="{% static 'img/logo-login.png' %}" alt="Logo" class="logo-img">
+                <img src="{% static 'img/logo-login.png' %}" alt="Logo" class="logo-img">
                 <div class="brand-name">Trânsito<br>Apodi</div>
             </div>
             <p class="site-description">Consulte o tráfego, acidentes e obras da cidade de Apodi-RN</p>
         </div>
- 
+
 
         <div class="login-container">
             <h2>Entrar</h2>
- 
+
             {% if messages %}
-                {% for msg in messages %}
-                <div class="mensagem-erro">
-                    {{ msg }}
-                </div>
-                {% endfor %}
+            {% for msg in messages %}
+            <div class="mensagem-erro">
+                {{ msg }}
+            </div>
+            {% endfor %}
             {% endif %}
- 
+
             <form action="{% url 'apps.usuarios:login' %}" method="POST">
                 {% csrf_token %}
- 
-        <div class="input-row">
-            <div class="input-icon">
-                <img src="{% static 'img/icone-usuario-login.png' %}" alt="Usuário" width="30">
-            </div>
-                <input class="input-field" id="username" type="text" name="username" placeholder="Digite seu usuário" required>
-            </div>
- 
-        <div class="input-row" style="position: relative;">
-            <div class="input-icon">
-                <img src="{% static 'img/icone-senha.png' %}" alt="Senha" width="30">
-            </div>
-            
-            <input class="input-field" id="password" type="password" name="password" placeholder="Digite sua senha" required 
-                style="flex: 1; padding-right: 45px !important;"> 
-            <i class="bi bi-eye-slash toggle-password btn-olho" data-target="password" 
-            style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #062603; font-size: 20px; z-index: 10;">
-            </i>
-        </div>
 
-         <div class="row-links">
-             <label class="input-box">
-                <input type="checkbox" name="lembrar">
-                   Lembrar-me
-             </label>
-            <a href="#" class="href-senha">Esqueci a senha</a>
-        </div>
- 
+                <div class="input-row">
+                    <div class="input-icon">
+                        <img src="{% static 'img/icone-usuario-login.png' %}" alt="Usuário" width="30">
+                    </div>
+                    <input class="input-field" id="username" type="text" name="username"
+                        placeholder="Digite seu usuário" required>
+                </div>
+
+                <div class="input-row" style="position: relative;">
+                    <div class="input-icon">
+                        <img src="{% static 'img/icone-senha.png' %}" alt="Senha" width="30">
+                    </div>
+
+                    <input class="input-field" id="password" type="password" name="password"
+                        placeholder="Digite sua senha" required style="flex: 1; padding-right: 45px !important;">
+                    <i class="bi bi-eye-slash toggle-password btn-olho" data-target="password"
+                        style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #062603; font-size: 20px; z-index: 10;">
+                    </i>
+                </div>
+
+                <div class="row-links">
+                    <label class="input-box">
+                        <input type="checkbox" name="lembrar">
+                        Lembrar-me
+                    </label>
+                    <a href="#" class="href-senha">Esqueci a senha</a>
+                </div>
+
                 <button class="btn-primary" type="submit">Entrar</button>
- 
+
                 <div class="form-links">
                     <a href="{% url 'apps.usuarios:cadastro' %}" class="href-sign">
                         Não possui uma conta?<br>Cadastre-se
                     </a>
                 </div>
- 
+
             </form>
         </div>
- 
+
     </div>
- 
-<script>
-    document.querySelector('.toggle-password').onclick = function() {
-        let p = document.getElementById('password');
-        p.type = p.type === 'password' ? 'text' : 'password';
-        this.classList.toggle('bi-eye');
-        this.classList.toggle('bi-eye-slash');
-    };
-</script>
+
+    <script>
+        document.querySelector('.toggle-password').onclick = function () {
+            let p = document.getElementById('password');
+            p.type = p.type === 'password' ? 'text' : 'password';
+            this.classList.toggle('bi-eye');
+            this.classList.toggle('bi-eye-slash');
+        };
+    </script>
 
     <script src="{% static 'js/pages/status.js' %}"></script>
+    <script src="{% static 'js/tema.js' %}"></script>
 
 </body>
+
 </html>

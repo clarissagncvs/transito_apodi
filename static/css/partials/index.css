@@ -12,3 +12,49 @@
 @import './first-section.css';
 /*importa rodapé*/
 @import './footer.css';
+
+
+/*tema escuro*/
+body.tema-escuro {
+    background-color: var(--verde-fundo-);
+    color: var(--detalhes-);
+}
+
+body.tema-escuro .sidebar,
+body.tema-escuro .sidebar-button,
+body.tema-escuro .caixa-logo,
+body.tema-escuro main,
+body.tema-escuro section,
+body.tema-escuro .container,
+body.tema-escuro .card,
+body.tema-escuro .popup,
+body.tema-escuro .modal {
+    background-color: var(--verde-fundo-);
+    color: var(--detalhes-);
+}
+
+body.tema-escuro button,
+body.tema-escuro input,
+body.tema-escuro select,
+body.tema-escuro textarea {
+    background-color: var(--verde-entradas-);
+    color: var(--detalhes-);
+    border-color: var(--detalhes-);
+}
+
+body.tema-escuro a,
+body.tema-escuro i,
+body.tema-escuro span {
+    color: var(--detalhes-);
+}
+
+body.tema-escuro {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+body.tema-escuro img,
+body.tema-escuro video,
+body.tema-escuro iframe,
+body.tema-escuro .logo-img {
+    filter: invert(1) hue-rotate(180deg);
+}
