@@ -1,10 +1,35 @@
 :root{
-    --laranja-: #ff8000; /* Todos os elementos laranjas */
-    --branco-padrao-: #ffffff; /* Fundo padrão */
-    --verde-claro-: #0b830b; /* Texto das telas login-cadastro */
-    --verde-escuro-: #062603; /* Fundo para as telas login-cadastro */
-    --branco-entradas-: #f4f4f4; /* Todos os elementos de entrada */
-    --verde-: #075e07; /* Fundo do menu navbar */
-    --laranja-claro-: #ffe6ce; /* Notificações e detalhes */
-    --branco-navbar-: #e3e1e1; /* Elementos visuais da navbar */ 
+    --laranja-: #ff8000;
+    --branco-padrao-: #ffffff;
+    --verde-claro-: #0b830b;
+    --verde-escuro-: #062603;
+    --branco-entradas-: #f4f4f4;
+    --verde-: #075e07;
+    --laranja-claro-: #ffe6ce;
+    --branco-navbar-: #e3e1e1;
+    --marrom-: #8b4513;
+    --hover-ocorrencia-: #ffcba4;
+
+    --texto-principal-: #062603;
+    --texto-secundario-: #075e07;
+    --superficie-card-: #f4f4f4;
+    --borda-: #e3e1e1;
+}
+
+[data-theme="dark"] {
+    --branco-padrao-: #091413;
+    --branco-entradas-: #0d1f1d;
+    --verde-: #153432;
+    --verde-claro-: #b0e4cc;
+    --verde-escuro-: #091413;
+    --laranja-: #ffa239;
+    --laranja-claro-: #1a3530;
+    --branco-navbar-: #b0e4cc;
+    --marrom-: #b0e4cc;
+    --hover-ocorrencia-: #153432;
+
+    --texto-principal-: #b0e4cc;
+    --texto-secundario-: #ffb76c;
+    --superficie-card-: #0d2320;
+    --borda-: #035429;
 }

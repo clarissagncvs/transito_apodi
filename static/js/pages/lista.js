@@ -1,8 +1,3 @@
-/**
- * TRÂNSITO APODI - Script de Gerenciamento de Usuários
- * Lógica para o Modal de Troca de Nível de Acesso
- */
-
 // Configuração dos tipos para o modal
 const TIPOS_USUARIO = {
     CIDADAO: {

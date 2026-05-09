@@ -4,16 +4,14 @@
 {% block title %} Gerenciar Usuários {% endblock %}
 
 {% block extra_css %}
-    <!-- Link para o arquivo CSS específico desta página -->
     <link rel="stylesheet" href="{% static 'css/pages/lista.css' %}">
+    <link rel="stylesheet" href="{% static 'css/global/global.css' %}">
 {% endblock %}
 
 {% block content %}
 <section class="first-section">
-    <div class="conteudo-principal">
         <h1>Gerenciar Usuários</h1>
         <h2>{{ total }} usuário{{ total|pluralize }} encontrado{{ total|pluralize }}</h2>
-    </div>
 
     {% if messages %}
         {% for message in messages %}
@@ -121,11 +119,6 @@
                                     <i class="bi {% if usuario.is_active %}bi-toggle-on{% else %}bi-toggle-off{% endif %}"></i>
                                 </button>
                             </form>
-
-                            <!-- Editar -->
-                            <a href="{% url 'apps.usuarios:editar' usuario.pk %}" class="btn-acao btn-editar" title="Editar">
-                                <i class="bi bi-pencil"></i>
-                            </a>
 
                             <!-- Deletar -->
                             <a href="{% url 'apps.usuarios:deletar' usuario.pk %}" class="btn-acao btn-deletar" title="Excluir">

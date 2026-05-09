@@ -153,7 +153,7 @@ html {
     margin-bottom: 12px;
     display: inline-block;
     font-weight: 500;
-    color: #222;
+    color: var(--verde-claro-);
 }
 
 .ipt .input {
@@ -168,7 +168,7 @@ html {
     border-radius: 8px;
     background: #f5f5f5;
     font-size: 1rem;
-    color: #333;
+    color: var(--verde-claro-);
     outline: none;
     box-sizing: border-box;
     transition: border 0.2s;
