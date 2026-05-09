@@ -19,8 +19,10 @@ class MapaView(APIView):
     def get(self, request):
         vias = Via.objects.all()
         semaforos = Semaforo.objects.all()
-        ocorrencias = Ocorrencia.objects.filter(status__in=['ABERTA', 'EM_ANDAMENTO'])
-
+        ocorrencias = Ocorrencia.objects.filter(
+        status__in=['ABERTA', 'EM_ANDAMENTO', 'RESOLVIDA', 'ENCERRADA']
+        )
+        
         return Response({
             "vias": ViaSerializer(vias, many=True).data,
             "semaforos": SemaforoSerializer(semaforos, many=True).data,

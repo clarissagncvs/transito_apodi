@@ -10,22 +10,21 @@ const camadaOcorrencias = L.layerGroup().addTo(map);
 
 let dadosGlobais = null;
 let pinUsuario = null;
+let salvando = false;
+const ocorrenciasAlteradas = new Map();
 
 function criarIconeStatus(item) {
     let classe = "pin-ativa";
     let simbolo = "!";
 
-    if (item.tipo && item.tipo.toUpperCase() === "ACIDENTE") {
-        classe = "pin-emergencia";
-        simbolo = "!";
+    if (item.status === "RESOLVIDA" || item.status === "ENCERRADA") {
+        classe = "pin-finalizada";
+        simbolo = "✓";
     } else if (item.status === "EM_ANDAMENTO") {
         classe = "pin-andamento";
         simbolo = "⏳";
-    } else if (item.status === "RESOLVIDA" || item.status === "ENCERRADA") {
-        classe = "pin-finalizada";
-        simbolo = "✓";
     } else if (item.status === "ABERTA") {
-        classe = "pin-ativa";
+        classe = item.tipo && item.tipo.toUpperCase() === "ACIDENTE" ? "pin-emergencia" : "pin-ativa";
         simbolo = "!";
     }
 
@@ -51,6 +50,30 @@ const iconePin = L.divIcon({
     iconAnchor: [10, 20],
     className: ''
 });
+
+function atualizarPins() {
+    camadaOcorrencias.clearLayers();
+    if (!dadosGlobais || !dadosGlobais.ocorrencias) return;
+
+    dadosGlobais.ocorrencias.forEach(item => {
+        if (!['ABERTA','EM_ANDAMENTO','RESOLVIDA','ENCERRADA'].includes(item.status)) return;
+        if (item.latitude == null || item.longitude == null) return;
+
+        const marker = L.marker([item.latitude, item.longitude], { icon: criarIconeStatus(item) });
+        const endereco = item.via_detalhe ? item.via_detalhe.nome : 'Não informado';
+
+        marker.bindPopup(`
+            <div class="custom-popup">
+                <strong style="color: #e63946;">Ocorrência #${item.id}</strong><br>
+                <b>Endereço:</b> ${endereco}<br>
+                <b>Descrição:</b> ${item.descricao}<br>
+                <hr style="margin: 5px 0">
+                <span style="font-size: 10px; color: #666;">Sincronizado às: ${new Date().toLocaleTimeString()}</span>
+            </div>
+        `);
+        camadaOcorrencias.addLayer(marker);
+    });
+}
 
 const ehPaginaRegistro = document.querySelector('form.ipt');
 
@@ -82,6 +105,14 @@ function atualizarDashboard() {
             return response.json();
         })
         .then(data => {
+            if (data.ocorrencias) {
+                data.ocorrencias.forEach(item => {
+                    if (ocorrenciasAlteradas.has(item.id)) {
+                        item.status = ocorrenciasAlteradas.get(item.id);
+                    }
+                });
+            }
+
             dadosGlobais = data;
 
             camadaVias.clearLayers();
@@ -91,29 +122,7 @@ function atualizarDashboard() {
                 }).addTo(camadaVias);
             }
 
-            camadaOcorrencias.clearLayers();
-
-            if (data.ocorrencias) {
-                data.ocorrencias.forEach(item => {
-                    if (!['ABERTA','EM_ANDAMENTO','RESOLVIDA','ENCERRADA'].includes(item.status)) return;
-                    if (item.latitude == null || item.longitude == null) return;
-
-                    const marker = L.marker([item.latitude, item.longitude], { icon: criarIconeStatus(item) });
-                    const endereco = item.via_detalhe ? item.via_detalhe.nome : 'Não informado';
-
-                    marker.bindPopup(`
-                        <div class="custom-popup">
-                            <strong style="color: #e63946;">Ocorrência #${item.id}</strong><br>
-                            <b>Endereço:</b> ${endereco}<br>
-                            <b>Descrição:</b> ${item.descricao}<br>
-                            <hr style="margin: 5px 0">
-                            <span style="font-size: 10px; color: #666;">Sincronizado às: ${new Date().toLocaleTimeString()}</span>
-                        </div>
-                    `);
-                    camadaOcorrencias.addLayer(marker);
-                });
-            }
-
+            atualizarPins();
             renderizarOcorrencias();
         })
         .catch(err => console.error("Falha ao atualizar mapa:", err));
@@ -223,52 +232,34 @@ const formStatus = document.getElementById('form-status');
 if (formStatus) {
     formStatus.addEventListener('submit', async function(e) {
         e.preventDefault();
+        if (salvando) return;
+        salvando = true;
+
         const id = document.getElementById('modal-oc-id').value;
         const novoStatus = document.getElementById('modal-status-select').value;
         const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-        const response = await fetch(`/ocorrencias/${id}/atualizar-status/`, {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': csrf,
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: `status=${novoStatus}`
-        });
+        try {
+            await fetch(`/ocorrencias/${id}/atualizar-status/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrf,
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `status=${novoStatus}`
+            });
 
-        if (response.ok || response.redirected) {
+            if (dadosGlobais) {
+                const oc = dadosGlobais.ocorrencias.find(o => o.id == id);
+                if (oc) oc.status = novoStatus;
+                ocorrenciasAlteradas.set(parseInt(id), novoStatus);
+                atualizarPins();
+                renderizarOcorrencias();
+            }
+
             fecharModalStatus();
-            atualizarDashboard();
+        } finally {
+            salvando = false;
         }
-    });
-}
-
-if (formStatus) {
-    formStatus.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const id = document.getElementById('modal-oc-id').value;
-        const novoStatus = document.getElementById('modal-status-select').value;
-        const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-        const response = await fetch(`/ocorrencias/${id}/atualizar-status/`, {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': csrf,
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: `status=${novoStatus}`
-        });
-
-        fecharModalStatus();
-
-        // atualiza o dado localmente sem esperar o fetch completo
-        if (dadosGlobais) {
-            const oc = dadosGlobais.ocorrencias.find(o => o.id == id);
-            if (oc) oc.status = novoStatus;
-            renderizarOcorrencias();
-        }
-
-        // depois sincroniza com o servidor em background
-        atualizarDashboard();
     });
 }

@@ -196,6 +196,36 @@ html {
     justify-content: center;
 }
 
+.card-button:hover .card-title,
+.card-button:hover .card-desc,
+.card-button:hover .aviso-texto strong,
+.card-button:hover .aviso-texto span,
+.card-button:hover .aviso-item {
+    color: var(--branco-entradas-) !important; 
+}
+
+.card-button:hover .aviso-icone i {
+    color: var(--branco-entradas-) !important;
+}
+
+.card-button:hover .icon-wrapper i {
+    color: #fff;
+}
+
+.card-button:hover .icon-wrapper {
+    background-color: var(--laranja-);
+}
+
+body.tema-escuro .card-button:hover {
+    background-color: var(--laranja-);
+}
+
+body.tema-escuro .card-button:hover .card-title,
+body.tema-escuro .card-button:hover .card-desc,
+body.tema-escuro .card-button:hover .aviso-texto strong,
+body.tema-escuro .card-button:hover .aviso-texto span {
+    color: var(--verde-fundo-) !important;
+}
 
 /*Responsividade*/
 
