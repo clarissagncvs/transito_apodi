@@ -34,7 +34,7 @@ html {
 .text-section h2 {
     font-size: 1.8rem;
     font-weight: 400;
-    color: #666;
+    color: var(--texto-secundario-);
 }
 
 .button-section-fixed {
@@ -46,8 +46,8 @@ html {
     display: flex;
     align-items: center;
     gap: 8px;
-    background-color: #ffdab9;
-    color: #8b4513;
+    background-color: var(--laranja-claro-);
+    color: var(--texto-principal-);
     padding: 10px 20px;
     font-size: 1.3rem;
     font-weight: 600;
@@ -58,7 +58,7 @@ html {
 }
 
 .button-section-fixed:hover {
-    background-color: #ffcba4;
+    background-color: var(--laranja-);
 }
 
 @media (max-width: 920px) {
@@ -66,7 +66,7 @@ html {
     max-width: calc(100vw - 70px - 40px);}
 }
 .button-section-fixed:hover {
-    background-color: #ffcba4;
+    background-color: var(--laranja-);
 }
 
 .btn-grid-container {
@@ -87,7 +87,7 @@ html {
     align-items: flex-start;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border: 1px solid #eee;
+    border: 1px solid var(--borda-);
     width: 400px;
 }
 
@@ -151,7 +151,7 @@ html {
     align-items: center;
     gap: 12px;
     padding: 10px 0;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--borda-);
 }
 
 .aviso-item:last-child {
@@ -182,17 +182,17 @@ html {
 
 .aviso-texto strong {
     font-size: 1.4rem;
-    color: #333;
+    color: var(--texto-principal-);
 }
 
 .aviso-texto span {
     font-size: 1.3rem;
-    color: #666;
+    color: var(--texto-secundario-);
 }
 
 .card-button--tall {
     grid-column: 3;
-    grid-row: 1 / 3;  /* ← garante que ocupa as 2 linhas */
+    grid-row: 1 / 3;
     justify-content: center;
 }
 
@@ -310,7 +310,7 @@ html {
 
     .button-section-fixed {
         font-size: 1rem;
-        white-space: normal; /* ← quebra o texto em telas pequenas */
+        white-space: normal;
         text-align: center;
     }
 }

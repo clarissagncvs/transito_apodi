@@ -8,27 +8,18 @@
     --laranja-claro-: #ffe6ce;
     --branco-navbar-: #e3e1e1;
 
-    /*tema escuro*/
-    --dark-fundo-: #091413;
-    --dark-entradas-: #035429;
-    --dark-detalhes-: #b0e4cc;
-    --dark-laranja-: #ffa239;
-    --dark-laranja-claro-: #ffb76c;
-
-    /*variáveis de superfície usadas no CSS das páginas*/
     --texto-principal-: #062603;
     --texto-secundario-: #075e07;
     --superficie-card-: #f4f4f4;
     --borda-: #e3e1e1;
 }
 
-/*quando o js colocar data-theme="dark" no html, essas variáveis sobrescrevem as de cima */
 [data-theme="dark"] {
     --branco-padrao-: #091413;
     --branco-entradas-: #0d1f1d;
     --verde-: #b0e4cc;
     --verde-claro-: #b0e4cc;
-    --verde-escuro-: #091413;
+    --verde-escuro-: #b0e4cc;
     --laranja-: #ffa239;
     --laranja-claro-: #1a3530;
     --branco-navbar-: #0d2320;
