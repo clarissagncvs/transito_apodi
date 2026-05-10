@@ -1,83 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 html {
     font-family: 'Roboto', sans-serif;
 }
 
-/* Transição suave ao trocar de tema */
-body, .card, .btn-dm, .btn-lm, .ipt-psswd input,
-.ipt-psswd label, h3,
-.container-config .titulo-c, .first-section .titulo-principal {
+/* ─── Transições suaves ao trocar de tema ─── */
+body,
+.card,
+.btn-dm,
+.btn-lm,
+.ipt-psswd input,
+.ipt-psswd label,
+h3,
+.container-config .titulo-c,
+.first-section .titulo-principal {
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
+/* ─── Card ─── */
 .card {
     background-color: var(--superficie-card-);
     color: var(--texto-principal-);
-    max-width: 600px;
+    max-width: 1350px;
+    width: 100%;
     min-height: 200px;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 44px 90px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     border: 1px solid var(--borda-);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.3s ease;
 }
 
 .container-config .card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-6px);
     background-color: var(--branco-padrao-);
-    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.13);
 }
 
+/* ─── Container principal ─── */
 .container-config {
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 30px;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* ─── Seção inicial ─── */
+.first-section {
+    margin-bottom: 8px;
 }
 
 .first-section .titulo-principal {
-    font-size: 3.5rem;
+    font-size: 3.2rem;
     color: var(--verde-);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    margin: 0 0 8px;
 }
 
+/* ─── Títulos dos cards ─── */
 .container-config .titulo-c {
-    font-size: 2.2rem;
+    font-size: 2rem;
     color: var(--verde-);
-    font-weight: bold;
-    margin-bottom: 4px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
 }
 
+/* ─── Ícone ─── */
 .tema-config .icon-wrapper {
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     margin-top: auto;
+    font-size: 1.6rem;
+    opacity: 0.85;
 }
 
+/* ─── Subtítulos ─── */
 h3 {
-    font-size: 1.7rem;
+    font-size: 1.55rem;
     color: var(--laranja-);
-    margin-top: 0px;
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-weight: 600;
 }
 
-.tema-config div {
+/* ─── Botões de tema ─── */
+.tema-config > div {
     display: flex;
-    gap: 50px;
+    gap: 20px;
     margin-top: 20px;
+    flex-wrap: wrap;
 }
 
-/* Botões de tema */
 .btn-dm,
 .btn-lm {
     background-color: var(--laranja-claro-);
     color: var(--texto-principal-);
-    height: 3.6rem;
-    width: 60%;
-    font-weight: bold;
-    border-radius: 7px;
+    height: 4rem;
+    flex: 1;
+    min-width: 180px;
+    font-weight: 700;
+    font-size: 1.25rem;
+    border-radius: 8px;
     cursor: pointer;
     border: 2px solid transparent;
-    font-size: 1rem;
+    letter-spacing: 0.3px;
+    transition: transform 0.2s ease, border-color 0.2s ease,
+                background-color 0.3s ease, color 0.3s ease;
 }
 
 .btn-dm:hover,
 .btn-lm:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
     border-color: var(--laranja-);
 }
 
@@ -87,65 +124,122 @@ h3 {
     background-color: var(--laranja-);
     color: #ffffff;
     border-color: var(--laranja-);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
 }
 
+/* ─── Link de notificação ─── */
 .notif-btn {
     text-decoration: none;
+}
+
+/* ─── Inputs de senha ─── */
+.ipt-psswd {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.ipt-psswd label {
+    margin-top: 12px;
+    color: var(--laranja-);
+    font-size: 1.2rem;
+    font-weight: 700;
 }
 
 .ipt-psswd input {
     background-color: var(--laranja-claro-);
     color: var(--texto-principal-);
     width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 2px solid transparent;
     outline: none;
+    font-size: 1.1rem;
+    font-family: 'Roboto', sans-serif;
+    transition: border-color 0.2s ease, background-color 0.3s ease, color 0.3s ease;
+    box-sizing: border-box;
 }
 
 .ipt-psswd input:focus {
-    border-bottom: 2px solid var(--laranja-);
+    border-color: var(--laranja-);
+    box-shadow: 0 0 0 3px rgba(var(--laranja-rgb, 255, 140, 0), 0.12);
 }
 
-.ipt-psswd label {
-    margin-top: 10px;
-    color: var(--laranja-);
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.ipt-psswd {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
+/* ─── Botão salvar ─── */
 .btn-config-save {
     background-color: var(--verde-);
     color: #ffffff;
-    font-size: 17px;
-    width: 150px;
-    height: 45px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    width: 220px;
+    height: 56px;
     border-radius: 8px;
     margin-top: 2.5rem;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn-config-save:hover {
     background-color: var(--verde-claro-);
-    cursor: pointer;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
+/* ─── Botão encerrar conta ─── */
 #end-account {
-    background-color: red;
+    background-color: #e53935;
     color: #ffffff;
-    font-size: 17px;
-    width: 150px;
-    height: 50px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    width: 220px;
+    height: 56px;
     border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 #end-account:hover {
-    background-color: rgb(255, 61, 61);
-    cursor: pointer;
-    transform: translateY(-5px);
+    background-color: #ef5350;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(229, 57, 53, 0.35);
+}
+
+/* ─── Responsivo ─── */
+@media (max-width: 600px) {
+    .container-config {
+        padding: 24px 16px;
+        gap: 20px;
+    }
+
+    .card {
+        padding: 24px 20px;
+    }
+
+    .first-section .titulo-principal {
+        font-size: 2.4rem;
+    }
+
+    .container-config .titulo-c {
+        font-size: 1.6rem;
+    }
+
+    .tema-config > div {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .btn-dm,
+    .btn-lm {
+        width: 100%;
+    }
+
+    .btn-config-save,
+    #end-account {
+        width: 100%;
+    }
 }
